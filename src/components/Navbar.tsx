@@ -49,9 +49,9 @@ export function Navbar() {
         <div className="hidden md:block">
           <a
             href="#cta"
-            className="inline-flex items-center rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-[14px] font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
+            className="btn-pill bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground"
           >
-            Join the Program
+            Get Started
           </a>
         </div>
         <button
