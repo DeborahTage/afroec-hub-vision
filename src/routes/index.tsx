@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
-  ArrowDown,
   CheckCircle2,
   Shield,
   Users,
@@ -17,6 +16,8 @@ import {
   Mail,
   Phone,
   MapPin,
+  Sparkles,
+  BookOpen,
 } from "lucide-react";
 import heroImg from "@/assets/hero.jpg";
 import missionImg from "@/assets/mission.jpg";
@@ -32,7 +33,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Afroec Hub transforms Ethiopian youth, women, and students into world-class tech professionals through digital literacy, programming, and cybersecurity education.",
+          "Afroec Hub transforms Ethiopian youth, women, and students into world-class tech professionals through free digital literacy, programming, and cybersecurity education.",
       },
       { property: "og:title", content: "Afroec Hub | Building Africa's Tech Talent Factory" },
       {
@@ -77,52 +78,113 @@ function HomePage() {
 /* ---------------- HERO ---------------- */
 function Hero() {
   return (
-    <section className="pt-24 md:pt-28 pb-16 md:pb-24">
-      <div className="container-page grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <Reveal>
-          <p className="eyebrow">Afroec Hub</p>
-          <h1 className="mt-5 text-[40px] leading-[1.1] tracking-[-0.03em] font-bold md:text-[56px] lg:text-[64px]">
-            Building Africa's Next Generation of Tech Talent
-          </h1>
-          <p className="mt-6 text-[17px] md:text-[19px] leading-relaxed text-text-secondary max-w-[560px]">
-            Free digital literacy, programming, and cybersecurity training for Ethiopian youth,
-            women, and students in remote communities.
-          </p>
-          <div className="mt-9 flex flex-wrap gap-3">
-            <a
-              href="#cta"
-              className="inline-flex items-center rounded-full bg-primary text-primary-foreground px-6 py-3 text-[15px] font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
-            >
-              Join the Program
-            </a>
-            <a
-              href="#mission"
-              className="inline-flex items-center rounded-full border border-primary text-primary px-6 py-3 text-[15px] font-medium hover:bg-primary hover:text-primary-foreground transition-colors"
-            >
-              Learn More
-            </a>
-          </div>
-        </Reveal>
+    <section className="relative pt-28 md:pt-36 pb-20 md:pb-28 overflow-hidden">
+      <div className="container-page grid lg:grid-cols-[55fr_45fr] gap-12 lg:gap-16 items-center">
+        {/* Left */}
+        <div>
+          <Reveal>
+            <p className="eyebrow">Afroec Hub</p>
+          </Reveal>
+          <Reveal delay={1}>
+            <h1 className="mt-6 font-display font-bold text-[44px] leading-[1.05] tracking-[-0.03em] sm:text-[56px] md:text-[64px] lg:text-[72px]">
+              Building Africa's
+              <br />
+              Next Generation
+              <br />
+              of <span className="relative inline-block">
+                Tech Talent
+                <span
+                  aria-hidden
+                  className="absolute -bottom-2 left-0 right-0 h-3 bg-accent -z-10 blob-3"
+                />
+              </span>
+            </h1>
+          </Reveal>
+          <Reveal delay={2}>
+            <p className="mt-7 text-[17px] md:text-[19px] leading-relaxed text-text-secondary max-w-[540px]">
+              Free digital literacy, programming, and cybersecurity training for Ethiopian
+              youth, women, and students in remote communities.
+            </p>
+          </Reveal>
+          <Reveal delay={3}>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <a
+                href="#cta"
+                className="btn-pill bg-accent text-accent-foreground hover:bg-accent-hover"
+              >
+                Get Started <ArrowRight size={18} />
+              </a>
+              <a
+                href="#mission"
+                className="btn-pill bg-primary text-primary-foreground hover:bg-neutral-800"
+              >
+                Learn More
+              </a>
+            </div>
+          </Reveal>
+          <Reveal delay={4}>
+            <div className="mt-12 flex items-center gap-10">
+              <div>
+                <div className="font-display text-[36px] md:text-[44px] font-bold leading-none tracking-tight">
+                  <CountUp end={99} suffix="k+" />
+                </div>
+                <div className="mt-2 text-[13px] text-text-secondary font-medium">
+                  Students Reached
+                </div>
+              </div>
+              <div className="h-12 w-px bg-border" />
+              <div>
+                <div className="font-display text-[36px] md:text-[44px] font-bold leading-none tracking-tight">
+                  <CountUp end={10} suffix="k+" />
+                </div>
+                <div className="mt-2 text-[13px] text-text-secondary font-medium">
+                  Graduates
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
 
+        {/* Right */}
         <Reveal delay={2} className="lg:justify-self-end w-full">
-          <div className="relative aspect-[4/5] w-full max-w-[540px] overflow-hidden rounded-xl border border-border">
-            <img
-              src={heroImg}
-              alt="Ethiopian students learning to code together in a bright classroom"
-              className="h-full w-full object-cover"
-              width={1280}
-              height={1280}
-              fetchPriority="high"
+          <div className="relative w-full max-w-[520px] mx-auto">
+            {/* Yellow blob */}
+            <div
+              aria-hidden
+              className="absolute -inset-6 md:-inset-8 bg-accent/25 blob animate-blob"
             />
+            {/* Image */}
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[32px]">
+              <img
+                src={heroImg}
+                alt="Ethiopian student smiling with a laptop"
+                className="h-full w-full object-cover"
+                width={1080}
+                height={1350}
+                fetchPriority="high"
+              />
+            </div>
+
+            {/* Floating badge */}
+            <div className="absolute -top-4 -left-4 md:-top-6 md:-left-8 bg-accent text-accent-foreground rounded-full px-5 py-2.5 text-[13px] font-semibold shadow-lg animate-float">
+              Digital Literacy • Programming • Cybersecurity
+            </div>
+
+            {/* Floating card */}
+            <div
+              className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-8 bg-white border border-border rounded-2xl px-4 py-3 flex items-center gap-3 shadow-xl animate-float"
+              style={{ animationDelay: "1s" }}
+            >
+              <div className="h-9 w-9 rounded-full bg-accent-light flex items-center justify-center">
+                <BookOpen size={18} className="text-black" />
+              </div>
+              <div className="text-[13px]">
+                <div className="font-semibold leading-tight">Interactive</div>
+                <div className="text-text-secondary leading-tight">Learning</div>
+              </div>
+            </div>
           </div>
         </Reveal>
-      </div>
-
-      <div className="container-page mt-16 md:mt-24 flex justify-center">
-        <a href="#partners" className="flex flex-col items-center gap-2 text-text-muted">
-          <span className="text-[11px] uppercase tracking-[0.15em] font-medium">Scroll</span>
-          <ArrowDown size={16} className="animate-bounce" />
-        </a>
       </div>
     </section>
   );
@@ -135,20 +197,18 @@ const partners = [
   "Ethio Telecom",
   "GIZ",
   "Google",
-  "UNDP",
-  "Mastercard Foundation",
-  "Safaricom",
+  "Cisco",
 ];
 function Partners() {
   return (
-    <section id="partners" className="bg-bg-alt py-16">
+    <section id="partners" className="bg-bg-cream py-16 md:py-20">
       <div className="container-page">
-        <p className="eyebrow text-center">Trusted By</p>
-        <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-6 items-center">
+        <p className="eyebrow text-center">Trusted by leading organizations</p>
+        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
           {partners.map((p) => (
             <div
               key={p}
-              className="text-center text-[13px] font-semibold tracking-wide text-text-secondary/70 hover:text-foreground transition-colors"
+              className="text-center text-[14px] font-semibold tracking-wide text-text-secondary/60 hover:text-foreground transition-colors"
             >
               {p}
             </div>
@@ -161,69 +221,57 @@ function Partners() {
 
 /* ---------------- MISSION ---------------- */
 const missionPoints = [
-  "Free digital literacy for underserved communities",
-  "Intensive programming and cybersecurity bootcamps",
-  "Paid apprenticeships on real client projects",
-  "Job placement in Ethiopia and globally",
-];
-const pipeline = [
-  { title: "Digital Literacy", desc: "Foundational tech skills for every learner." },
-  { title: "Bootcamp", desc: "Intensive programming & cybersecurity training." },
-  { title: "Apprenticeship", desc: "Paid work on real client projects." },
-  { title: "Placement", desc: "Careers with local & global employers." },
+  "Free digital literacy programs",
+  "Programming & cybersecurity bootcamps",
+  "Paid apprenticeships",
+  "Job placement support",
 ];
 function Mission() {
   return (
     <section id="mission" className="py-24 md:py-32">
-      <div className="container-page grid lg:grid-cols-[55fr_45fr] gap-12 lg:gap-20 items-center">
+      <div className="container-page grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
         <Reveal>
           <p className="eyebrow">Our Mission</p>
-          <h2 className="mt-4 text-[32px] md:text-[40px] leading-[1.2] font-semibold tracking-[-0.02em]">
+          <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.15] tracking-[-0.02em]">
             Technology Education for Every Community
           </h2>
-          <p className="mt-5 text-[17px] leading-relaxed text-text-secondary">
-            Afroec Hub is the social impact initiative of Afroec — a technology company committed to
-            building Africa's digital future. We believe world-class tech talent exists everywhere,
-            but opportunity does not. Our mission is to bridge that gap through structured education
-            in digital literacy, programming, and cybersecurity.
+          <p className="mt-6 text-[17px] md:text-[18px] leading-relaxed text-text-secondary">
+            Afroec Hub is the social impact initiative of Afroec — a technology company
+            committed to building Africa's digital future. We believe world-class tech talent
+            exists everywhere, but opportunity does not.
           </p>
           <ul className="mt-8 space-y-4">
             {missionPoints.map((p) => (
               <li key={p} className="flex items-start gap-3">
-                <span className="mt-0.5 h-5 w-5 rounded-full bg-accent flex items-center justify-center shrink-0">
-                  <CheckCircle2 size={14} className="text-black" strokeWidth={2.5} />
+                <span className="mt-0.5 h-6 w-6 rounded-full bg-accent flex items-center justify-center shrink-0">
+                  <CheckCircle2 size={14} className="text-black" strokeWidth={3} />
                 </span>
-                <span className="text-[16px] text-foreground">{p}</span>
+                <span className="text-[16px] font-medium text-foreground">{p}</span>
               </li>
             ))}
           </ul>
-          <a href="#programs" className="link-arrow mt-8">
+          <a href="#programs" className="link-arrow mt-9">
             About Afroec <ArrowRight size={16} />
           </a>
         </Reveal>
 
         <Reveal delay={2}>
-          <div className="rounded-xl overflow-hidden border border-border mb-6">
-            <img
-              src={missionImg}
-              alt="Instructor teaching programming to a small group"
-              className="w-full h-auto object-cover"
-              width={1024}
-              height={1024}
-              loading="lazy"
+          <div className="relative w-full max-w-[520px] mx-auto">
+            <div
+              aria-hidden
+              className="absolute -inset-6 bg-accent/20 blob-2 animate-blob"
             />
+            <div className="relative aspect-square w-full overflow-hidden rounded-[32px]">
+              <img
+                src={missionImg}
+                alt="Instructor teaching a small group of students"
+                className="h-full w-full object-cover"
+                width={1024}
+                height={1024}
+                loading="lazy"
+              />
+            </div>
           </div>
-          <ol className="relative border-l border-border pl-6 space-y-6">
-            {pipeline.map((s, i) => (
-              <li key={s.title} className="relative">
-                <span className="absolute -left-[35px] top-0 h-6 w-6 rounded-full bg-accent text-[12px] font-bold text-black flex items-center justify-center">
-                  {i + 1}
-                </span>
-                <div className="text-[15px] font-semibold">{s.title}</div>
-                <div className="text-[14px] text-text-secondary">{s.desc}</div>
-              </li>
-            ))}
-          </ol>
         </Reveal>
       </div>
     </section>
@@ -235,41 +283,37 @@ const programs = [
   {
     icon: Shield,
     title: "CyberGuard Youth",
-    desc: "Comprehensive tech training for unemployed youth aged 16–25. From zero background to job-ready in digital literacy, programming, and cybersecurity.",
+    desc: "Comprehensive tech training for youth aged 16–25. From zero background to job-ready in digital literacy, programming, and cybersecurity.",
     stats: [
-      ["1,500+", "Youth Reached"],
+      ["1,500+", "Reached"],
       ["150", "Graduates/Year"],
-      ["$400", "Avg Salary"],
     ],
   },
   {
     icon: Users,
     title: "SheSec Ethiopia",
-    desc: "Women-only cohorts with dedicated support — childcare, safe transport, female mentors, and flexible scheduling. 50% of all our graduates are women.",
+    desc: "Women-only cohorts with childcare, safe transport, female mentors, and flexible scheduling. 50% of our graduates are women.",
     stats: [
       ["50%", "Women"],
       ["250", "Graduates/Year"],
-      ["200", "Placed"],
     ],
   },
   {
     icon: GraduationCap,
     title: "SchoolNet Tech",
-    desc: "Partnering with public schools to bring digital literacy, programming, and tech awareness to grades 9–12. Mobile labs for schools without computers.",
+    desc: "Partnering with public schools for digital literacy and programming in grades 9–12. Mobile labs for schools without computers.",
     stats: [
       ["200", "Schools"],
       ["5,000", "Students"],
-      ["100", "Scholarships"],
     ],
   },
   {
     icon: Truck,
     title: "DigiSec Ethiopia",
-    desc: "Solar-powered mobile labs bringing tech education to remote villages. Starlink connectivity, rugged laptops, and local-language content.",
+    desc: "Solar-powered mobile labs bringing tech education to remote villages with Starlink and local-language content.",
     stats: [
       ["4", "Trucks"],
       ["500", "Rural Students"],
-      ["50", "Scholarships"],
     ],
   },
 ];
@@ -279,7 +323,7 @@ function Programs() {
       <div className="container-page">
         <Reveal className="text-center max-w-2xl mx-auto">
           <p className="eyebrow">Our Programs</p>
-          <h2 className="mt-4 text-[32px] md:text-[40px] leading-[1.2] font-semibold tracking-[-0.02em]">
+          <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.15] tracking-[-0.02em]">
             Four Paths to Impact
           </h2>
           <p className="mt-4 text-[17px] text-text-secondary">
@@ -292,20 +336,20 @@ function Programs() {
             <Reveal
               key={p.title}
               delay={((i % 4) + 1) as 1 | 2 | 3 | 4}
-              className="group bg-surface border border-border rounded-lg p-8 md:p-10 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground"
+              className="group bg-white border border-border rounded-2xl p-8 md:p-10 transition-all duration-200 hover:-translate-y-1 hover:border-foreground"
             >
-              <div className="h-12 w-12 rounded-full bg-accent flex items-center justify-center">
-                <p.icon size={22} className="text-black" />
+              <div className="h-14 w-14 rounded-full bg-accent flex items-center justify-center">
+                <p.icon size={24} className="text-black" />
               </div>
-              <h3 className="mt-6 text-[22px] md:text-[24px] font-semibold tracking-tight">
+              <h3 className="mt-6 font-display text-[24px] md:text-[26px] font-bold tracking-tight">
                 {p.title}
               </h3>
               <p className="mt-3 text-[15px] leading-relaxed text-text-secondary">{p.desc}</p>
-              <div className="mt-6 flex divide-x divide-border border-y border-border py-4">
+              <div className="mt-6 flex gap-8 border-t border-border pt-5">
                 {p.stats.map(([num, label]) => (
-                  <div key={label} className="flex-1 text-center px-2 first:pl-0 last:pr-0">
-                    <div className="text-[22px] font-bold tracking-tight">{num}</div>
-                    <div className="text-[11px] uppercase tracking-wider text-text-secondary mt-1">
+                  <div key={label}>
+                    <div className="font-display text-[24px] font-bold tracking-tight">{num}</div>
+                    <div className="text-[12px] uppercase tracking-wider text-text-secondary mt-1 font-medium">
                       {label}
                     </div>
                   </div>
@@ -325,38 +369,43 @@ function Programs() {
 /* ---------------- PIPELINE ---------------- */
 const steps = [
   {
+    n: "01",
     title: "Community Outreach",
     duration: null,
     desc: "Reaching 10,000+ youth annually through schools, radio, and community leaders.",
   },
   {
+    n: "02",
     title: "Digital Literacy",
     duration: "3 Months",
-    desc: "Free foundational program. Computing basics, internet safety, problem-solving.",
+    desc: "Free foundational program in computing basics and internet safety.",
   },
   {
-    title: "Bootcamp",
+    n: "03",
+    title: "Programming & Security Bootcamp",
     duration: "9 Months",
-    desc: "Full-time intensive. Programming, networking, Linux, Python, web development, security.",
+    desc: "Full-time intensive in programming, Linux, Python, web dev, and security.",
   },
   {
+    n: "04",
     title: "Paid Apprenticeship",
     duration: "6 Months",
     desc: "Real client projects under senior engineers. Build portfolio, earn salary.",
   },
   {
+    n: "05",
     title: "Job Placement",
     duration: null,
-    desc: "85% placement rate. Local enterprises, international remote work, or Afroec teams.",
+    desc: "85% placement rate in local and international roles.",
   },
 ];
 function Pipeline() {
   return (
-    <section id="pipeline" className="bg-bg-alt py-24 md:py-32">
+    <section id="pipeline" className="bg-bg-cream py-24 md:py-32">
       <div className="container-page">
         <Reveal className="text-center max-w-2xl mx-auto">
           <p className="eyebrow">How It Works</p>
-          <h2 className="mt-4 text-[32px] md:text-[40px] leading-[1.2] font-semibold tracking-[-0.02em]">
+          <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.15] tracking-[-0.02em]">
             From Literacy to Career
           </h2>
           <p className="mt-4 text-[17px] text-text-secondary">
@@ -364,25 +413,25 @@ function Pipeline() {
           </p>
         </Reveal>
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-5">
+        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-5">
           {steps.map((s, i) => (
             <Reveal
               key={s.title}
               delay={((i % 4) + 1) as 1 | 2 | 3 | 4}
-              className="relative bg-white border border-border rounded-lg p-6"
+              className="relative bg-white border border-border rounded-2xl p-6 hover:border-foreground transition-colors"
             >
-              <div className="h-10 w-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-[14px] font-bold">
-                {i + 1}
+              <div className="font-display text-[44px] font-bold text-accent leading-none tracking-tight">
+                {s.n}
               </div>
               <div className="mt-4 flex items-center gap-2 flex-wrap">
-                <h3 className="text-[17px] font-semibold">{s.title}</h3>
-                {s.duration && (
-                  <span className="inline-flex items-center rounded-full bg-accent text-accent-foreground px-2 py-0.5 text-[11px] font-semibold">
-                    {s.duration}
-                  </span>
-                )}
+                <h3 className="font-display text-[17px] font-bold">{s.title}</h3>
               </div>
-              <p className="mt-2 text-[14px] leading-relaxed text-text-secondary">{s.desc}</p>
+              {s.duration && (
+                <span className="mt-2 inline-flex items-center rounded-full bg-accent-light text-accent-foreground px-3 py-1 text-[11px] font-semibold">
+                  {s.duration}
+                </span>
+              )}
+              <p className="mt-3 text-[14px] leading-relaxed text-text-secondary">{s.desc}</p>
             </Reveal>
           ))}
         </div>
@@ -409,7 +458,7 @@ function Impact() {
       <div className="container-page">
         <Reveal className="text-center max-w-2xl mx-auto">
           <p className="eyebrow">Our Impact</p>
-          <h2 className="mt-4 text-[32px] md:text-[40px] leading-[1.2] font-semibold tracking-[-0.02em]">
+          <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.15] tracking-[-0.02em]">
             Numbers That Matter
           </h2>
         </Reveal>
@@ -419,13 +468,13 @@ function Impact() {
             <Reveal
               key={m.label}
               delay={((i % 4) + 1) as 1 | 2 | 3 | 4}
-              className="p-6 md:p-8 border border-border rounded-lg bg-white"
+              className="p-8 border border-border rounded-2xl bg-white hover:border-foreground transition-colors"
             >
-              <div className="text-[44px] md:text-[52px] font-bold tracking-[-0.03em] leading-none">
+              <div className="font-display text-[52px] md:text-[60px] font-bold tracking-[-0.03em] leading-none">
                 <CountUp end={m.value} suffix={m.suffix} />
               </div>
-              <div className="mt-4 h-[2px] w-10 bg-accent" />
-              <div className="mt-5 text-[18px] font-semibold">{m.label}</div>
+              <div className="mt-4 h-[3px] w-10 bg-accent rounded-full" />
+              <div className="mt-5 font-display text-[18px] font-bold">{m.label}</div>
               <div className="mt-1 text-[14px] text-text-secondary">{m.desc}</div>
             </Reveal>
           ))}
@@ -438,12 +487,12 @@ function Impact() {
 /* ---------------- TESTIMONIALS ---------------- */
 function TestimonialsSection() {
   return (
-    <section id="stories" className="bg-bg-alt py-24 md:py-32">
+    <section id="stories" className="bg-bg-cream py-24 md:py-32">
       <div className="container-page">
         <Reveal className="text-center max-w-2xl mx-auto mb-14">
           <p className="eyebrow">Success Stories</p>
-          <h2 className="mt-4 text-[32px] md:text-[40px] leading-[1.2] font-semibold tracking-[-0.02em]">
-            Voices from Our Community
+          <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.15] tracking-[-0.02em]">
+            What Our Graduates Say
           </h2>
         </Reveal>
         <Testimonials />
@@ -457,31 +506,36 @@ const ctaCards = [
   {
     icon: User,
     title: "For Students",
-    desc: "Apply for our free digital literacy program and start your journey in programming or cybersecurity.",
+    desc: "Apply for free digital literacy and start your tech journey.",
     label: "Apply Now",
   },
   {
     icon: Building2,
     title: "For Employers",
-    desc: "Access a pipeline of job-ready tech professionals trained on real-world projects.",
+    desc: "Access job-ready tech professionals trained on real projects.",
     label: "Partner With Us",
   },
   {
     icon: Heart,
     title: "For Supporters",
-    desc: "Sponsor a cohort, fund a DigiSec Truck, or donate equipment.",
-    label: "Donate or Sponsor",
+    desc: "Sponsor a cohort or fund a DigiSec Truck.",
+    label: "Donate",
   },
 ];
 function CTASection() {
   return (
-    <section id="cta" className="bg-bg-dark text-white py-24 md:py-32">
-      <div className="container-page">
+    <section id="cta" className="bg-bg-dark text-white py-24 md:py-32 relative overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute -top-32 -right-32 w-96 h-96 bg-accent/10 blob animate-blob"
+      />
+      <div className="container-page relative">
         <Reveal className="text-center max-w-2xl mx-auto">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-text-muted">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.15em] text-text-muted">
+            <Sparkles size={12} className="inline mr-1.5 -mt-1" />
             Get Involved
           </p>
-          <h2 className="mt-4 text-[32px] md:text-[40px] leading-[1.2] font-semibold tracking-[-0.02em] text-white">
+          <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.15] tracking-[-0.02em] text-white">
             Be Part of the Transformation
           </h2>
           <p className="mt-4 text-[17px] text-text-muted">
@@ -494,14 +548,16 @@ function CTASection() {
             <Reveal
               key={c.title}
               delay={((i % 4) + 1) as 1 | 2 | 3}
-              className="bg-surface-dark border border-border-dark rounded-lg p-8 md:p-10 flex flex-col"
+              className="bg-surface-dark border border-border-dark rounded-2xl p-8 md:p-10 flex flex-col hover:border-accent transition-colors"
             >
-              <c.icon size={28} className="text-accent" />
-              <h3 className="mt-6 text-[22px] font-semibold text-white">{c.title}</h3>
+              <div className="h-14 w-14 rounded-full bg-accent/15 flex items-center justify-center">
+                <c.icon size={26} className="text-accent" />
+              </div>
+              <h3 className="mt-6 font-display text-[22px] font-bold text-white">{c.title}</h3>
               <p className="mt-3 text-[15px] text-text-muted flex-1">{c.desc}</p>
               <button
                 type="button"
-                className="mt-8 inline-flex items-center justify-center rounded-full bg-accent text-accent-foreground px-5 py-3 text-[14px] font-semibold hover:bg-accent-hover transition-colors"
+                className="mt-8 btn-pill bg-accent text-accent-foreground hover:bg-accent-hover w-full"
               >
                 {c.label}
               </button>
@@ -511,7 +567,7 @@ function CTASection() {
 
         <Reveal className="mt-20 pt-12 border-t border-border-dark grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <h3 className="text-[22px] font-semibold text-white">Stay Updated</h3>
+            <h3 className="font-display text-[24px] font-bold text-white">Stay Updated</h3>
             <p className="mt-2 text-[15px] text-text-muted">
               Get quarterly updates on cohorts, impact reports, and new programs.
             </p>
@@ -524,12 +580,12 @@ function CTASection() {
               type="email"
               required
               placeholder="you@example.com"
-              className="flex-1 rounded-full bg-surface-dark border border-border-dark px-5 py-3 text-[15px] text-white placeholder:text-text-muted focus:outline-none focus:border-accent"
+              className="flex-1 rounded-full bg-surface-dark border border-border-dark px-6 py-3.5 text-[15px] text-white placeholder:text-text-muted focus:outline-none focus:border-accent"
               aria-label="Email address"
             />
             <button
               type="submit"
-              className="rounded-full bg-accent text-accent-foreground px-6 py-3 text-[14px] font-semibold hover:bg-accent-hover transition-colors"
+              className="btn-pill bg-accent text-accent-foreground hover:bg-accent-hover"
             >
               Subscribe
             </button>
@@ -547,7 +603,7 @@ function CTASection() {
               key={label}
               href="#"
               aria-label={label}
-              className="hover:text-white transition-colors"
+              className="hover:text-accent transition-colors"
             >
               <Icon size={20} />
             </a>
@@ -564,16 +620,28 @@ function Footer() {
     <footer className="bg-bg-dark text-white pt-20 pb-10 border-t border-border-dark">
       <div className="container-page grid gap-10 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <div className="text-[22px] font-bold tracking-tight">
+          <div className="font-display text-[24px] font-bold tracking-tight">
             Afro<span className="text-accent">ec</span>
             <span className="ml-2 font-medium text-white/80 text-[16px]">Hub</span>
           </div>
-          <p className="mt-4 text-[12px] uppercase tracking-[0.12em] text-text-muted font-semibold">
+          <p className="mt-4 text-[12px] uppercase tracking-[0.15em] text-text-muted font-semibold">
             From Digital Literacy to Tech Workforce
           </p>
           <p className="mt-3 text-[14px] text-text-muted max-w-xs">
             Building Africa's next generation of tech professionals.
           </p>
+          <div className="mt-6 flex gap-3">
+            {[Twitter, Linkedin, Youtube, Github].map((Icon, i) => (
+              <a
+                key={i}
+                href="#"
+                className="h-9 w-9 rounded-full border border-border-dark flex items-center justify-center text-white/60 hover:text-accent hover:border-accent transition-colors"
+                aria-label="Social"
+              >
+                <Icon size={16} />
+              </a>
+            ))}
+          </div>
         </div>
 
         <FooterCol
@@ -586,7 +654,7 @@ function Footer() {
         />
 
         <div>
-          <div className="text-[15px] font-semibold text-white">Contact</div>
+          <div className="font-display text-[16px] font-bold text-white">Contact</div>
           <ul className="mt-4 space-y-3 text-[14px] text-text-muted">
             <li>
               <a
@@ -603,27 +671,15 @@ function Footer() {
               <MapPin size={14} /> Addis Ababa, Ethiopia
             </li>
           </ul>
-          <a
-            href="#cta"
-            className="mt-5 inline-flex items-center rounded-full bg-accent text-accent-foreground px-4 py-2 text-[13px] font-semibold hover:bg-accent-hover transition-colors"
-          >
-            Contact Us
-          </a>
         </div>
       </div>
 
       <div className="container-page mt-16 pt-6 border-t border-border-dark flex flex-col md:flex-row items-center justify-between gap-3 text-[12px] text-text-muted">
         <p>© 2026 Afroec Hub. All rights reserved.</p>
         <div className="flex gap-4">
-          <a href="#" className="hover:text-white transition-colors">
-            Privacy Policy
-          </a>
-          <a href="#" className="hover:text-white transition-colors">
-            Terms of Service
-          </a>
-          <a href="#" className="hover:text-white transition-colors">
-            Cookie Policy
-          </a>
+          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+          <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+          <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
         </div>
       </div>
     </footer>
@@ -633,11 +689,11 @@ function Footer() {
 function FooterCol({ title, links }: { title: string; links: string[] }) {
   return (
     <div>
-      <div className="text-[15px] font-semibold text-white">{title}</div>
+      <div className="font-display text-[16px] font-bold text-white">{title}</div>
       <ul className="mt-4 space-y-3 text-[14px] text-text-muted">
         {links.map((l) => (
           <li key={l}>
-            <a href="#" className="hover:text-white transition-colors">
+            <a href="#" className="hover:text-accent transition-colors">
               {l}
             </a>
           </li>
