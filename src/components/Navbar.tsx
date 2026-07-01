@@ -30,7 +30,7 @@ export function Navbar() {
     >
       <div className="container-page h-full flex items-center justify-between">
         <a href="#top" className="flex items-center gap-2" aria-label="Afroec Hub home">
-          <span className="text-[20px] font-bold tracking-tight">
+          <span className="text-[22px] font-display font-bold tracking-tight">
             Afro<span className="text-accent">ec</span>
             <span className="ml-1.5 text-text-secondary font-medium text-[15px]">Hub</span>
           </span>
