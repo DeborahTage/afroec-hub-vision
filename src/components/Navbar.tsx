@@ -24,8 +24,8 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 h-16 bg-white border-b border-border transition-shadow",
-        scrolled && "shadow-sm",
+        "fixed inset-x-0 top-0 z-50 h-[72px] bg-white/95 backdrop-blur-sm border-b transition-colors",
+        scrolled ? "border-border" : "border-transparent",
       )}
     >
       <div className="container-page h-full flex items-center justify-between">
