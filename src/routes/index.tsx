@@ -9,10 +9,10 @@ import {
   User,
   Building2,
   Heart,
-  Twitter,
   Linkedin,
-  Youtube,
-  Github,
+  Instagram,
+  Facebook,
+  Twitter,
   Mail,
   Phone,
   MapPin,
@@ -126,7 +126,7 @@ function Hero() {
             <div className="mt-12 flex items-center gap-10">
               <div>
                 <div className="font-display text-[36px] md:text-[44px] font-bold leading-none tracking-tight">
-                  <CountUp end={99} suffix="k+" />
+                  <CountUp end={1000} />
                 </div>
                 <div className="mt-2 text-[13px] text-text-secondary font-medium">
                   Students Reached
@@ -135,7 +135,7 @@ function Hero() {
               <div className="h-12 w-px bg-border" />
               <div>
                 <div className="font-display text-[36px] md:text-[44px] font-bold leading-none tracking-tight">
-                  <CountUp end={10} suffix="k+" />
+                  <CountUp end={200} />
                 </div>
                 <div className="mt-2 text-[13px] text-text-secondary font-medium">
                   Graduates
@@ -193,18 +193,20 @@ function Hero() {
 /* ---------------- PARTNERS ---------------- */
 const partners = [
   "Ministry of Education",
-  "CBE",
   "Ethio Telecom",
   "GIZ",
-  "Google",
-  "Cisco",
+  "MINT",
+  "Information Network Security Administration",
+  "Adwa CTF",
+  "Threat X",
+  "AI Institute",
 ];
 function Partners() {
   return (
     <section id="partners" className="bg-bg-cream py-16 md:py-20">
       <div className="container-page">
         <p className="eyebrow text-center">Trusted by leading organizations</p>
-        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
+        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 items-center">
           {partners.map((p) => (
             <div
               key={p}
@@ -285,8 +287,8 @@ const programs = [
     title: "CyberGuard Youth",
     desc: "Comprehensive tech training for youth aged 16–25. From zero background to job-ready in digital literacy, programming, and cybersecurity.",
     stats: [
-      ["1,500+", "Reached"],
-      ["150", "Graduates/Year"],
+      ["150", "Reached"],
+      ["100", "Graduates"],
     ],
   },
   {
@@ -295,25 +297,25 @@ const programs = [
     desc: "Women-only cohorts with childcare, safe transport, female mentors, and flexible scheduling. 50% of our graduates are women.",
     stats: [
       ["50%", "Women"],
-      ["250", "Graduates/Year"],
+      ["489", "Graduates"],
     ],
   },
   {
     icon: GraduationCap,
-    title: "SchoolNet Tech",
+    title: "We Can Code",
     desc: "Partnering with public schools for digital literacy and programming in grades 9–12. Mobile labs for schools without computers.",
     stats: [
-      ["200", "Schools"],
-      ["5,000", "Students"],
+      ["30", "Schools"],
+      ["500", "Students"],
     ],
   },
   {
     icon: Truck,
-    title: "DigiSec Ethiopia",
-    desc: "Solar-powered mobile labs bringing tech education to remote villages with Starlink and local-language content.",
+    title: "We Can Hack",
+    desc: "We Can Hack is the cybersecurity program that prepares events, CTF competitions, and panel discussions to raise awareness, celebrate achievement, and inspire the next generation.",
     stats: [
-      ["4", "Trucks"],
-      ["500", "Rural Students"],
+      ["4", "Events"],
+      ["500", "Participants"],
     ],
   },
 ];
@@ -447,19 +449,19 @@ const metrics: {
   label: string;
   desc: string;
 }[] = [
-  { value: 5000, suffix: "+", label: "Youth Reached", desc: "Through all programs combined" },
-  { value: 400, label: "Annual Graduates", desc: "Job-ready tech professionals" },
-  { value: 50, suffix: "%", label: "Women in Tech", desc: "Breaking gender barriers" },
-  { value: 85, suffix: "%", label: "Placement Rate", desc: "Employed within 6 months" },
-];
+    { value: 5000, suffix: "+", label: "Youth Reached", desc: "Annual target to reach" },
+    { value: 1000, label: "Annual Graduates", desc: "Job-ready tech professionals per year" },
+    { value: 50, suffix: "%", label: "Women in Tech", desc: "Gender parity target" },
+    { value: 85, suffix: "%", label: "Placement Rate", desc: "Employed within 6 months" },
+  ];
 function Impact() {
   return (
     <section id="impact" className="py-24 md:py-32">
       <div className="container-page">
         <Reveal className="text-center max-w-2xl mx-auto">
-          <p className="eyebrow">Our Impact</p>
+          <p className="eyebrow">Our Vision</p>
           <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.15] tracking-[-0.02em]">
-            Numbers That Matter
+            Numbers We Aim to Achieve Annually
           </h2>
         </Reveal>
 
@@ -511,14 +513,14 @@ const ctaCards = [
   },
   {
     icon: Building2,
-    title: "For Employers",
+    title: "For Intern",
     desc: "Access job-ready tech professionals trained on real projects.",
-    label: "Partner With Us",
+    label: "Join Us",
   },
   {
     icon: Heart,
     title: "For Supporters",
-    desc: "Sponsor a cohort or fund a DigiSec Truck.",
+    desc: "Sponsor a cohort or fund Afroec programs.",
     label: "Donate",
   },
 ];
@@ -594,14 +596,16 @@ function CTASection() {
 
         <div className="mt-14 flex items-center justify-center gap-6 text-white/60">
           {[
-            { Icon: Twitter, label: "Twitter" },
-            { Icon: Linkedin, label: "LinkedIn" },
-            { Icon: Youtube, label: "YouTube" },
-            { Icon: Github, label: "GitHub" },
-          ].map(({ Icon, label }) => (
+            { Icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/company/afroec" },
+            { Icon: Instagram, label: "Instagram", href: "https://www.instagram.com/afro_ec?igsh=anJxamZmOGg3OWJv" },
+            { Icon: Facebook, label: "Facebook", href: "#" },
+            { Icon: Twitter, label: "X", href: "#" },
+          ].map(({ Icon, label, href }) => (
             <a
               key={label}
-              href="#"
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label={label}
               className="hover:text-accent transition-colors"
             >
@@ -631,12 +635,19 @@ function Footer() {
             Building Africa's next generation of tech professionals.
           </p>
           <div className="mt-6 flex gap-3">
-            {[Twitter, Linkedin, Youtube, Github].map((Icon, i) => (
+            {[
+              { Icon: Linkedin, href: "https://www.linkedin.com/company/afroec", label: "LinkedIn" },
+              { Icon: Instagram, href: "https://www.instagram.com/afro_ec?igsh=anJxamZmOGg3OWJv", label: "Instagram" },
+              { Icon: Facebook, href: "#", label: "Facebook" },
+              { Icon: Twitter, href: "#", label: "X" },
+            ].map(({ Icon, href, label }) => (
               <a
-                key={i}
-                href="#"
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="h-9 w-9 rounded-full border border-border-dark flex items-center justify-center text-white/60 hover:text-accent hover:border-accent transition-colors"
-                aria-label="Social"
+                aria-label={label}
               >
                 <Icon size={16} />
               </a>
@@ -646,7 +657,7 @@ function Footer() {
 
         <FooterCol
           title="Programs"
-          links={["CyberGuard Youth", "SheSec Ethiopia", "SchoolNet Tech", "DigiSec Ethiopia"]}
+          links={["CyberGuard Youth", "SheSec Ethiopia", "We Can Code", "We Can Hack"]}
         />
         <FooterCol
           title="Company"
@@ -665,7 +676,7 @@ function Footer() {
               </a>
             </li>
             <li className="inline-flex items-center gap-2">
-              <Phone size={14} /> +251 911 000 000
+              <Phone size={14} /> +251 916416887
             </li>
             <li className="inline-flex items-center gap-2">
               <MapPin size={14} /> Addis Ababa, Ethiopia

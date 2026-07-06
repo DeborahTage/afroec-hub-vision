@@ -7,22 +7,6 @@ type T = { quote: string; name: string; title: string; program: string; initials
 const items: T[] = [
   {
     quote:
-      "I never touched a computer before Afroec Hub. Now I'm building software that protects Ethiopia's largest bank.",
-    name: "Selam Tadesse",
-    title: "Software Developer, Dashen Bank",
-    program: "CyberGuard Youth",
-    initials: "ST",
-  },
-  {
-    quote:
-      "The DigiSec Truck came to our village. I didn't know what programming was. Today, I work remotely for a European company.",
-    name: "Mohammed Ali",
-    title: "Remote Developer",
-    program: "DigiSec Ethiopia",
-    initials: "MA",
-  },
-  {
-    quote:
       "As a woman in tech, I faced many barriers. SheSec didn't just teach me skills — they built my confidence to lead.",
     name: "Betelhem Girma",
     title: "Team Lead, Fintech Startup",
