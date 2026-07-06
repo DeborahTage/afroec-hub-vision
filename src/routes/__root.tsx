@@ -106,6 +106,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  useEffect(() => {
+    const removeBadge = () => {
+      const selectors = [
+        'a[href*="lovable.dev"]',
+        '[class*="lovable"]',
+        '[id*="lovable"]',
+      ];
+      selectors.forEach((sel) => {
+        document.querySelectorAll(sel).forEach((el) => el.remove());
+      });
+    };
+    removeBadge();
+    const id = setInterval(removeBadge, 1000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <html lang="en">
       <head>
