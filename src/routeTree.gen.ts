@@ -9,38 +9,271 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProgramsRouteImport } from './routes/programs'
+import { Route as ImpactRouteImport } from './routes/impact'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InitiativesIndexRouteImport } from './routes/initiatives/index'
+import { Route as GetInvolvedIndexRouteImport } from './routes/get-involved/index'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as AboutIndexRouteImport } from './routes/about/index'
+import { Route as InitiativesProductHubRouteImport } from './routes/initiatives/product-hub'
+import { Route as InitiativesAcademyRouteImport } from './routes/initiatives/academy'
+import { Route as GetInvolvedVolunteerRouteImport } from './routes/get-involved/volunteer'
+import { Route as GetInvolvedPartnerRouteImport } from './routes/get-involved/partner'
+import { Route as GetInvolvedApplyRouteImport } from './routes/get-involved/apply'
+import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
+import { Route as AboutVisionRouteImport } from './routes/about/vision'
+import { Route as AboutTeamRouteImport } from './routes/about/team'
+import { Route as AboutMissionRouteImport } from './routes/about/mission'
 
+const ProgramsRoute = ProgramsRouteImport.update({
+  id: '/programs',
+  path: '/programs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImpactRoute = ImpactRouteImport.update({
+  id: '/impact',
+  path: '/impact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InitiativesIndexRoute = InitiativesIndexRouteImport.update({
+  id: '/initiatives/',
+  path: '/initiatives/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GetInvolvedIndexRoute = GetInvolvedIndexRouteImport.update({
+  id: '/get-involved/',
+  path: '/get-involved/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutIndexRoute = AboutIndexRouteImport.update({
+  id: '/about/',
+  path: '/about/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InitiativesProductHubRoute = InitiativesProductHubRouteImport.update({
+  id: '/initiatives/product-hub',
+  path: '/initiatives/product-hub',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InitiativesAcademyRoute = InitiativesAcademyRouteImport.update({
+  id: '/initiatives/academy',
+  path: '/initiatives/academy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GetInvolvedVolunteerRoute = GetInvolvedVolunteerRouteImport.update({
+  id: '/get-involved/volunteer',
+  path: '/get-involved/volunteer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GetInvolvedPartnerRoute = GetInvolvedPartnerRouteImport.update({
+  id: '/get-involved/partner',
+  path: '/get-involved/partner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GetInvolvedApplyRoute = GetInvolvedApplyRouteImport.update({
+  id: '/get-involved/apply',
+  path: '/get-involved/apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutVisionRoute = AboutVisionRouteImport.update({
+  id: '/about/vision',
+  path: '/about/vision',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutTeamRoute = AboutTeamRouteImport.update({
+  id: '/about/team',
+  path: '/about/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutMissionRoute = AboutMissionRouteImport.update({
+  id: '/about/mission',
+  path: '/about/mission',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/impact': typeof ImpactRoute
+  '/programs': typeof ProgramsRoute
+  '/about/mission': typeof AboutMissionRoute
+  '/about/team': typeof AboutTeamRoute
+  '/about/vision': typeof AboutVisionRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/get-involved/apply': typeof GetInvolvedApplyRoute
+  '/get-involved/partner': typeof GetInvolvedPartnerRoute
+  '/get-involved/volunteer': typeof GetInvolvedVolunteerRoute
+  '/initiatives/academy': typeof InitiativesAcademyRoute
+  '/initiatives/product-hub': typeof InitiativesProductHubRoute
+  '/about/': typeof AboutIndexRoute
+  '/blog/': typeof BlogIndexRoute
+  '/get-involved/': typeof GetInvolvedIndexRoute
+  '/initiatives/': typeof InitiativesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/impact': typeof ImpactRoute
+  '/programs': typeof ProgramsRoute
+  '/about/mission': typeof AboutMissionRoute
+  '/about/team': typeof AboutTeamRoute
+  '/about/vision': typeof AboutVisionRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/get-involved/apply': typeof GetInvolvedApplyRoute
+  '/get-involved/partner': typeof GetInvolvedPartnerRoute
+  '/get-involved/volunteer': typeof GetInvolvedVolunteerRoute
+  '/initiatives/academy': typeof InitiativesAcademyRoute
+  '/initiatives/product-hub': typeof InitiativesProductHubRoute
+  '/about': typeof AboutIndexRoute
+  '/blog': typeof BlogIndexRoute
+  '/get-involved': typeof GetInvolvedIndexRoute
+  '/initiatives': typeof InitiativesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/impact': typeof ImpactRoute
+  '/programs': typeof ProgramsRoute
+  '/about/mission': typeof AboutMissionRoute
+  '/about/team': typeof AboutTeamRoute
+  '/about/vision': typeof AboutVisionRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/get-involved/apply': typeof GetInvolvedApplyRoute
+  '/get-involved/partner': typeof GetInvolvedPartnerRoute
+  '/get-involved/volunteer': typeof GetInvolvedVolunteerRoute
+  '/initiatives/academy': typeof InitiativesAcademyRoute
+  '/initiatives/product-hub': typeof InitiativesProductHubRoute
+  '/about/': typeof AboutIndexRoute
+  '/blog/': typeof BlogIndexRoute
+  '/get-involved/': typeof GetInvolvedIndexRoute
+  '/initiatives/': typeof InitiativesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/contact'
+    | '/impact'
+    | '/programs'
+    | '/about/mission'
+    | '/about/team'
+    | '/about/vision'
+    | '/blog/$slug'
+    | '/get-involved/apply'
+    | '/get-involved/partner'
+    | '/get-involved/volunteer'
+    | '/initiatives/academy'
+    | '/initiatives/product-hub'
+    | '/about/'
+    | '/blog/'
+    | '/get-involved/'
+    | '/initiatives/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/contact'
+    | '/impact'
+    | '/programs'
+    | '/about/mission'
+    | '/about/team'
+    | '/about/vision'
+    | '/blog/$slug'
+    | '/get-involved/apply'
+    | '/get-involved/partner'
+    | '/get-involved/volunteer'
+    | '/initiatives/academy'
+    | '/initiatives/product-hub'
+    | '/about'
+    | '/blog'
+    | '/get-involved'
+    | '/initiatives'
+  id:
+    | '__root__'
+    | '/'
+    | '/contact'
+    | '/impact'
+    | '/programs'
+    | '/about/mission'
+    | '/about/team'
+    | '/about/vision'
+    | '/blog/$slug'
+    | '/get-involved/apply'
+    | '/get-involved/partner'
+    | '/get-involved/volunteer'
+    | '/initiatives/academy'
+    | '/initiatives/product-hub'
+    | '/about/'
+    | '/blog/'
+    | '/get-involved/'
+    | '/initiatives/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactRoute: typeof ContactRoute
+  ImpactRoute: typeof ImpactRoute
+  ProgramsRoute: typeof ProgramsRoute
+  AboutMissionRoute: typeof AboutMissionRoute
+  AboutTeamRoute: typeof AboutTeamRoute
+  AboutVisionRoute: typeof AboutVisionRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  GetInvolvedApplyRoute: typeof GetInvolvedApplyRoute
+  GetInvolvedPartnerRoute: typeof GetInvolvedPartnerRoute
+  GetInvolvedVolunteerRoute: typeof GetInvolvedVolunteerRoute
+  InitiativesAcademyRoute: typeof InitiativesAcademyRoute
+  InitiativesProductHubRoute: typeof InitiativesProductHubRoute
+  AboutIndexRoute: typeof AboutIndexRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+  GetInvolvedIndexRoute: typeof GetInvolvedIndexRoute
+  InitiativesIndexRoute: typeof InitiativesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/programs': {
+      id: '/programs'
+      path: '/programs'
+      fullPath: '/programs'
+      preLoaderRoute: typeof ProgramsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/impact': {
+      id: '/impact'
+      path: '/impact'
+      fullPath: '/impact'
+      preLoaderRoute: typeof ImpactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +281,118 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/initiatives/': {
+      id: '/initiatives/'
+      path: '/initiatives'
+      fullPath: '/initiatives/'
+      preLoaderRoute: typeof InitiativesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/get-involved/': {
+      id: '/get-involved/'
+      path: '/get-involved'
+      fullPath: '/get-involved/'
+      preLoaderRoute: typeof GetInvolvedIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about/': {
+      id: '/about/'
+      path: '/about'
+      fullPath: '/about/'
+      preLoaderRoute: typeof AboutIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/initiatives/product-hub': {
+      id: '/initiatives/product-hub'
+      path: '/initiatives/product-hub'
+      fullPath: '/initiatives/product-hub'
+      preLoaderRoute: typeof InitiativesProductHubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/initiatives/academy': {
+      id: '/initiatives/academy'
+      path: '/initiatives/academy'
+      fullPath: '/initiatives/academy'
+      preLoaderRoute: typeof InitiativesAcademyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/get-involved/volunteer': {
+      id: '/get-involved/volunteer'
+      path: '/get-involved/volunteer'
+      fullPath: '/get-involved/volunteer'
+      preLoaderRoute: typeof GetInvolvedVolunteerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/get-involved/partner': {
+      id: '/get-involved/partner'
+      path: '/get-involved/partner'
+      fullPath: '/get-involved/partner'
+      preLoaderRoute: typeof GetInvolvedPartnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/get-involved/apply': {
+      id: '/get-involved/apply'
+      path: '/get-involved/apply'
+      fullPath: '/get-involved/apply'
+      preLoaderRoute: typeof GetInvolvedApplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about/vision': {
+      id: '/about/vision'
+      path: '/about/vision'
+      fullPath: '/about/vision'
+      preLoaderRoute: typeof AboutVisionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about/team': {
+      id: '/about/team'
+      path: '/about/team'
+      fullPath: '/about/team'
+      preLoaderRoute: typeof AboutTeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about/mission': {
+      id: '/about/mission'
+      path: '/about/mission'
+      fullPath: '/about/mission'
+      preLoaderRoute: typeof AboutMissionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactRoute: ContactRoute,
+  ImpactRoute: ImpactRoute,
+  ProgramsRoute: ProgramsRoute,
+  AboutMissionRoute: AboutMissionRoute,
+  AboutTeamRoute: AboutTeamRoute,
+  AboutVisionRoute: AboutVisionRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  GetInvolvedApplyRoute: GetInvolvedApplyRoute,
+  GetInvolvedPartnerRoute: GetInvolvedPartnerRoute,
+  GetInvolvedVolunteerRoute: GetInvolvedVolunteerRoute,
+  InitiativesAcademyRoute: InitiativesAcademyRoute,
+  InitiativesProductHubRoute: InitiativesProductHubRoute,
+  AboutIndexRoute: AboutIndexRoute,
+  BlogIndexRoute: BlogIndexRoute,
+  GetInvolvedIndexRoute: GetInvolvedIndexRoute,
+  InitiativesIndexRoute: InitiativesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

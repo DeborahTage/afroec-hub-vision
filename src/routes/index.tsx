@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   CheckCircle2,
   Shield,
   Users,
   GraduationCap,
-  Truck,
+  Lightbulb,
   User,
   Building2,
   Heart,
@@ -14,8 +14,6 @@ import {
   Facebook,
   Twitter,
   Mail,
-  Phone,
-  MapPin,
   Sparkles,
   BookOpen,
 } from "lucide-react";
@@ -25,6 +23,9 @@ import { Navbar } from "@/components/Navbar";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
 import { Testimonials } from "@/components/Testimonials";
+import { OrganicShape } from "@/components/OrganicShape";
+import { Footer } from "@/components/Footer";
+import { SectionHeader } from "@/components/SectionHeader";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,25 +34,9 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Afroec Hub transforms Ethiopian youth, women, and students into world-class tech professionals through free digital literacy, programming, and cybersecurity education.",
-      },
-      { property: "og:title", content: "Afroec Hub | Building Africa's Tech Talent Factory" },
-      {
-        property: "og:description",
-        content:
           "Free digital literacy, programming, and cybersecurity training for Ethiopian youth, women, and students in remote communities.",
       },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Afroec Hub" },
-      {
-        name: "twitter:description",
-        content:
-          "Building Africa's next generation of tech talent through digital literacy, programming, and cybersecurity.",
-      },
     ],
-    links: [{ rel: "canonical", href: "/" }],
   }),
   component: HomePage,
 });
@@ -61,12 +46,11 @@ function HomePage() {
     <div id="top" className="min-h-screen bg-background text-foreground">
       <Navbar />
       <main>
-        <Hero />
-        <Partners />
-        <Mission />
-        <Programs />
-        <Pipeline />
-        <Impact />
+        <HeroSection />
+        <TrustedBySection />
+        <WhoWeAreSection />
+        <InitiativesSection />
+        <ImpactSection />
         <TestimonialsSection />
         <CTASection />
       </main>
@@ -75,90 +59,102 @@ function HomePage() {
   );
 }
 
-/* ---------------- HERO ---------------- */
-function Hero() {
+/* ---------------- SECTION 1: HERO ---------------- */
+function HeroSection() {
   return (
-    <section className="relative pt-28 md:pt-36 pb-20 md:pb-28 overflow-hidden">
+    <section className="relative min-h-[90vh] flex items-center pt-28 md:pt-36 pb-20 md:pb-28 overflow-hidden bg-white">
       <div className="container-page grid lg:grid-cols-[55fr_45fr] gap-12 lg:gap-16 items-center">
-        {/* Left */}
+        {/* Left Column */}
         <div>
           <Reveal>
-            <p className="eyebrow">Afroec Hub</p>
+            <span className="eyebrow">AFROEC HUB</span>
           </Reveal>
+
           <Reveal delay={1}>
-            <h1 className="mt-6 font-display font-bold text-[44px] leading-[1.05] tracking-[-0.03em] sm:text-[56px] md:text-[64px] lg:text-[72px]">
+            <h1 className="mt-6 font-display font-bold text-[44px] leading-[1.1] tracking-[-0.03em] sm:text-[56px] md:text-[64px] lg:text-[72px] text-black">
               Building Africa's
               <br />
               Next Generation
               <br />
-              of <span className="relative inline-block">
+              of{" "}
+              <span className="relative inline-block">
                 Tech Talent
                 <span
                   aria-hidden
-                  className="absolute -bottom-2 left-0 right-0 h-3 bg-accent -z-10 blob-3"
+                  className="absolute bottom-2 left-0 right-0 h-4 bg-accent -z-10 blob-3 opacity-80"
                 />
               </span>
             </h1>
           </Reveal>
+
           <Reveal delay={2}>
-            <p className="mt-7 text-[17px] md:text-[19px] leading-relaxed text-text-secondary max-w-[540px]">
-              Free digital literacy, programming, and cybersecurity training for Ethiopian
-              youth, women, and students in remote communities.
+            <p className="mt-8 text-[18px] md:text-[20px] leading-relaxed text-text-secondary max-w-[520px]">
+              Free digital literacy, programming, and cybersecurity training for Ethiopian youth, women, and students in remote communities.
             </p>
           </Reveal>
+
           <Reveal delay={3}>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <a
-                href="#cta"
-                className="btn-pill bg-accent text-accent-foreground hover:bg-accent-hover"
+            <div className="mt-9 flex flex-wrap gap-4">
+              <Link
+                to="/initiatives"
+                className="btn-pill bg-accent text-black hover:bg-accent-hover"
               >
-                Get Started <ArrowRight size={18} />
-              </a>
-              <a
-                href="#mission"
-                className="btn-pill bg-primary text-primary-foreground hover:bg-neutral-800"
+                Explore Our Programs <ArrowRight size={18} />
+              </Link>
+              <Link
+                to="/get-involved/partner"
+                className="btn-pill bg-black text-white hover:bg-neutral-800"
               >
-                Learn More
-              </a>
+                Partner With Us
+              </Link>
             </div>
           </Reveal>
+
+          {/* Stats Row */}
           <Reveal delay={4}>
-            <div className="mt-12 flex items-center gap-10">
+            <div className="mt-14 flex flex-wrap items-center gap-10 md:gap-16 border-t border-border pt-10">
               <div>
-                <div className="font-display text-[36px] md:text-[44px] font-bold leading-none tracking-tight">
-                  <CountUp end={1000} />
+                <div className="font-display text-[44px] font-bold leading-none tracking-tight text-black flex items-center">
+                  <CountUp end={99000} />+
                 </div>
-                <div className="mt-2 text-[13px] text-text-secondary font-medium">
+                <div className="mt-2 text-[14px] text-text-secondary font-medium">
                   Students Reached
                 </div>
               </div>
-              <div className="h-12 w-px bg-border" />
+              <div className="hidden sm:block h-12 w-px bg-border" />
               <div>
-                <div className="font-display text-[36px] md:text-[44px] font-bold leading-none tracking-tight">
-                  <CountUp end={200} />
+                <div className="font-display text-[44px] font-bold leading-none tracking-tight text-black flex items-center">
+                  <CountUp end={10000} />+
                 </div>
-                <div className="mt-2 text-[13px] text-text-secondary font-medium">
+                <div className="mt-2 text-[14px] text-text-secondary font-medium">
                   Graduates
+                </div>
+              </div>
+              <div className="hidden sm:block h-12 w-px bg-border" />
+              <div>
+                <div className="font-display text-[44px] font-bold leading-none tracking-tight text-black flex items-center">
+                  <CountUp end={85} />%
+                </div>
+                <div className="mt-2 text-[14px] text-text-secondary font-medium">
+                  Placement Rate
                 </div>
               </div>
             </div>
           </Reveal>
         </div>
 
-        {/* Right */}
-        <Reveal delay={2} className="lg:justify-self-end w-full">
-          <div className="relative w-full max-w-[520px] mx-auto">
-            {/* Yellow blob */}
-            <div
-              aria-hidden
-              className="absolute -inset-6 md:-inset-8 bg-accent/25 blob animate-blob"
-            />
+        {/* Right Column */}
+        <Reveal delay={2} className="lg:justify-self-end w-full relative">
+          <div className="relative w-full max-w-[500px] mx-auto">
+            {/* Organic yellow blob */}
+            <OrganicShape variant={1} className="-inset-6 md:-inset-8 opacity-60" />
+
             {/* Image */}
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[32px]">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[24px] border border-border shadow-md">
               <img
                 src={heroImg}
-                alt="Ethiopian student smiling with a laptop"
-                className="h-full w-full object-cover"
+                alt="Young Ethiopian person smiling with laptop"
+                className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                 width={1080}
                 height={1350}
                 fetchPriority="high"
@@ -166,20 +162,20 @@ function Hero() {
             </div>
 
             {/* Floating badge */}
-            <div className="absolute -top-4 -left-4 md:-top-6 md:-left-8 bg-accent text-accent-foreground rounded-full px-5 py-2.5 text-[13px] font-semibold shadow-lg animate-float">
+            <div className="absolute -top-4 -left-4 md:-top-6 md:-left-8 bg-accent text-black rounded-full px-5 py-2.5 text-[12px] font-semibold border-2 border-white shadow-lg animate-float">
               Digital Literacy • Programming • Cybersecurity
             </div>
 
             {/* Floating card */}
             <div
-              className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-8 bg-white border border-border rounded-2xl px-4 py-3 flex items-center gap-3 shadow-xl animate-float"
+              className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-8 bg-white border border-border rounded-xl px-5 py-3 flex items-center gap-3 shadow-xl animate-float"
               style={{ animationDelay: "1s" }}
             >
-              <div className="h-9 w-9 rounded-full bg-accent-light flex items-center justify-center">
+              <div className="h-10 w-10 rounded-full bg-accent-light flex items-center justify-center">
                 <BookOpen size={18} className="text-black" />
               </div>
               <div className="text-[13px]">
-                <div className="font-semibold leading-tight">Interactive</div>
+                <div className="font-bold leading-tight text-black">Interactive</div>
                 <div className="text-text-secondary leading-tight">Learning</div>
               </div>
             </div>
@@ -190,29 +186,29 @@ function Hero() {
   );
 }
 
-/* ---------------- PARTNERS ---------------- */
+/* ---------------- SECTION 2: TRUSTED BY ---------------- */
 const partners = [
   "Ministry of Education",
   "Ethio Telecom",
   "GIZ",
-  "MINT",
-  "Information Network Security Administration",
+  "Ministry of Innovation & Technology (MInT)",
+  "INSA",
   "Adwa CTF",
   "Threat X",
   "AI Institute",
 ];
-function Partners() {
+function TrustedBySection() {
   return (
-    <section id="partners" className="bg-bg-cream py-16 md:py-20">
+    <section className="bg-bg-cream py-16">
       <div className="container-page">
-        <p className="eyebrow text-center">Trusted by leading organizations</p>
-        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 items-center">
-          {partners.map((p) => (
+        <p className="eyebrow text-center text-text-secondary">TRUSTED BY LEADING ORGANIZATIONS</p>
+        <div className="mt-10 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-8 items-center justify-center">
+          {partners.map((partner) => (
             <div
-              key={p}
-              className="text-center text-[14px] font-semibold tracking-wide text-text-secondary/60 hover:text-foreground transition-colors"
+              key={partner}
+              className="text-center font-display text-[14px] font-bold tracking-wide text-text-secondary/50 hover:text-black transition-colors cursor-default"
             >
-              {p}
+              {partner}
             </div>
           ))}
         </div>
@@ -221,53 +217,50 @@ function Partners() {
   );
 }
 
-/* ---------------- MISSION ---------------- */
-const missionPoints = [
-  "Free digital literacy programs",
+/* ---------------- SECTION 3: WHO WE ARE (Brief) ---------------- */
+const checks = [
+  "Free digital literacy for underserved communities",
   "Programming & cybersecurity bootcamps",
-  "Paid apprenticeships",
-  "Job placement support",
+  "Paid apprenticeships on real projects",
+  "Job placement in Ethiopia and globally",
 ];
-function Mission() {
+function WhoWeAreSection() {
   return (
-    <section id="mission" className="py-24 md:py-32">
-      <div className="container-page grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+    <section className="py-28 bg-white">
+      <div className="container-page grid lg:grid-cols-2 gap-14 items-center">
+        {/* Left Column */}
         <Reveal>
-          <p className="eyebrow">Our Mission</p>
-          <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.15] tracking-[-0.02em]">
-            Technology Education for Every Community
+          <span className="eyebrow">WHO WE ARE</span>
+          <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.2] tracking-tight text-black">
+            Empowering Communities Through Technology
           </h2>
-          <p className="mt-6 text-[17px] md:text-[18px] leading-relaxed text-text-secondary">
-            Afroec Hub is the social impact initiative of Afroec — a technology company
-            committed to building Africa's digital future. We believe world-class tech talent
-            exists everywhere, but opportunity does not.
+          <p className="mt-6 text-[16px] md:text-[18px] leading-relaxed text-text-secondary">
+            Afroec Hub is the social impact initiative of Afroec — a technology company committed to building Africa's digital future. We believe world-class tech talent exists everywhere, but opportunity does not.
           </p>
           <ul className="mt-8 space-y-4">
-            {missionPoints.map((p) => (
-              <li key={p} className="flex items-start gap-3">
+            {checks.map((check) => (
+              <li key={check} className="flex items-start gap-3">
                 <span className="mt-0.5 h-6 w-6 rounded-full bg-accent flex items-center justify-center shrink-0">
                   <CheckCircle2 size={14} className="text-black" strokeWidth={3} />
                 </span>
-                <span className="text-[16px] font-medium text-foreground">{p}</span>
+                <span className="text-[16px] font-medium text-black">{check}</span>
               </li>
             ))}
           </ul>
-          <a href="#programs" className="link-arrow mt-9">
-            About Afroec <ArrowRight size={16} />
-          </a>
+          <Link to="/about" className="link-arrow mt-9">
+            Learn More About Us <ArrowRight size={16} />
+          </Link>
         </Reveal>
 
-        <Reveal delay={2}>
-          <div className="relative w-full max-w-[520px] mx-auto">
-            <div
-              aria-hidden
-              className="absolute -inset-6 bg-accent/20 blob-2 animate-blob"
-            />
-            <div className="relative aspect-square w-full overflow-hidden rounded-[32px]">
+        {/* Right Column */}
+        <Reveal delay={2} className="relative">
+          <div className="relative w-full max-w-[500px] mx-auto">
+            <OrganicShape variant={2} className="-inset-6 opacity-60" />
+            <div className="relative aspect-square w-full overflow-hidden rounded-[24px] border border-border shadow-md">
               <img
                 src={missionImg}
-                alt="Instructor teaching a small group of students"
-                className="h-full w-full object-cover"
+                alt="Diverse students learning in classrooms"
+                className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                 width={1024}
                 height={1024}
                 loading="lazy"
@@ -280,204 +273,124 @@ function Mission() {
   );
 }
 
-/* ---------------- PROGRAMS ---------------- */
-const programs = [
+/* ---------------- SECTION 4: OUR INITIATIVES (Preview Grid) ---------------- */
+const initiativesList = [
   {
-    icon: Shield,
-    title: "CyberGuard Youth",
-    desc: "Comprehensive tech training for youth aged 16–25. From zero background to job-ready in digital literacy, programming, and cybersecurity.",
+    icon: GraduationCap,
+    title: "Afroec Academy",
+    desc: "Intensive 2-4 month programs in Software Engineering, Cybersecurity, and Hardware Engineering. From fundamentals to job-ready skills.",
     stats: [
-      ["150", "Reached"],
-      ["100", "Graduates"],
+      { label: "Tracks", value: "3" },
+      { label: "Months", value: "2-4" },
+      { label: "Job-Ready", value: "Yes" },
     ],
+    link: "/initiatives/academy",
+  },
+  {
+    icon: Lightbulb,
+    title: "Product Hub",
+    desc: "2-month mentorship program taking you from idea to launched product. Build real solutions with expert guidance and resources.",
+    stats: [
+      { label: "Months", value: "2" },
+      { label: "Idea to Product", value: "Focus" },
+      { label: "Mentorship", value: "Expert" },
+    ],
+    link: "/initiatives/product-hub",
   },
   {
     icon: Users,
-    title: "SheSec Ethiopia",
-    desc: "Women-only cohorts with childcare, safe transport, female mentors, and flexible scheduling. 50% of our graduates are women.",
+    title: "Community Programs",
+    desc: "Reaching underserved communities through CyberGuard Youth, SheSec Ethiopia, SchoolNet Tech, and DigiSec mobile labs.",
     stats: [
-      ["50%", "Women"],
-      ["489", "Graduates"],
+      { label: "Programs", value: "4" },
+      { label: "Reached", value: "5,000+" },
+      { label: "Women", value: "50%" },
     ],
-  },
-  {
-    icon: GraduationCap,
-    title: "We Can Code",
-    desc: "Partnering with public schools for digital literacy and programming in grades 9–12. Mobile labs for schools without computers.",
-    stats: [
-      ["30", "Schools"],
-      ["500", "Students"],
-    ],
-  },
-  {
-    icon: Truck,
-    title: "We Can Hack",
-    desc: "We Can Hack is the cybersecurity program that prepares events, CTF competitions, and panel discussions to raise awareness, celebrate achievement, and inspire the next generation.",
-    stats: [
-      ["4", "Events"],
-      ["500", "Participants"],
-    ],
+    link: "/initiatives",
   },
 ];
-function Programs() {
+function InitiativesSection() {
   return (
-    <section id="programs" className="py-24 md:py-32">
+    <section className="py-28 bg-white border-t border-border/60">
       <div className="container-page">
-        <Reveal className="text-center max-w-2xl mx-auto">
-          <p className="eyebrow">Our Programs</p>
-          <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.15] tracking-[-0.02em]">
-            Four Paths to Impact
-          </h2>
-          <p className="mt-4 text-[17px] text-text-secondary">
-            Tailored programs for every community we serve.
-          </p>
-        </Reveal>
+        <SectionHeader
+          eyebrow="OUR INITIATIVES"
+          title="Three Pillars of Impact"
+          align="center"
+        />
 
-        <div className="mt-14 grid md:grid-cols-2 gap-6">
-          {programs.map((p, i) => (
-            <Reveal
-              key={p.title}
-              delay={((i % 4) + 1) as 1 | 2 | 3 | 4}
-              className="group bg-white border border-border rounded-2xl p-8 md:p-10 transition-all duration-200 hover:-translate-y-1 hover:border-foreground"
-            >
-              <div className="h-14 w-14 rounded-full bg-accent flex items-center justify-center">
-                <p.icon size={24} className="text-black" />
-              </div>
-              <h3 className="mt-6 font-display text-[24px] md:text-[26px] font-bold tracking-tight">
-                {p.title}
-              </h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-text-secondary">{p.desc}</p>
-              <div className="mt-6 flex gap-8 border-t border-border pt-5">
-                {p.stats.map(([num, label]) => (
-                  <div key={label}>
-                    <div className="font-display text-[24px] font-bold tracking-tight">{num}</div>
-                    <div className="text-[12px] uppercase tracking-wider text-text-secondary mt-1 font-medium">
-                      {label}
+        <div className="grid lg:grid-cols-3 gap-8">
+          {initiativesList.map((init, index) => {
+            const Icon = init.icon;
+            return (
+              <Reveal
+                key={init.title}
+                delay={((index % 3) + 1) as 1 | 2 | 3}
+                className="group flex flex-col bg-white border border-border rounded-[16px] p-8 md:p-10 transition-all duration-300 hover:-translate-y-1 hover:border-black hover:shadow-lg"
+              >
+                <div className="h-16 w-16 rounded-full bg-accent/15 flex items-center justify-center shrink-0 mb-8 transition-transform group-hover:scale-110">
+                  <Icon size={32} className="text-black" />
+                </div>
+                <h3 className="font-display text-[24px] font-semibold text-black mb-4">
+                  {init.title}
+                </h3>
+                <p className="text-[15px] leading-relaxed text-text-secondary mb-8 flex-1">
+                  {init.desc}
+                </p>
+                <div className="grid grid-cols-3 gap-2 border-t border-border pt-6 mb-6">
+                  {init.stats.map((stat) => (
+                    <div key={stat.label}>
+                      <div className="font-display text-[18px] md:text-[20px] font-bold text-black leading-tight">
+                        {stat.value}
+                      </div>
+                      <div className="text-[11px] uppercase tracking-wider text-text-muted mt-1 font-semibold">
+                        {stat.label}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-              <a href="#cta" className="link-arrow mt-6">
-                Learn More <ArrowRight size={16} />
-              </a>
-            </Reveal>
-          ))}
+                  ))}
+                </div>
+                <Link to={init.link} className="link-arrow text-[15px] font-bold mt-auto self-start">
+                  Learn More <ArrowRight size={16} />
+                </Link>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
 
-/* ---------------- PIPELINE ---------------- */
-const steps = [
-  {
-    n: "01",
-    title: "Community Outreach",
-    duration: null,
-    desc: "Reaching 10,000+ youth annually through schools, radio, and community leaders.",
-  },
-  {
-    n: "02",
-    title: "Digital Literacy",
-    duration: "3 Months",
-    desc: "Free foundational program in computing basics and internet safety.",
-  },
-  {
-    n: "03",
-    title: "Programming & Security Bootcamp",
-    duration: "9 Months",
-    desc: "Full-time intensive in programming, Linux, Python, web dev, and security.",
-  },
-  {
-    n: "04",
-    title: "Paid Apprenticeship",
-    duration: "6 Months",
-    desc: "Real client projects under senior engineers. Build portfolio, earn salary.",
-  },
-  {
-    n: "05",
-    title: "Job Placement",
-    duration: null,
-    desc: "85% placement rate in local and international roles.",
-  },
+/* ---------------- SECTION 5: IMPACT PREVIEW ---------------- */
+const impactMetrics = [
+  { value: 5000, suffix: "+", label: "Youth Reached", desc: "Annual target to reach" },
+  { value: 400, label: "Annual Graduates", desc: "Job-ready tech professionals" },
+  { value: 50, suffix: "%", label: "Women in Tech", desc: "Gender parity target" },
+  { value: 85, suffix: "%", label: "Placement Rate", desc: "Employed within 6 months" },
 ];
-function Pipeline() {
+function ImpactSection() {
   return (
-    <section id="pipeline" className="bg-bg-cream py-24 md:py-32">
+    <section className="bg-bg-cream py-28 border-y border-border/40">
       <div className="container-page">
-        <Reveal className="text-center max-w-2xl mx-auto">
-          <p className="eyebrow">How It Works</p>
-          <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.15] tracking-[-0.02em]">
-            From Literacy to Career
-          </h2>
-          <p className="mt-4 text-[17px] text-text-secondary">
-            A structured 18-month journey to employment.
-          </p>
-        </Reveal>
+        <SectionHeader
+          eyebrow="OUR IMPACT"
+          title="Numbers That Matter"
+          align="center"
+        />
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-5">
-          {steps.map((s, i) => (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {impactMetrics.map((metric, idx) => (
             <Reveal
-              key={s.title}
-              delay={((i % 4) + 1) as 1 | 2 | 3 | 4}
-              className="relative bg-white border border-border rounded-2xl p-6 hover:border-foreground transition-colors"
+              key={metric.label}
+              delay={((idx % 4) + 1) as 1 | 2 | 3 | 4}
+              className="bg-white border border-border rounded-[16px] p-8 hover:border-black transition-all duration-300"
             >
-              <div className="font-display text-[44px] font-bold text-accent leading-none tracking-tight">
-                {s.n}
-              </div>
-              <div className="mt-4 flex items-center gap-2 flex-wrap">
-                <h3 className="font-display text-[17px] font-bold">{s.title}</h3>
-              </div>
-              {s.duration && (
-                <span className="mt-2 inline-flex items-center rounded-full bg-accent-light text-accent-foreground px-3 py-1 text-[11px] font-semibold">
-                  {s.duration}
-                </span>
-              )}
-              <p className="mt-3 text-[14px] leading-relaxed text-text-secondary">{s.desc}</p>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------------- IMPACT ---------------- */
-const metrics: {
-  value: number;
-  suffix?: string;
-  label: string;
-  desc: string;
-}[] = [
-    { value: 5000, suffix: "+", label: "Youth Reached", desc: "Annual target to reach" },
-    { value: 1000, label: "Annual Graduates", desc: "Job-ready tech professionals per year" },
-    { value: 50, suffix: "%", label: "Women in Tech", desc: "Gender parity target" },
-    { value: 85, suffix: "%", label: "Placement Rate", desc: "Employed within 6 months" },
-  ];
-function Impact() {
-  return (
-    <section id="impact" className="py-24 md:py-32">
-      <div className="container-page">
-        <Reveal className="text-center max-w-2xl mx-auto">
-          <p className="eyebrow">Our Vision</p>
-          <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.15] tracking-[-0.02em]">
-            Numbers We Aim to Achieve Annually
-          </h2>
-        </Reveal>
-
-        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {metrics.map((m, i) => (
-            <Reveal
-              key={m.label}
-              delay={((i % 4) + 1) as 1 | 2 | 3 | 4}
-              className="p-8 border border-border rounded-2xl bg-white hover:border-foreground transition-colors"
-            >
-              <div className="font-display text-[52px] md:text-[60px] font-bold tracking-[-0.03em] leading-none">
-                <CountUp end={m.value} suffix={m.suffix} />
+              <div className="font-display text-[48px] md:text-[56px] font-bold tracking-tight text-black leading-none">
+                <CountUp end={metric.value} />{metric.suffix}
               </div>
               <div className="mt-4 h-[3px] w-10 bg-accent rounded-full" />
-              <div className="mt-5 font-display text-[18px] font-bold">{m.label}</div>
-              <div className="mt-1 text-[14px] text-text-secondary">{m.desc}</div>
+              <div className="mt-5 font-display text-[18px] font-bold text-black">{metric.label}</div>
+              <div className="mt-1.5 text-[13px] text-text-secondary leading-snug">{metric.desc}</div>
             </Reveal>
           ))}
         </div>
@@ -486,230 +399,125 @@ function Impact() {
   );
 }
 
-/* ---------------- TESTIMONIALS ---------------- */
+/* ---------------- SECTION 6: TESTIMONIALS PREVIEW ---------------- */
 function TestimonialsSection() {
   return (
-    <section id="stories" className="bg-bg-cream py-24 md:py-32">
+    <section className="py-28 bg-white">
       <div className="container-page">
-        <Reveal className="text-center max-w-2xl mx-auto mb-14">
-          <p className="eyebrow">Success Stories</p>
-          <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.15] tracking-[-0.02em]">
-            What Our Graduates Say
-          </h2>
-        </Reveal>
+        <SectionHeader
+          eyebrow="SUCCESS STORIES"
+          title="What Our Graduates Say"
+          align="center"
+        />
         <Testimonials />
       </div>
     </section>
   );
 }
 
-/* ---------------- CTA ---------------- */
-const ctaCards = [
+/* ---------------- SECTION 7: GET INVOLVED CTA ---------------- */
+const ctaOptions = [
   {
     icon: User,
-    title: "For Students",
-    desc: "Apply for free digital literacy and start your tech journey.",
-    label: "Apply Now",
+    title: "Start Your Journey",
+    desc: "Apply for our free programs and take the first step toward a tech career.",
+    btnLabel: "Apply Now",
+    link: "/get-involved/apply",
   },
   {
     icon: Building2,
-    title: "For Intern",
-    desc: "Access job-ready tech professionals trained on real projects.",
-    label: "Join Us",
+    title: "Partner With Us",
+    desc: "Organizations, companies, and institutions — collaborate with us to expand impact.",
+    btnLabel: "Partner With Us",
+    link: "/get-involved/partner",
   },
   {
     icon: Heart,
-    title: "For Supporters",
-    desc: "Sponsor a cohort or fund Afroec programs.",
-    label: "Donate",
+    title: "Volunteer With Us",
+    desc: "Share your skills and time. Join our community of trainers, mentors, and changemakers.",
+    btnLabel: "Volunteer Now",
+    link: "/get-involved/volunteer",
   },
 ];
 function CTASection() {
   return (
-    <section id="cta" className="bg-bg-dark text-white py-24 md:py-32 relative overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute -top-32 -right-32 w-96 h-96 bg-accent/10 blob animate-blob"
-      />
-      <div className="container-page relative">
-        <Reveal className="text-center max-w-2xl mx-auto">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.15em] text-text-muted">
-            <Sparkles size={12} className="inline mr-1.5 -mt-1" />
-            Get Involved
-          </p>
-          <h2 className="mt-5 font-display font-bold text-[36px] md:text-[44px] leading-[1.15] tracking-[-0.02em] text-white">
+    <section id="cta" className="bg-bg-dark text-white py-28 relative overflow-hidden">
+      <OrganicShape variant={3} className="-top-32 -right-32 w-[500px] h-[500px] opacity-10" />
+
+      <div className="container-page relative z-10">
+        <Reveal className="text-center max-w-2xl mx-auto mb-16">
+          <span className="text-[12px] font-semibold uppercase tracking-[0.15em] text-text-muted flex items-center justify-center gap-1.5">
+            <Sparkles size={12} className="text-accent" />
+            GET INVOLVED
+          </span>
+          <h2 className="mt-4 font-display font-bold text-[36px] md:text-[44px] leading-tight text-white">
             Be Part of the Transformation
           </h2>
-          <p className="mt-4 text-[17px] text-text-muted">
-            Whether you're a student, employer, donor, or partner — there's a place for you.
+          <p className="mt-4 text-[16px] md:text-[18px] text-text-muted">
+            Whether you're a student, partner, or volunteer — there's a place for you in the ecosystem.
           </p>
         </Reveal>
 
-        <div className="mt-14 grid md:grid-cols-3 gap-6">
-          {ctaCards.map((c, i) => (
-            <Reveal
-              key={c.title}
-              delay={((i % 4) + 1) as 1 | 2 | 3}
-              className="bg-surface-dark border border-border-dark rounded-2xl p-8 md:p-10 flex flex-col hover:border-accent transition-colors"
-            >
-              <div className="h-14 w-14 rounded-full bg-accent/15 flex items-center justify-center">
-                <c.icon size={26} className="text-accent" />
-              </div>
-              <h3 className="mt-6 font-display text-[22px] font-bold text-white">{c.title}</h3>
-              <p className="mt-3 text-[15px] text-text-muted flex-1">{c.desc}</p>
-              <button
-                type="button"
-                className="mt-8 btn-pill bg-accent text-accent-foreground hover:bg-accent-hover w-full"
+        <div className="grid md:grid-cols-3 gap-8">
+          {ctaOptions.map((option, idx) => {
+            const Icon = option.icon;
+            return (
+              <Reveal
+                key={option.title}
+                delay={((idx % 3) + 1) as 1 | 2 | 3}
+                className="flex flex-col bg-surface-dark border border-border-dark rounded-[16px] p-8 md:p-10 hover:border-accent transition-all duration-300"
               >
-                {c.label}
-              </button>
-            </Reveal>
-          ))}
+                <div className="h-14 w-14 rounded-full bg-accent/10 flex items-center justify-center shrink-0 mb-6">
+                  <Icon size={24} className="text-accent" />
+                </div>
+                <h3 className="font-display text-[22px] font-bold text-white mb-3">
+                  {option.title}
+                </h3>
+                <p className="text-[14px] leading-relaxed text-text-muted mb-8 flex-1">
+                  {option.desc}
+                </p>
+                <Link
+                  to={option.link}
+                  className="w-full btn-pill bg-accent text-black hover:bg-accent-hover text-center font-bold"
+                >
+                  {option.btnLabel}
+                </Link>
+              </Reveal>
+            );
+          })}
         </div>
 
-        <Reveal className="mt-20 pt-12 border-t border-border-dark grid md:grid-cols-2 gap-10 items-center">
+        {/* Newsletter Sign Up */}
+        <Reveal className="mt-24 pt-16 border-t border-border-dark grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <h3 className="font-display text-[24px] font-bold text-white">Stay Updated</h3>
-            <p className="mt-2 text-[15px] text-text-muted">
-              Get quarterly updates on cohorts, impact reports, and new programs.
+            <h3 className="font-display text-[26px] font-bold text-white">Stay Updated</h3>
+            <p className="mt-2 text-[15px] text-text-muted leading-relaxed">
+              Get quarterly updates on cohorts, student milestones, events, and impact reports.
             </p>
           </div>
           <form
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={(e) => {
+              e.preventDefault();
+              alert("Thank you for subscribing!");
+            }}
             className="flex flex-col sm:flex-row gap-3 w-full"
           >
             <input
               type="email"
               required
               placeholder="you@example.com"
-              className="flex-1 rounded-full bg-surface-dark border border-border-dark px-6 py-3.5 text-[15px] text-white placeholder:text-text-muted focus:outline-none focus:border-accent"
+              className="flex-1 rounded-full bg-surface-dark border border-border-dark px-6 py-4 text-[15px] text-white placeholder:text-text-muted focus:outline-none focus:border-accent transition-colors"
               aria-label="Email address"
             />
             <button
               type="submit"
-              className="btn-pill bg-accent text-accent-foreground hover:bg-accent-hover"
+              className="btn-pill bg-accent text-black hover:bg-accent-hover font-semibold shrink-0"
             >
               Subscribe
             </button>
           </form>
         </Reveal>
-
-        <div className="mt-14 flex items-center justify-center gap-6 text-white/60">
-          {[
-            { Icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/company/afroec" },
-            { Icon: Instagram, label: "Instagram", href: "https://www.instagram.com/afro_ec?igsh=anJxamZmOGg3OWJv" },
-            { Icon: Facebook, label: "Facebook", href: "#" },
-            { Icon: Twitter, label: "X", href: "#" },
-          ].map(({ Icon, label, href }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="hover:text-accent transition-colors"
-            >
-              <Icon size={20} />
-            </a>
-          ))}
-        </div>
       </div>
     </section>
-  );
-}
-
-/* ---------------- FOOTER ---------------- */
-function Footer() {
-  return (
-    <footer className="bg-bg-dark text-white pt-20 pb-10 border-t border-border-dark">
-      <div className="container-page grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-        <div>
-          <div className="font-display text-[24px] font-bold tracking-tight">
-            Afro<span className="text-accent">ec</span>
-            <span className="ml-2 font-medium text-white/80 text-[16px]">Hub</span>
-          </div>
-          <p className="mt-4 text-[12px] uppercase tracking-[0.15em] text-text-muted font-semibold">
-            From Digital Literacy to Tech Workforce
-          </p>
-          <p className="mt-3 text-[14px] text-text-muted max-w-xs">
-            Building Africa's next generation of tech professionals.
-          </p>
-          <div className="mt-6 flex gap-3">
-            {[
-              { Icon: Linkedin, href: "https://www.linkedin.com/company/afroec", label: "LinkedIn" },
-              { Icon: Instagram, href: "https://www.instagram.com/afro_ec?igsh=anJxamZmOGg3OWJv", label: "Instagram" },
-              { Icon: Facebook, href: "#", label: "Facebook" },
-              { Icon: Twitter, href: "#", label: "X" },
-            ].map(({ Icon, href, label }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-9 w-9 rounded-full border border-border-dark flex items-center justify-center text-white/60 hover:text-accent hover:border-accent transition-colors"
-                aria-label={label}
-              >
-                <Icon size={16} />
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <FooterCol
-          title="Programs"
-          links={["CyberGuard Youth", "SheSec Ethiopia", "We Can Code", "We Can Hack"]}
-        />
-        <FooterCol
-          title="Company"
-          links={["About Afroec", "Our Team", "Careers", "Blog", "Press Kit"]}
-        />
-
-        <div>
-          <div className="font-display text-[16px] font-bold text-white">Contact</div>
-          <ul className="mt-4 space-y-3 text-[14px] text-text-muted">
-            <li>
-              <a
-                href="mailto:hub@afroec.com"
-                className="inline-flex items-center gap-2 hover:text-accent transition-colors"
-              >
-                <Mail size={14} /> hub@afroec.com
-              </a>
-            </li>
-            <li className="inline-flex items-center gap-2">
-              <Phone size={14} /> +251 916416887
-            </li>
-            <li className="inline-flex items-center gap-2">
-              <MapPin size={14} /> Addis Ababa, Ethiopia
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="container-page mt-16 pt-6 border-t border-border-dark flex flex-col md:flex-row items-center justify-between gap-3 text-[12px] text-text-muted">
-        <p>© 2026 Afroec Hub. All rights reserved.</p>
-        <div className="flex gap-4">
-          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-          <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-function FooterCol({ title, links }: { title: string; links: string[] }) {
-  return (
-    <div>
-      <div className="font-display text-[16px] font-bold text-white">{title}</div>
-      <ul className="mt-4 space-y-3 text-[14px] text-text-muted">
-        {links.map((l) => (
-          <li key={l}>
-            <a href="#" className="hover:text-accent transition-colors">
-              {l}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }
