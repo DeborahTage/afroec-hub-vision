@@ -1,0 +1,10 @@
+target/
+.m2repo/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.log
+.idea/
+*.iml
+*.iws
+.vscode/
+.DS_Store

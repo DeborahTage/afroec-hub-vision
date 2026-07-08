@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+  thymeleaf:
+    cache: true
+
+logging:
+  level:
+    com.afroechub: INFO
+    root: WARN
+
+# On Render the admin dashboard is NOT exposed publicly.
+admin:
+  localhost-only: ${ADMIN_LOCALHOST_ONLY:true}

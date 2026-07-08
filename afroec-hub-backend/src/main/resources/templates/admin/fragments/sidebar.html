@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="sidebar" class="admin-sidebar">
+    <div class="sidebar-brand">
+        <i class="bi bi-hexagon-fill"></i>
+        <span>Afroec Hub</span>
+    </div>
+    <ul class="sidebar-nav">
+        <li>
+            <a th:href="@{/admin/dashboard}" th:classappend="${active == 'dashboard'} ? 'active'">
+                <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/applications}" th:classappend="${active == 'applications'} ? 'active'">
+                <i class="bi bi-mortarboard"></i> Applications
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/partners}" th:classappend="${active == 'partners'} ? 'active'">
+                <i class="bi bi-building"></i> Partners
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/volunteers}" th:classappend="${active == 'volunteers'} ? 'active'">
+                <i class="bi bi-people"></i> Volunteers
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/contacts}" th:classappend="${active == 'contacts'} ? 'active'">
+                <i class="bi bi-envelope"></i> Contacts
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/newsletters}" th:classappend="${active == 'newsletters'} ? 'active'">
+                <i class="bi bi-newspaper"></i> Newsletters
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/activity}" th:classappend="${active == 'activity'} ? 'active'">
+                <i class="bi bi-clock-history"></i> Activity Log
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/settings}" th:classappend="${active == 'settings'} ? 'active'">
+                <i class="bi bi-gear"></i> Settings
+            </a>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>

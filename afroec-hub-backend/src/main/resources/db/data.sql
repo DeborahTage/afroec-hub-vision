@@ -1,0 +1,11 @@
+-- Reference seed data. The application seeds the default admin at runtime via
+-- DataInitializer (using the ADMIN_USERNAME / ADMIN_PASSWORD env vars), so this
+-- file is NOT executed automatically.
+--
+-- If you prefer to seed manually, replace the hash below with a BCrypt hash of
+-- your chosen password. Example (Admin@12345):
+--   $2a$10$Dow1... (generate with your own BCrypt tool)
+
+-- INSERT INTO admin_users (username, email, password_hash, full_name, role, is_active)
+-- VALUES ('admin', 'admin@afroechub.com', '<bcrypt-hash>', 'Afroec Hub Admin', 'SUPER_ADMIN', TRUE)
+-- ON CONFLICT (username) DO NOTHING;

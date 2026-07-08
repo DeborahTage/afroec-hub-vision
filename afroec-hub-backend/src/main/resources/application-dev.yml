@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/afroec_hub}
+    username: ${DATABASE_USERNAME:afroec_admin}
+    password: ${DATABASE_PASSWORD:afroec_admin}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+logging:
+  level:
+    com.afroechub: DEBUG
+    org.springframework.security: INFO

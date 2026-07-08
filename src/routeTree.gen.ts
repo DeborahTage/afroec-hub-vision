@@ -13,10 +13,13 @@ import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as ImpactRouteImport } from './routes/impact'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as InitiativesIndexRouteImport } from './routes/initiatives/index'
 import { Route as GetInvolvedIndexRouteImport } from './routes/get-involved/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as AboutIndexRouteImport } from './routes/about/index'
+import { Route as ServicesProductDevelopmentRouteImport } from './routes/services/product-development'
+import { Route as ServicesConsultancyRouteImport } from './routes/services/consultancy'
 import { Route as InitiativesProductHubRouteImport } from './routes/initiatives/product-hub'
 import { Route as InitiativesAcademyRouteImport } from './routes/initiatives/academy'
 import { Route as GetInvolvedVolunteerRouteImport } from './routes/get-involved/volunteer'
@@ -47,6 +50,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InitiativesIndexRoute = InitiativesIndexRouteImport.update({
   id: '/initiatives/',
   path: '/initiatives/',
@@ -65,6 +73,17 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
 const AboutIndexRoute = AboutIndexRouteImport.update({
   id: '/about/',
   path: '/about/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesProductDevelopmentRoute =
+  ServicesProductDevelopmentRouteImport.update({
+    id: '/services/product-development',
+    path: '/services/product-development',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ServicesConsultancyRoute = ServicesConsultancyRouteImport.update({
+  id: '/services/consultancy',
+  path: '/services/consultancy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InitiativesProductHubRoute = InitiativesProductHubRouteImport.update({
@@ -127,10 +146,13 @@ export interface FileRoutesByFullPath {
   '/get-involved/volunteer': typeof GetInvolvedVolunteerRoute
   '/initiatives/academy': typeof InitiativesAcademyRoute
   '/initiatives/product-hub': typeof InitiativesProductHubRoute
+  '/services/consultancy': typeof ServicesConsultancyRoute
+  '/services/product-development': typeof ServicesProductDevelopmentRoute
   '/about/': typeof AboutIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/get-involved/': typeof GetInvolvedIndexRoute
   '/initiatives/': typeof InitiativesIndexRoute
+  '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -146,10 +168,13 @@ export interface FileRoutesByTo {
   '/get-involved/volunteer': typeof GetInvolvedVolunteerRoute
   '/initiatives/academy': typeof InitiativesAcademyRoute
   '/initiatives/product-hub': typeof InitiativesProductHubRoute
+  '/services/consultancy': typeof ServicesConsultancyRoute
+  '/services/product-development': typeof ServicesProductDevelopmentRoute
   '/about': typeof AboutIndexRoute
   '/blog': typeof BlogIndexRoute
   '/get-involved': typeof GetInvolvedIndexRoute
   '/initiatives': typeof InitiativesIndexRoute
+  '/services': typeof ServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -166,10 +191,13 @@ export interface FileRoutesById {
   '/get-involved/volunteer': typeof GetInvolvedVolunteerRoute
   '/initiatives/academy': typeof InitiativesAcademyRoute
   '/initiatives/product-hub': typeof InitiativesProductHubRoute
+  '/services/consultancy': typeof ServicesConsultancyRoute
+  '/services/product-development': typeof ServicesProductDevelopmentRoute
   '/about/': typeof AboutIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/get-involved/': typeof GetInvolvedIndexRoute
   '/initiatives/': typeof InitiativesIndexRoute
+  '/services/': typeof ServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -187,10 +215,13 @@ export interface FileRouteTypes {
     | '/get-involved/volunteer'
     | '/initiatives/academy'
     | '/initiatives/product-hub'
+    | '/services/consultancy'
+    | '/services/product-development'
     | '/about/'
     | '/blog/'
     | '/get-involved/'
     | '/initiatives/'
+    | '/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -206,10 +237,13 @@ export interface FileRouteTypes {
     | '/get-involved/volunteer'
     | '/initiatives/academy'
     | '/initiatives/product-hub'
+    | '/services/consultancy'
+    | '/services/product-development'
     | '/about'
     | '/blog'
     | '/get-involved'
     | '/initiatives'
+    | '/services'
   id:
     | '__root__'
     | '/'
@@ -225,10 +259,13 @@ export interface FileRouteTypes {
     | '/get-involved/volunteer'
     | '/initiatives/academy'
     | '/initiatives/product-hub'
+    | '/services/consultancy'
+    | '/services/product-development'
     | '/about/'
     | '/blog/'
     | '/get-involved/'
     | '/initiatives/'
+    | '/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -245,10 +282,13 @@ export interface RootRouteChildren {
   GetInvolvedVolunteerRoute: typeof GetInvolvedVolunteerRoute
   InitiativesAcademyRoute: typeof InitiativesAcademyRoute
   InitiativesProductHubRoute: typeof InitiativesProductHubRoute
+  ServicesConsultancyRoute: typeof ServicesConsultancyRoute
+  ServicesProductDevelopmentRoute: typeof ServicesProductDevelopmentRoute
   AboutIndexRoute: typeof AboutIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
   GetInvolvedIndexRoute: typeof GetInvolvedIndexRoute
   InitiativesIndexRoute: typeof InitiativesIndexRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -281,6 +321,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/': {
+      id: '/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/initiatives/': {
       id: '/initiatives/'
       path: '/initiatives'
@@ -307,6 +354,20 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about/'
       preLoaderRoute: typeof AboutIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/product-development': {
+      id: '/services/product-development'
+      path: '/services/product-development'
+      fullPath: '/services/product-development'
+      preLoaderRoute: typeof ServicesProductDevelopmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/consultancy': {
+      id: '/services/consultancy'
+      path: '/services/consultancy'
+      fullPath: '/services/consultancy'
+      preLoaderRoute: typeof ServicesConsultancyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/initiatives/product-hub': {
@@ -389,10 +450,13 @@ const rootRouteChildren: RootRouteChildren = {
   GetInvolvedVolunteerRoute: GetInvolvedVolunteerRoute,
   InitiativesAcademyRoute: InitiativesAcademyRoute,
   InitiativesProductHubRoute: InitiativesProductHubRoute,
+  ServicesConsultancyRoute: ServicesConsultancyRoute,
+  ServicesProductDevelopmentRoute: ServicesProductDevelopmentRoute,
   AboutIndexRoute: AboutIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
   GetInvolvedIndexRoute: GetInvolvedIndexRoute,
   InitiativesIndexRoute: InitiativesIndexRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

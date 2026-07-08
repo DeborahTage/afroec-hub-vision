@@ -16,6 +16,8 @@ import {
   Mail,
   Sparkles,
   BookOpen,
+  Code2,
+  Compass,
 } from "lucide-react";
 import heroImg from "@/assets/hero.jpg";
 import missionImg from "@/assets/mission.jpg";
@@ -49,6 +51,7 @@ function HomePage() {
         <HeroSection />
         <TrustedBySection />
         <WhoWeAreSection />
+        <ServicesSection />
         <InitiativesSection />
         <ImpactSection />
         <TestimonialsSection />
@@ -268,6 +271,58 @@ function WhoWeAreSection() {
             </div>
           </div>
         </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- SECTION: WHAT WE DO (Afroec Services) ---------------- */
+const services = [
+  {
+    icon: Code2,
+    title: "Product Development",
+    desc: "We build digital products that solve real problems — web, mobile, enterprise, and AI.",
+    link: "/services/product-development" as const,
+  },
+  {
+    icon: Compass,
+    title: "Technology Consultancy",
+    desc: "We help organizations apply technology strategically, from transformation to security.",
+    link: "/services/consultancy" as const,
+  },
+  {
+    icon: Heart,
+    title: "Afroec Hub",
+    desc: "Our social impact initiative building Africa's tech talent through free education.",
+    link: "/initiatives" as const,
+  },
+];
+function ServicesSection() {
+  return (
+    <section className="bg-bg-cream py-28 border-y border-border/40">
+      <div className="container-page">
+        <SectionHeader eyebrow="OUR SERVICES" title="Technology, Built Right" align="center" />
+        <div className="grid md:grid-cols-3 gap-8">
+          {services.map((svc, idx) => {
+            const Icon = svc.icon;
+            return (
+              <Reveal
+                key={svc.title}
+                delay={((idx % 3) + 1) as 1 | 2 | 3}
+                className="group flex flex-col bg-white border border-border rounded-[16px] p-8 md:p-10 transition-all duration-300 hover:-translate-y-1 hover:border-black hover:shadow-lg"
+              >
+                <div className="h-14 w-14 rounded-full bg-accent/15 flex items-center justify-center shrink-0 mb-6 transition-transform group-hover:scale-110">
+                  <Icon size={26} className="text-black" />
+                </div>
+                <h3 className="font-display text-[22px] font-bold text-black mb-3">{svc.title}</h3>
+                <p className="text-[15px] leading-relaxed text-text-secondary mb-8 flex-1">{svc.desc}</p>
+                <Link to={svc.link} className="link-arrow text-[15px] font-bold mt-auto self-start">
+                  Learn More <ArrowRight size={16} />
+                </Link>
+              </Reveal>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

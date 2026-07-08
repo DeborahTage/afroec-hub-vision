@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<header th:fragment="header(title)" class="admin-topbar">
+    <h1 class="topbar-title" th:text="${title}">Dashboard</h1>
+    <div class="topbar-actions">
+        <span class="admin-user">
+            <i class="bi bi-person-circle"></i>
+            <span sec:authentication="name">admin</span>
+        </span>
+        <a th:href="@{/admin/logout}" class="btn btn-sm btn-outline-danger">
+            <i class="bi bi-box-arrow-right"></i> Logout
+        </a>
+    </div>
+</header>
+</body>
+</html>

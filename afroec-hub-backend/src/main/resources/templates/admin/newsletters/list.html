@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/layout :: head('Newsletters')}"></head>
+<body>
+<div class="admin-wrapper">
+    <nav th:replace="~{admin/fragments/sidebar :: sidebar}"></nav>
+    <div class="admin-main">
+        <header th:replace="~{admin/fragments/header :: header('Newsletter Subscribers')}"></header>
+        <main class="admin-content">
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6 class="mb-0">Subscribers (<span th:text="${page.totalElements}">0</span>)</h6>
+                    <a th:href="@{/admin/export/newsletters}" class="btn btn-sm btn-outline-success">
+                        <i class="bi bi-download"></i> Export CSV
+                    </a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                        <tr><th>ID</th><th>Email</th><th>Active</th><th>Subscribed</th><th>Unsubscribed</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="s : ${subscribers}">
+                            <td th:text="${s.id}">1</td>
+                            <td th:text="${s.email}">email</td>
+                            <td>
+                                <span th:if="${s.active}" class="badge bg-success">Active</span>
+                                <span th:unless="${s.active}" class="badge bg-light text-dark">Inactive</span>
+                            </td>
+                            <td th:text="${#temporals.format(s.subscribedAt, 'yyyy-MM-dd')}">-</td>
+                            <td th:text="${s.unsubscribedAt != null ? #temporals.format(s.unsubscribedAt, 'yyyy-MM-dd') : '-'}">-</td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(subscribers)}">
+                            <td colspan="5" class="text-center text-muted py-4">No subscribers yet</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav th:replace="~{admin/fragments/pagination :: pagination(${page}, '/admin/newsletters')}"></nav>
+            </div>
+        </main>
+        <footer th:replace="~{admin/fragments/footer :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{admin/fragments/footer :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/layout :: head('Dashboard')}"></head>
+<body>
+<div class="admin-wrapper">
+    <nav th:replace="~{admin/fragments/sidebar :: sidebar}"></nav>
+    <div class="admin-main">
+        <header th:replace="~{admin/fragments/header :: header('Dashboard')}"></header>
+        <main class="admin-content" id="dashboard-charts">
+
+            <div class="stat-cards">
+                <div class="stat-card">
+                    <div class="value" th:text="${stats.totalApplications}">0</div>
+                    <div class="label">Total Applications</div>
+                </div>
+                <div class="stat-card" style="border-left-color:#f59e0b">
+                    <div class="value" th:text="${stats.newApplicationsToday}">0</div>
+                    <div class="label">New Today</div>
+                </div>
+                <div class="stat-card" style="border-left-color:#2563eb">
+                    <div class="value" th:text="${stats.pendingReview}">0</div>
+                    <div class="label">Pending Review</div>
+                </div>
+                <div class="stat-card" style="border-left-color:#059669">
+                    <div class="value" th:text="${stats.accepted}">0</div>
+                    <div class="label">Accepted</div>
+                </div>
+                <div class="stat-card" style="border-left-color:#dc2626">
+                    <div class="value" th:text="${stats.rejected}">0</div>
+                    <div class="label">Rejected</div>
+                </div>
+            </div>
+
+            <div class="stat-cards">
+                <div class="stat-card" style="border-left-color:#7c3aed">
+                    <div class="value" th:text="${stats.totalPartners}">0</div>
+                    <div class="label">Partners</div>
+                </div>
+                <div class="stat-card" style="border-left-color:#db2777">
+                    <div class="value" th:text="${stats.totalVolunteers}">0</div>
+                    <div class="label">Volunteers</div>
+                </div>
+                <div class="stat-card" style="border-left-color:#0891b2">
+                    <div class="value" th:text="${stats.totalContacts}">0</div>
+                    <div class="label">Contacts</div>
+                </div>
+                <div class="stat-card" style="border-left-color:#16a34a">
+                    <div class="value" th:text="${stats.newsletterSubscribers}">0</div>
+                    <div class="label">Subscribers</div>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="card p-3">
+                    <h6 class="text-muted">Applications over time</h6>
+                    <canvas id="timeChart" height="110"></canvas>
+                </div>
+                <div class="card p-3">
+                    <h6 class="text-muted">By program</h6>
+                    <canvas id="programChart" height="110"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-grid" style="grid-template-columns:1fr 2fr">
+                <div class="card p-3">
+                    <h6 class="text-muted">By gender</h6>
+                    <canvas id="genderChart" height="150"></canvas>
+                </div>
+                <div class="card p-3">
+                    <h6 class="text-muted mb-3">Recent activity</h6>
+                    <table class="table table-sm mb-0">
+                        <thead>
+                        <tr><th>When</th><th>Action</th><th>Entity</th><th>Details</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="log : ${recentActivity}">
+                            <td th:text="${#temporals.format(log.createdAt, 'MMM dd HH:mm')}">-</td>
+                            <td><span class="badge bg-secondary" th:text="${log.action}">-</span></td>
+                            <td th:text="${log.entityType}">-</td>
+                            <td th:text="${log.details}">-</td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(recentActivity)}">
+                            <td colspan="4" class="text-center text-muted">No activity yet</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+        <footer th:replace="~{admin/fragments/footer :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{admin/fragments/footer :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+package com.afroechub.enums;
+
+public enum VolunteerRole {
+    TRAINER_SOFTWARE,
+    TRAINER_CYBER,
+    TRAINER_HARDWARE,
+    TRAINER_DIGITAL,
+    MARKETING,
+    GRAPHIC_DESIGN,
+    WEB_DEV,
+    CONTENT_CREATOR,
+    SOCIAL_MEDIA,
+    PROGRAMS_LEAD,
+    FUNDRAISING,
+    OPERATIONS,
+    MENTOR,
+    OTHER
+}

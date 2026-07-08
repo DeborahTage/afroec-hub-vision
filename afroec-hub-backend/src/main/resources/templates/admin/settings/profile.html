@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/layout :: head('Settings')}"></head>
+<body>
+<div class="admin-wrapper">
+    <nav th:replace="~{admin/fragments/sidebar :: sidebar}"></nav>
+    <div class="admin-main">
+        <header th:replace="~{admin/fragments/header :: header('Settings')}"></header>
+        <main class="admin-content">
+            <div th:replace="~{admin/fragments/alerts :: alerts}"></div>
+            <div class="row g-3">
+                <div class="col-lg-6">
+                    <div class="card p-4">
+                        <h6>Profile</h6>
+                        <form th:action="@{/admin/settings/profile}" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" th:value="${admin.username}" disabled/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" name="fullName" class="form-control" th:value="${admin.fullName}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control" th:value="${admin.email}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Role</label>
+                                <input type="text" class="form-control" th:value="${admin.role}" disabled/>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update profile</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card p-4">
+                        <h6>Change password</h6>
+                        <form th:action="@{/admin/settings/password}" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Current password</label>
+                                <input type="password" name="currentPassword" class="form-control" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">New password</label>
+                                <input type="password" name="newPassword" class="form-control" minlength="8" required/>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Change password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{admin/fragments/footer :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{admin/fragments/footer :: scripts}"></div>
+</body>
+</html>

@@ -4,7 +4,7 @@ import { Mail, Phone, MapPin, Linkedin, Instagram, Facebook, Twitter } from "luc
 export function Footer() {
     return (
         <footer className="bg-bg-dark text-white pt-20 pb-10 border-t border-border-dark">
-            <div className="container-page grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+            <div className="container-page grid gap-10 md:grid-cols-2 lg:grid-cols-5">
                 {/* Brand */}
                 <div>
                     <Link to="/" className="inline-block" aria-label="Afroec Hub home">
@@ -38,6 +38,16 @@ export function Footer() {
                             </a>
                         ))}
                     </div>
+                </div>
+
+                {/* Services */}
+                <div>
+                    <div className="font-display text-[16px] font-bold text-white mb-4">Services</div>
+                    <ul className="space-y-3 text-[14px] text-text-muted">
+                        <li><Link to="/services/product-development" className="hover:text-accent transition-colors">Product Development</Link></li>
+                        <li><Link to="/services/consultancy" className="hover:text-accent transition-colors">Technology Consultancy</Link></li>
+                        <li><Link to="/initiatives" className="hover:text-accent transition-colors">Afroec Hub (Social Impact)</Link></li>
+                    </ul>
                 </div>
 
                 {/* Initiatives */}

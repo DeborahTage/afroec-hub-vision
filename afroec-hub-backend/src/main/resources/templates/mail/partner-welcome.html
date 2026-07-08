@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head><meta charset="UTF-8"/></head>
+<body style="font-family:Arial,sans-serif;background:#f1f5f9;padding:24px;">
+<div style="max-width:560px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;">
+    <div style="background:#0f766e;color:#fff;padding:24px;">
+        <h2 style="margin:0;">Afroec Hub · Partnerships</h2>
+    </div>
+    <div style="padding:24px;color:#1e293b;">
+        <p>Dear <strong th:text="${contactPerson}">Partner</strong>,</p>
+        <p>
+            Thank you for your interest in partnering with Afroec Hub on behalf of
+            <strong th:text="${organizationName}">your organization</strong>.
+        </p>
+        <p>Our partnerships team has received your inquiry and will reach out shortly to discuss next steps.</p>
+        <p style="margin-top:24px;color:#64748b;font-size:13px;">— The Afroec Hub Partnerships Team</p>
+    </div>
+</div>
+</body>
+</html>

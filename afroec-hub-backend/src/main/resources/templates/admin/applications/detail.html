@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/layout :: head('Application Detail')}"></head>
+<body>
+<div class="admin-wrapper">
+    <nav th:replace="~{admin/fragments/sidebar :: sidebar}"></nav>
+    <div class="admin-main">
+        <header th:replace="~{admin/fragments/header :: header('Application Detail')}"></header>
+        <main class="admin-content">
+
+            <a th:href="@{/admin/applications}" class="btn btn-sm btn-link mb-2">
+                <i class="bi bi-arrow-left"></i> Back to list
+            </a>
+
+            <div class="row g-3">
+                <div class="col-lg-8">
+                    <div class="card p-4">
+                        <h4 th:text="${app.fullName}">Name</h4>
+                        <p class="text-muted mb-4">
+                            <span th:text="${app.email}">email</span> ·
+                            <span th:text="${app.phone}">phone</span>
+                        </p>
+                        <dl class="row">
+                            <dt class="col-sm-4">City</dt><dd class="col-sm-8" th:text="${app.city}">-</dd>
+                            <dt class="col-sm-4">Date of Birth</dt><dd class="col-sm-8" th:text="${app.dateOfBirth}">-</dd>
+                            <dt class="col-sm-4">Gender</dt><dd class="col-sm-8" th:text="${app.gender}">-</dd>
+                            <dt class="col-sm-4">Education</dt><dd class="col-sm-8" th:text="${app.educationLevel}">-</dd>
+                            <dt class="col-sm-4">Employment</dt><dd class="col-sm-8" th:text="${app.employmentStatus}">-</dd>
+                            <dt class="col-sm-4">Program</dt><dd class="col-sm-8" th:text="${app.programType}">-</dd>
+                            <dt class="col-sm-4">Academy Track</dt><dd class="col-sm-8" th:text="${app.academyTrack}">-</dd>
+                            <dt class="col-sm-4">Community Program</dt><dd class="col-sm-8" th:text="${app.communityProgram}">-</dd>
+                            <dt class="col-sm-4">Prior Experience</dt><dd class="col-sm-8" th:text="${app.priorExperience}">-</dd>
+                            <dt class="col-sm-4">Motivation</dt><dd class="col-sm-8" th:text="${app.motivation}">-</dd>
+                            <dt class="col-sm-4">Career Goals</dt><dd class="col-sm-8" th:text="${app.careerGoals}">-</dd>
+                            <dt class="col-sm-4">GitHub / Portfolio</dt><dd class="col-sm-8" th:text="${app.githubPortfolio}">-</dd>
+                            <dt class="col-sm-4">Availability</dt><dd class="col-sm-8" th:text="${app.availability}">-</dd>
+                            <dt class="col-sm-4">Preferred Start</dt><dd class="col-sm-8" th:text="${app.preferredStartDate}">-</dd>
+                            <dt class="col-sm-4">How did you hear</dt><dd class="col-sm-8" th:text="${app.howDidYouHear}">-</dd>
+                            <dt class="col-sm-4">Submitted</dt><dd class="col-sm-8" th:text="${#temporals.format(app.createdAt, 'yyyy-MM-dd HH:mm')}">-</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card p-4">
+                        <h6>Manage</h6>
+                        <form th:action="@{/admin/applications/{id}/update(id=${app.id})}" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Status</label>
+                                <select name="status" class="form-select">
+                                    <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"
+                                            th:selected="${app.status != null and app.status.name() == s.name()}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Internal Notes</label>
+                                <textarea name="notes" class="form-control" rows="5" th:text="${app.notes}"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Save changes</button>
+                        </form>
+                        <hr/>
+                        <form th:action="@{/admin/applications/{id}/delete(id=${app.id})}" method="post"
+                              onsubmit="return confirm('Delete this application permanently?');">
+                            <button type="submit" class="btn btn-outline-danger w-100">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        <footer th:replace="~{admin/fragments/footer :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{admin/fragments/footer :: scripts}"></div>
+</body>
+</html>

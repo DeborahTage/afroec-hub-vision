@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/layout :: head('Activity Log')}"></head>
+<body>
+<div class="admin-wrapper">
+    <nav th:replace="~{admin/fragments/sidebar :: sidebar}"></nav>
+    <div class="admin-main">
+        <header th:replace="~{admin/fragments/header :: header('Activity Log')}"></header>
+        <main class="admin-content">
+            <div class="card p-3">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                        <tr><th>When</th><th>Admin ID</th><th>Action</th><th>Entity</th>
+                            <th>Entity ID</th><th>Details</th><th>IP</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="log : ${logs}">
+                            <td th:text="${#temporals.format(log.createdAt, 'yyyy-MM-dd HH:mm')}">-</td>
+                            <td th:text="${log.adminUserId}">-</td>
+                            <td><span class="badge bg-secondary" th:text="${log.action}">-</span></td>
+                            <td th:text="${log.entityType}">-</td>
+                            <td th:text="${log.entityId}">-</td>
+                            <td th:text="${log.details}">-</td>
+                            <td th:text="${log.ipAddress}">-</td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(logs)}">
+                            <td colspan="7" class="text-center text-muted py-4">No activity yet</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav th:replace="~{admin/fragments/pagination :: pagination(${page}, '/admin/activity')}"></nav>
+            </div>
+        </main>
+        <footer th:replace="~{admin/fragments/footer :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{admin/fragments/footer :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/layout :: head('Volunteers')}"></head>
+<body>
+<div class="admin-wrapper">
+    <nav th:replace="~{admin/fragments/sidebar :: sidebar}"></nav>
+    <div class="admin-main">
+        <header th:replace="~{admin/fragments/header :: header('Volunteer Applications')}"></header>
+        <main class="admin-content">
+            <div class="card p-3 mb-3">
+                <form class="row g-2 align-items-end" method="get" th:action="@{/admin/volunteers}">
+                    <div class="col-md-5">
+                        <label class="form-label">Search</label>
+                        <input type="text" name="q" class="form-control" th:value="${q}"
+                               placeholder="Name or email"/>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Status</label>
+                        <select name="status" class="form-select">
+                            <option value="">All</option>
+                            <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"
+                                    th:selected="${status != null and status.name() == s.name()}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100">Filter</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6 class="mb-0">Results (<span th:text="${page.totalElements}">0</span>)</h6>
+                    <a th:href="@{/admin/export/volunteers}" class="btn btn-sm btn-outline-success">
+                        <i class="bi bi-download"></i> Export CSV
+                    </a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                        <tr><th>ID</th><th>Name</th><th>Email</th><th>Primary Role</th>
+                            <th>Availability</th><th>Status</th><th>Onboarded</th><th></th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="v : ${volunteers}">
+                            <td th:text="${v.id}">1</td>
+                            <td th:text="${v.fullName}">Name</td>
+                            <td th:text="${v.email}">email</td>
+                            <td th:text="${v.primaryRole}">-</td>
+                            <td th:text="${v.availability}">-</td>
+                            <td><span class="badge bg-secondary" th:text="${v.status}">-</span></td>
+                            <td>
+                                <span th:if="${v.onboarded}" class="badge bg-success">Yes</span>
+                                <span th:unless="${v.onboarded}" class="badge bg-light text-dark">No</span>
+                            </td>
+                            <td><a th:href="@{/admin/volunteers/{id}(id=${v.id})}"
+                                   class="btn btn-sm btn-outline-primary">View</a></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(volunteers)}">
+                            <td colspan="8" class="text-center text-muted py-4">No volunteers found</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav th:replace="~{admin/fragments/pagination :: pagination(${page}, '/admin/volunteers')}"></nav>
+            </div>
+        </main>
+        <footer th:replace="~{admin/fragments/footer :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{admin/fragments/footer :: scripts}"></div>
+</body>
+</html>

@@ -34,6 +34,14 @@ const menuItems: MenuItem[] = [
       { href: "/programs", label: "Community Programs" },
     ],
   },
+  {
+    label: "Services",
+    children: [
+      { href: "/services", label: "All Services" },
+      { href: "/services/product-development", label: "Product Development" },
+      { href: "/services/consultancy", label: "Technology Consultancy" },
+    ],
+  },
   { href: "/impact", label: "Impact" },
   {
     label: "Get Involved",

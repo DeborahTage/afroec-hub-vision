@@ -1,0 +1,110 @@
+{
+  "info": {
+    "name": "Afroec Hub API",
+    "description": "Public REST API + admin auth for Afroec Hub backend.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/health"
+      }
+    },
+    {
+      "name": "Submit Student Application",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/v1/applications/student",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"Abebe Kebede\",\n  \"email\": \"abebe@example.com\",\n  \"phone\": \"+251911123456\",\n  \"telegram\": \"@abebe_k\",\n  \"city\": \"Addis Ababa\",\n  \"dateOfBirth\": \"2000-05-15\",\n  \"gender\": \"MALE\",\n  \"educationLevel\": \"HIGH_SCHOOL\",\n  \"employmentStatus\": \"UNEMPLOYED\",\n  \"programType\": \"ACADEMY\",\n  \"academyTrack\": \"SOFTWARE_ENGINEERING\",\n  \"priorExperience\": \"Basic HTML/CSS self-taught\",\n  \"motivation\": \"I want to become a software developer and support my family.\",\n  \"careerGoals\": \"Full-stack developer at a tech company\",\n  \"githubPortfolio\": \"https://github.com/abebe\",\n  \"incomeShareAgreement\": true,\n  \"howDidYouHear\": \"SOCIAL_MEDIA\",\n  \"availability\": \"FULL_TIME\",\n  \"preferredStartDate\": \"2026-09-01\",\n  \"canCommitFulltime\": true\n}"
+        }
+      }
+    },
+    {
+      "name": "Get Application Status",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/applications/student/1?email=abebe@example.com",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "applications", "student", "1"],
+          "query": [{ "key": "email", "value": "abebe@example.com" }]
+        }
+      }
+    },
+    {
+      "name": "Submit Partner Inquiry",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/v1/partners/inquire",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"organizationName\": \"Dashen Bank\",\n  \"contactPerson\": \"Ato Girma\",\n  \"email\": \"partnerships@dashenbank.et\",\n  \"phone\": \"+251115123456\",\n  \"organizationType\": \"CORPORATE\",\n  \"partnershipInterest\": [\"TALENT_PIPELINE\", \"SPONSORSHIP\"],\n  \"message\": \"We are interested in hiring graduates from your cybersecurity track.\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Submit Volunteer Application",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/v1/volunteers/apply",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"Selam Tesfaye\",\n  \"email\": \"selam@example.com\",\n  \"phone\": \"+251922987654\",\n  \"city\": \"Addis Ababa\",\n  \"primaryRole\": \"TRAINER_SOFTWARE\",\n  \"secondaryRole\": \"MENTOR\",\n  \"availability\": \"PART_TIME\",\n  \"hoursPerWeek\": 10,\n  \"startDate\": \"2026-08-01\",\n  \"commitmentDuration\": \"SIX_MONTHS\",\n  \"professionalBackground\": \"Software engineer at CBE with 3 years experience\",\n  \"motivation\": \"I want to give back by teaching the next generation\",\n  \"skills\": [\"Python\", \"JavaScript\", \"React\", \"Node.js\"],\n  \"languages\": [\"Amharic\", \"English\"],\n  \"experienceLevel\": \"EXPERIENCED\",\n  \"portfolioLink\": \"https://linkedin.com/in/selam\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Submit Contact Form",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/v1/contact/submit",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Sara M\",\n  \"email\": \"sara@example.com\",\n  \"phone\": \"+251900000000\",\n  \"subject\": \"GENERAL\",\n  \"message\": \"Hello, I have a question about your programs.\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Subscribe Newsletter",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/v1/newsletter/subscribe",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"subscriber@example.com\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Public Stats",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/stats/public"
+      }
+    },
+    {
+      "name": "Admin Login (API)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/admin/api/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"Admin@12345\"\n}"
+        }
+      }
+    }
+  ]
+}
