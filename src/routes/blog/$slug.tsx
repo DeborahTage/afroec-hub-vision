@@ -34,7 +34,7 @@ function BlogPostPage() {
                     Geography should never dictate destiny. Yet, across rural Ethiopia, millions of high school students attend classrooms with completely empty computer laboratories—often lacking even electrical plug points, let alone basic software terminals or internet cables.
                 </p>
                 <p>
-                    To break this digital isolation, we launched the <strong>DigiSec Solar Mobile Lab</strong> initiative. Our specialized solar trucks are fitted with 15 customer laptops, local-language programming manuals, and Starlink hardware antennas, enabling absolute digital access anywhere in the country.
+                    To break this digital isolation, we launched the <strong>DigiSec program</strong> initiative. Our specialized solar trucks are fitted with 15 customer laptops, local-language programming manuals, and Starlink hardware antennas, enabling absolute digital access anywhere in the country.
                 </p>
                 <h3 className="text-xl font-bold text-black mt-8 mb-4">Reaching remote high schools</h3>
                 <p>

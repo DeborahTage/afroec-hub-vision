@@ -6,6 +6,7 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { Reveal } from "@/components/Reveal";
 import { OrganicShape } from "@/components/OrganicShape";
 import heroImg from "@/assets/hero.jpg";
+import missionImg from "@/assets/mission.jpg";
 import {
     Monitor,
     Smartphone,
@@ -131,7 +132,11 @@ function ProductDevelopmentPage() {
                         <Reveal delay={2} className="relative hidden lg:block">
                             <OrganicShape variant={1} className="-inset-6 opacity-50" />
                             <div className="aspect-[4/3] rounded-[24px] overflow-hidden border border-border shadow-md">
-                                <img src={heroImg} alt="Afroec team building digital products" className="w-full h-full object-cover" />
+                                <img
+                                    src={missionImg}
+                                    alt="Afroec engineering team collaborating on a digital product"
+                                    className="w-full h-full object-cover object-center"
+                                />
                             </div>
                         </Reveal>
                     </div>
@@ -236,8 +241,16 @@ function ProductDevelopmentPage() {
                                 <Reveal
                                     key={cs.project}
                                     delay={((idx % 3) + 1) as 1 | 2 | 3}
-                                    className="flex flex-col bg-white border border-border rounded-[16px] p-8 hover:border-black hover:shadow-lg transition-all duration-300"
+                                    className="flex flex-col bg-white border border-border rounded-[16px] overflow-hidden hover:border-black hover:shadow-lg transition-all duration-300"
                                 >
+                                    <div className="aspect-[16/10] overflow-hidden border-b border-border">
+                                        <img
+                                            src={idx % 2 === 0 ? heroImg : missionImg}
+                                            alt={cs.project}
+                                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                                        />
+                                    </div>
+                                    <div className="p-8 flex flex-col flex-1">
                                     <span className="text-[11px] font-bold uppercase tracking-wider text-text-muted">{cs.client}</span>
                                     <h3 className="font-display text-[22px] font-bold text-black mt-2 mb-3">{cs.project}</h3>
                                     <p className="text-[14px] text-text-secondary leading-relaxed mb-5">{cs.desc}</p>
@@ -251,6 +264,7 @@ function ProductDevelopmentPage() {
                                                 {tag}
                                             </span>
                                         ))}
+                                    </div>
                                     </div>
                                 </Reveal>
                             ))}

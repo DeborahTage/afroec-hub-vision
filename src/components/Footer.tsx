@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, Phone, MapPin, Linkedin, Instagram, Facebook, Twitter } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 export function Footer() {
     return (
@@ -8,10 +9,7 @@ export function Footer() {
                 {/* Brand */}
                 <div>
                     <Link to="/" className="inline-block" aria-label="Afroec Hub home">
-                        <div className="font-display text-[24px] font-bold tracking-tight">
-                            Afro<span className="text-accent">ec</span>
-                            <span className="ml-2 font-medium text-white/80 text-[16px]">Hub</span>
-                        </div>
+                        <Logo variant="footer" />
                     </Link>
                     <p className="mt-4 text-[12px] uppercase tracking-[0.15em] text-text-muted font-semibold">
                         From Digital Literacy to Tech Workforce
@@ -22,7 +20,7 @@ export function Footer() {
                     <div className="mt-6 flex gap-3">
                         {[
                             { Icon: Linkedin, href: "https://www.linkedin.com/company/afroec", label: "LinkedIn" },
-                            { Icon: Instagram, href: "https://www.instagram.com/afro_ec?igsh=anJxamZmOGg3OWJv", label: "Instagram" },
+                            { Icon: Instagram, href: "https://www.instagram.com/afro_ec", label: "Instagram" },
                             { Icon: Facebook, href: "#", label: "Facebook" },
                             { Icon: Twitter, href: "#", label: "X" },
                         ].map(({ Icon, href, label }) => (
@@ -93,7 +91,7 @@ export function Footer() {
                         </li>
                         <li className="flex items-start gap-2">
                             <MapPin size={14} className="mt-0.5 shrink-0" />
-                            <span>Addis Ababa, Ethiopia</span>
+                            <span>Addis Ababa, Bole Welo Sefer</span>
                         </li>
                     </ul>
                 </div>

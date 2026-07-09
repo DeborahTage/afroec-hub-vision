@@ -64,7 +64,7 @@ function CommunityProgramsPage() {
         {
             icon: Truck,
             title: "DigiSec Ethiopia",
-            desc: "Solar-powered mobile learning trucks bringing laptops, local-language tech instruction, and Starlink internet connectivity directly to rural villages of Ethiopia.",
+            desc: "Digisec is cyberawarness program with local-language tech instruction, and Starlink internet connectivity directly to rural villages of Ethiopia.",
             stats: [
                 { label: "Trucks Deployed", value: "4" },
                 { label: "Rural Students", value: "500" },

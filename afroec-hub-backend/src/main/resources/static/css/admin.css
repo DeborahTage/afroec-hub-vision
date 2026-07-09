@@ -50,6 +50,19 @@ body {
     color: var(--afh-accent);
 }
 
+.brand-logo {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+}
+
+.login-logo {
+    height: 72px;
+    width: auto;
+    object-fit: contain;
+    display: inline-block;
+}
+
 .sidebar-nav {
     list-style: none;
     padding: 12px 0;
@@ -178,6 +191,9 @@ body {
     .sidebar-brand span,
     .sidebar-nav a span {
         display: none;
+    }
+    .brand-logo {
+        height: 40px;
     }
 }
 

@@ -118,7 +118,7 @@ function HeroSection() {
             <div className="mt-14 flex flex-wrap items-center gap-10 md:gap-16 border-t border-border pt-10">
               <div>
                 <div className="font-display text-[44px] font-bold leading-none tracking-tight text-black flex items-center">
-                  <CountUp end={99000} />+
+                  <CountUp end={1000} />+
                 </div>
                 <div className="mt-2 text-[14px] text-text-secondary font-medium">
                   Students Reached
@@ -127,7 +127,7 @@ function HeroSection() {
               <div className="hidden sm:block h-12 w-px bg-border" />
               <div>
                 <div className="font-display text-[44px] font-bold leading-none tracking-tight text-black flex items-center">
-                  <CountUp end={10000} />+
+                  <CountUp end={650} />+
                 </div>
                 <div className="mt-2 text-[14px] text-text-secondary font-medium">
                   Graduates
@@ -418,8 +418,8 @@ function InitiativesSection() {
 
 /* ---------------- SECTION 5: IMPACT PREVIEW ---------------- */
 const impactMetrics = [
-  { value: 5000, suffix: "+", label: "Youth Reached", desc: "Annual target to reach" },
-  { value: 400, label: "Annual Graduates", desc: "Job-ready tech professionals" },
+  { value: 5000, suffix: "+", label: "Youth Reach", desc: "Annual target to reach" },
+  { value: 55, suffix: "%", label: "Annual Graduates", desc: "Job-ready tech professionals" },
   { value: 50, suffix: "%", label: "Women in Tech", desc: "Gender parity target" },
   { value: 85, suffix: "%", label: "Placement Rate", desc: "Employed within 6 months" },
 ];
@@ -428,7 +428,7 @@ function ImpactSection() {
     <section className="bg-bg-cream py-28 border-y border-border/40">
       <div className="container-page">
         <SectionHeader
-          eyebrow="OUR IMPACT"
+          eyebrow="OUR ANNUAL TARGET TO REACH"
           title="Numbers That Matter"
           align="center"
         />

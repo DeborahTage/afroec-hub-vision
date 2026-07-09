@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -82,8 +82,8 @@ function AboutPage() {
                                 {[
                                     { year: "2023", title: "Founded", desc: "Afroec Hub established with first physical digital center in Addis Ababa." },
                                     { year: "2024", title: "First Cohort", desc: "Graduated first 200 software developers with 80%+ job placements." },
-                                    { year: "2025", title: "Regional Expansion", desc: "Launched DigiSec solar-powered trucks to reach schools in remote areas." },
-                                    { year: "2026", title: "National Scale", desc: "Aimed to reach 99,000+ students and coordinate with national universities." },
+                                    { year: "2025", title: "Regional Expansion", desc: "Launched Digital litracy programs  to reach schools in remote areas." },
+                                    { year: "2026", title: "National Scale", desc: "Aimed to reach 1,000+ students annually and coordinate with national universities." },
                                 ].map((item) => (
                                     <div key={item.year} className="relative">
                                         <span className="absolute -left-[31px] top-1.5 h-4 w-4 rounded-full bg-accent border-2 border-white ring-2 ring-accent/30" />

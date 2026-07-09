@@ -53,7 +53,7 @@ function ImpactPage() {
             role: "IT & Hardware Administrator",
             hiredAt: "Addis Logistics Agency",
             program: "DigiSec Rural lab & Hardware Track",
-            quote: "I first touched an Arduino circuit board when the DigiSec solar truck stopped in my village. The hardware scholarship allowed me to travel to Addis Ababa and learn networking hardware.",
+            quote: "I first touched an Arduino circuit board when Afroec team come to in my village. The hardware scholarship allowed me to travel to Addis Ababa and learn networking hardware.",
             initials: "DW",
         },
     ];

@@ -8,6 +8,10 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
 
+server:
+  # Avoid clashing with other local services on 8080 (e.g. heritage_backend).
+  port: ${PORT:8092}
+
 logging:
   level:
     com.afroechub: DEBUG

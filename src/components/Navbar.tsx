@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/Logo";
 
 interface NavLink {
   href: string;
@@ -87,10 +88,8 @@ export function Navbar() {
       )}
     >
       <div className="container-page h-full flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2" aria-label="Afroec Hub home">
-          <span className="text-[22px] font-display font-bold tracking-tight text-black">
-            AFROEC<span className="text-accent ml-0.5">HUB</span>
-          </span>
+        <Link to="/" className="flex items-center shrink-0" aria-label="Afroec Hub home">
+          <Logo variant="navbar" />
         </Link>
 
         {/* Desktop Menu */}
@@ -185,9 +184,9 @@ export function Navbar() {
           {/* Content */}
           <div className="absolute right-0 top-0 h-full w-[85%] max-w-sm bg-white p-6 flex flex-col shadow-2xl border-l border-border transform transition-transform animate-in slide-in-from-right duration-350">
             <div className="flex items-center justify-between pb-6 border-b border-border">
-              <span className="text-[18px] font-bold text-black font-display">
-                AFROEC<span className="text-accent">HUB</span>
-              </span>
+              <Link to="/" onClick={() => setOpen(false)} aria-label="Afroec Hub home">
+                <Logo variant="navbar" />
+              </Link>
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close menu"

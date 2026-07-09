@@ -54,7 +54,7 @@ function InitiativesOverviewPage() {
             tag: "Impact",
             title: "Community Programs",
             desc: "Reaching underserved communities through targeted programs for youth, women, public school students, and rural populations.",
-            preview: "Includes CyberGuard Youth, SheSec Ethiopia, SchoolNet Tech, and DigiSec solar labs.",
+            preview: "Includes CyberGuard Youth, SheSec Ethiopia, SchoolNet Tech, and DigiSec  labs.",
             stats: [
                 { value: "4", label: "Programs" },
                 { value: "Nationwide", label: "Reach" },

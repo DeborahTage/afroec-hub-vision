@@ -63,10 +63,13 @@ src/main/resources/
 docker compose up --build
 ```
 
-- API:        http://localhost:8080/api/v1/health
-- Swagger UI:  http://localhost:8080/swagger-ui.html
-- Admin:       http://localhost:8080/admin/login
+- API:        http://localhost:8092/api/v1/health
+- Swagger UI:  http://localhost:8092/swagger-ui.html
+- Admin:       http://localhost:8092/admin/login
 - Default admin: `admin` / `Admin@12345` (override via `ADMIN_PASSWORD`)
+
+> Local dev uses port **8092** by default (`application-dev.yml`) to avoid
+> clashing with other services on 8080. Override with `PORT=8080` if needed.
 
 > In compose, `ADMIN_LOCALHOST_ONLY=false` so the dashboard is reachable
 > through the container network. For a bare-metal run it defaults to `true`.
@@ -83,6 +86,13 @@ createdb afroec_hub    # user/pass default to afroec_admin/afroec_admin
 
 ```bash
 mvn spring-boot:run
+# API at http://localhost:8092
+```
+
+If PostgreSQL is not running locally, start it with Docker Compose first:
+
+```bash
+docker compose up -d db
 ```
 
 Override DB settings via env vars: `DATABASE_URL`, `DATABASE_USERNAME`,

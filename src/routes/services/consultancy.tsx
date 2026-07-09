@@ -11,6 +11,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import heroImg from "@/assets/hero.jpg";
 import missionImg from "@/assets/mission.jpg";
 import {
     Compass,
@@ -141,7 +142,26 @@ function ConsultancyPage() {
                         <Reveal delay={2} className="relative hidden lg:block">
                             <OrganicShape variant={2} className="-inset-6 opacity-50" />
                             <div className="aspect-[4/3] rounded-[24px] overflow-hidden border border-border shadow-md">
-                                <img src={missionImg} alt="Afroec consultants advising a client team" className="w-full h-full object-cover" />
+                                <img
+                                    src={heroImg}
+                                    alt="Technology consultant advising on digital strategy"
+                                    className="w-full h-full object-cover object-[center_20%]"
+                                />
+                            </div>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* WORKSHOP VISUAL */}
+                <section className="pb-20 bg-bg-cream border-b border-border/40">
+                    <div className="container-page">
+                        <Reveal>
+                            <div className="aspect-[21/9] rounded-[24px] overflow-hidden border border-border shadow-md">
+                                <img
+                                    src={missionImg}
+                                    alt="Afroec consultants leading a technology strategy workshop"
+                                    className="w-full h-full object-cover object-center"
+                                />
                             </div>
                         </Reveal>
                     </div>

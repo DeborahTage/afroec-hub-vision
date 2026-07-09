@@ -5,9 +5,8 @@
 <div class="login-page">
     <div class="login-card">
         <div class="text-center mb-3">
-            <i class="bi bi-hexagon-fill" style="font-size:2.5rem;color:var(--afh-primary)"></i>
+            <img th:src="@{/images/logo.png}" alt="Afroec Hub" class="login-logo"/>
         </div>
-        <h1 class="text-center">Afroec Hub</h1>
         <p class="subtitle text-center">Admin Dashboard</p>
 
         <div th:if="${error}" class="alert alert-danger py-2" th:text="${error}"></div>

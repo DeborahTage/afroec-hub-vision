@@ -13,8 +13,6 @@ import {
     Loader2,
     Linkedin,
     Instagram,
-    Facebook,
-    Twitter,
 } from "lucide-react";
 
 export const Route = createFileRoute("/contact")({
@@ -195,9 +193,8 @@ function ContactPage() {
                                         <div>
                                             <h3 className="font-display text-[15px] font-bold text-black">Our Headquarters</h3>
                                             <p className="text-[13px] text-text-secondary mt-1 leading-relaxed">
-                                                Afroec Technology Center, Floor 4,<br />
-                                                Bole Road, Near Friendship Building,<br />
-                                                Addis Ababa, Ethiopia
+                                                Addis Ababa, Bole Welo Sefer,<br />
+                                                Ethiopia
                                             </p>
                                         </div>
                                     </div>
@@ -210,8 +207,9 @@ function ContactPage() {
                                         <div>
                                             <h3 className="font-display text-[15px] font-bold text-black">Call Us</h3>
                                             <p className="text-[13px] text-text-secondary mt-1">
-                                                +251 (0) 11 667 8901<br />
-                                                +251 (0) 91 123 4567
+                                                <a href="tel:+251916416887" className="hover:text-black transition-colors">
+                                                    +251 916 416 887
+                                                </a>
                                             </p>
                                         </div>
                                     </div>
@@ -251,14 +249,14 @@ function ContactPage() {
                                 <h3 className="font-display font-bold text-[18px] text-white border-b border-border-dark pb-3 mb-4">Connect With Our Community</h3>
                                 <div className="flex gap-3">
                                     {[
-                                        { Icon: Linkedin, href: "#", label: "LinkedIn" },
-                                        { Icon: Instagram, href: "#", label: "Instagram" },
-                                        { Icon: Facebook, href: "#", label: "Facebook" },
-                                        { Icon: Twitter, href: "#", label: "Twitter" },
+                                        { Icon: Linkedin, href: "https://www.linkedin.com/company/afroec", label: "LinkedIn" },
+                                        { Icon: Instagram, href: "https://www.instagram.com/afro_ec", label: "Instagram" },
                                     ].map(({ Icon, href, label }) => (
                                         <a
                                             key={label}
                                             href={href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className="h-10 w-10 rounded-full border border-border-dark flex items-center justify-center text-text-muted hover:text-white hover:border-accent transition-colors"
                                             aria-label={label}
                                         >

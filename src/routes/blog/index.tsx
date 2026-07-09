@@ -23,7 +23,6 @@ export const mockPosts = [
     {
         slug: "digisec-deployment",
         title: "Empowering Rural Ethiopia: Our DigiSec Lab Deployment",
-        desc: "How solar-powered trucks with Starlink connectivity are bringing digital literacy directly to remote high schools in Ethiopia.",
         date: "Jun 24, 2026",
         readTime: "5 min read",
         author: "Selamawit Abebe",
