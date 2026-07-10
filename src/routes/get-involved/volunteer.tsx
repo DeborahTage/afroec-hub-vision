@@ -5,6 +5,8 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
 import { useState } from "react";
 import { CheckCircle2, ArrowLeft, Loader2, Heart } from "lucide-react";
+import { submitVolunteerApplication } from "@/lib/api";
+import { formatApiError, mapVolunteerForm } from "@/lib/form-mappers";
 
 export const Route = createFileRoute("/get-involved/volunteer")({
     component: VolunteerPage,
@@ -32,6 +34,7 @@ function VolunteerPage() {
 
     const [loading, setLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         setFormData({
@@ -40,13 +43,18 @@ function VolunteerPage() {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setErrorMsg("");
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
+        try {
+            await submitVolunteerApplication(mapVolunteerForm(formData));
             setSubmitted(true);
-        }, 1200);
+        } catch (err) {
+            setErrorMsg(formatApiError(err));
+        } finally {
+            setLoading(false);
+        }
     };
 
     if (submitted) {
@@ -94,6 +102,12 @@ function VolunteerPage() {
                         <p className="text-[14px] text-text-secondary mb-8">
                             Join our community of developers, technical trainers, translators, and software mentors.
                         </p>
+
+                        {errorMsg && (
+                            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-[14px] font-medium" role="alert">
+                                {errorMsg}
+                            </div>
+                        )}
 
                         <form onSubmit={handleSubmit} className="space-y-5">
                             {/* Full Name */}

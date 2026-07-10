@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import {
   ArrowRight,
   CheckCircle2,
@@ -28,6 +29,9 @@ import { Testimonials } from "@/components/Testimonials";
 import { OrganicShape } from "@/components/OrganicShape";
 import { Footer } from "@/components/Footer";
 import { SectionHeader } from "@/components/SectionHeader";
+import { usePublicStats } from "@/hooks/usePublicStats";
+import { subscribeNewsletter } from "@/lib/api";
+import { formatApiError } from "@/lib/form-mappers";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -417,13 +421,25 @@ function InitiativesSection() {
 }
 
 /* ---------------- SECTION 5: IMPACT PREVIEW ---------------- */
-const impactMetrics = [
-  { value: 5000, suffix: "+", label: "Youth Reach", desc: "Annual target to reach" },
-  { value: 55, suffix: "%", label: "Annual Graduates", desc: "Job-ready tech professionals" },
-  { value: 50, suffix: "%", label: "Women in Tech", desc: "Gender parity target" },
-  { value: 85, suffix: "%", label: "Placement Rate", desc: "Employed within 6 months" },
-];
+function parsePercent(value?: string, fallback = 0) {
+  if (!value) return fallback;
+  const n = parseInt(value.replace("%", "").trim(), 10);
+  return Number.isFinite(n) ? n : fallback;
+}
+
 function ImpactSection() {
+  const { stats, loading } = usePublicStats();
+
+  const impactMetrics = useMemo(
+    () => [
+      { value: 5000, suffix: "+", label: "Youth Reach", desc: "Annual target to reach" },
+      { value: 55, suffix: "%", label: "Annual Graduates", desc: "Job-ready tech professionals" },
+      { value: parsePercent(stats?.womenInTech, 50), suffix: "%", label: "Women in Tech", desc: "Gender parity target" },
+      { value: parsePercent(stats?.placementRate, 85), suffix: "%", label: "Placement Rate", desc: "Employed within 6 months" },
+    ],
+    [stats],
+  );
+
   return (
     <section className="bg-bg-cream py-28 border-y border-border/40">
       <div className="container-page">
@@ -432,6 +448,10 @@ function ImpactSection() {
           title="Numbers That Matter"
           align="center"
         />
+
+        {loading && (
+          <p className="text-center text-[13px] text-text-muted mb-6">Loading latest impact data…</p>
+        )}
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {impactMetrics.map((metric, idx) => (
@@ -495,6 +515,25 @@ const ctaOptions = [
   },
 ];
 function CTASection() {
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
+  const [newsletterMsg, setNewsletterMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+
+  const handleNewsletter = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setNewsletterMsg(null);
+    setNewsletterLoading(true);
+    try {
+      await subscribeNewsletter(newsletterEmail.trim());
+      setNewsletterMsg({ type: "ok", text: "Thank you for subscribing!" });
+      setNewsletterEmail("");
+    } catch (err) {
+      setNewsletterMsg({ type: "err", text: formatApiError(err) });
+    } finally {
+      setNewsletterLoading(false);
+    }
+  };
+
   return (
     <section id="cta" className="bg-bg-dark text-white py-28 relative overflow-hidden">
       <OrganicShape variant={3} className="-top-32 -right-32 w-[500px] h-[500px] opacity-10" />
@@ -550,27 +589,32 @@ function CTASection() {
               Get quarterly updates on cohorts, student milestones, events, and impact reports.
             </p>
           </div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              alert("Thank you for subscribing!");
-            }}
-            className="flex flex-col sm:flex-row gap-3 w-full"
-          >
+          <form onSubmit={handleNewsletter} className="flex flex-col sm:flex-row gap-3 w-full">
             <input
               type="email"
               required
+              value={newsletterEmail}
+              onChange={(e) => setNewsletterEmail(e.target.value)}
               placeholder="you@example.com"
               className="flex-1 rounded-full bg-surface-dark border border-border-dark px-6 py-4 text-[15px] text-white placeholder:text-text-muted focus:outline-none focus:border-accent transition-colors"
               aria-label="Email address"
             />
             <button
               type="submit"
-              className="btn-pill bg-accent text-black hover:bg-accent-hover font-semibold shrink-0"
+              disabled={newsletterLoading}
+              className="btn-pill bg-accent text-black hover:bg-accent-hover font-semibold shrink-0 disabled:opacity-50"
             >
-              Subscribe
+              {newsletterLoading ? "Subscribing…" : "Subscribe"}
             </button>
           </form>
+          {newsletterMsg && (
+            <p
+              className={`mt-3 text-[13px] ${newsletterMsg.type === "ok" ? "text-accent" : "text-red-400"}`}
+              role="status"
+            >
+              {newsletterMsg.text}
+            </p>
+          )}
         </Reveal>
       </div>
     </section>

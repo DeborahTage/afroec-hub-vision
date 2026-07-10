@@ -6,6 +6,8 @@ import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { useState } from "react";
 import { CheckCircle2, ArrowLeft, Loader2, Sparkles } from "lucide-react";
+import { submitStudentApplication } from "@/lib/api";
+import { formatApiError, mapApplyForm } from "@/lib/form-mappers";
 
 export const Route = createFileRoute("/get-involved/apply")({
     component: ApplyPage,
@@ -45,23 +47,25 @@ function ApplyPage() {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setErrorMsg("");
 
-        // Validate logic puzzle
         if (formData.puzzleAnswer.trim() !== "38") {
             setErrorMsg("Analytical Puzzle Answer is incorrect. Please double check.");
             return;
         }
 
         setLoading(true);
-        // Simulate API request
-        setTimeout(() => {
-            setLoading(false);
+        try {
+            const result = await submitStudentApplication(mapApplyForm(formData));
+            setConfirmCode(result.applicationId);
             setSubmitted(true);
-            setConfirmCode(`AHUB-${Math.floor(100000 + Math.random() * 900000)}`);
-        }, 1500);
+        } catch (err) {
+            setErrorMsg(formatApiError(err));
+        } finally {
+            setLoading(false);
+        }
     };
 
     if (submitted) {

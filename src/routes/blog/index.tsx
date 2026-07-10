@@ -110,7 +110,8 @@ function BlogIndexPage() {
                         ))}
                     </div>
 
-                    {/* RSS newsletter block */}
+                    {/* RSS n
+                    ewsletter block */}
                     <Reveal className="mt-16 bg-bg-dark text-white rounded-[24px] p-8 md:p-12 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 shadow-md">
                         <div className="flex items-center gap-4">
                             <div className="h-12 w-12 rounded-full bg-accent/20 flex items-center justify-center shrink-0 text-accent">

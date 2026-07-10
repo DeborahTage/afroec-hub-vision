@@ -25,8 +25,9 @@ public class CorsConfig {
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        // CORS only matters for the public API; admin is localhost-only.
         source.registerCorsConfiguration("/api/**", config);
+        source.registerCorsConfiguration("/swagger-ui/**", config);
+        source.registerCorsConfiguration("/v3/api-docs/**", config);
         return source;
     }
 }

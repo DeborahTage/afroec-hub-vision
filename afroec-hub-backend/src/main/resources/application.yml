@@ -1,15 +1,32 @@
 spring:
   application:
     name: afroec-hub-backend
+  
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
+  
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1200000
+  
   jpa:
     open-in-view: false
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
+    show-sql: false
+  
   mail:
     host: ${SMTP_HOST:smtp.gmail.com}
     port: ${SMTP_PORT:587}
@@ -21,6 +38,7 @@ spring:
           auth: true
           starttls:
             enable: true
+  
   thymeleaf:
     cache: false
 
@@ -42,19 +60,18 @@ springdoc:
     path: /v3/api-docs
 
 jwt:
-  secret: ${JWT_SECRET:change-me-in-prod-this-is-a-very-long-development-secret-key-1234567890}
+  secret: ${JWT_SECRET}
   expiration: ${JWT_EXPIRATION:86400000}
 
 admin:
   default-username: ${ADMIN_USERNAME:admin}
   default-email: ${ADMIN_EMAIL:admin@afroechub.com}
-  default-password: ${ADMIN_PASSWORD:Admin@12345}
-  # When true, admin dashboard routes only accept requests from localhost
+  default-password: ${ADMIN_PASSWORD}
   localhost-only: ${ADMIN_LOCALHOST_ONLY:true}
 
 app:
   cors:
-    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:5173,https://afroechub.com,https://www.afroechub.com}
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://afroec.vercel.app,https://www.afroec.vercel.app,http://localhost:3000,http://localhost:5173,https://afroechub.com,https://www.afroechub.com}
   mail:
     from: ${MAIL_FROM:no-reply@afroechub.com}
     enabled: ${MAIL_ENABLED:false}

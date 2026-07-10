@@ -80,9 +80,8 @@ function AboutPage() {
                             <h3 className="font-display text-[22px] font-bold text-black mb-8 border-b border-border pb-4">Key Milestones</h3>
                             <div className="relative border-l-2 border-accent pl-6 space-y-8">
                                 {[
-                                    { year: "2023", title: "Founded", desc: "Afroec Hub established with first physical digital center in Addis Ababa." },
-                                    { year: "2024", title: "First Cohort", desc: "Graduated first 200 software developers with 80%+ job placements." },
-                                    { year: "2025", title: "Regional Expansion", desc: "Launched Digital litracy programs  to reach schools in remote areas." },
+                                    { year: "2024", title: "Start with Idea", desc: "Afroec Hub established from Idea into small room" },
+                                    { year: "2025", title: "Launched & Regional Expansion", desc: "Launched Digital litracy and basic coding programs in one small room and computer to reach schools in remote areas." },
                                     { year: "2026", title: "National Scale", desc: "Aimed to reach 1,000+ students annually and coordinate with national universities." },
                                 ].map((item) => (
                                     <div key={item.year} className="relative">

@@ -5,6 +5,8 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
 import { useState } from "react";
 import { CheckCircle2, ArrowLeft, Loader2, Building2 } from "lucide-react";
+import { submitPartnerInquiry } from "@/lib/api";
+import { formatApiError, mapPartnerForm } from "@/lib/form-mappers";
 
 export const Route = createFileRoute("/get-involved/partner")({
     component: PartnerPage,
@@ -31,6 +33,7 @@ function PartnerPage() {
 
     const [loading, setLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         setFormData({
@@ -39,13 +42,18 @@ function PartnerPage() {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setErrorMsg("");
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
+        try {
+            await submitPartnerInquiry(mapPartnerForm(formData));
             setSubmitted(true);
-        }, 1200);
+        } catch (err) {
+            setErrorMsg(formatApiError(err));
+        } finally {
+            setLoading(false);
+        }
     };
 
     if (submitted) {
@@ -93,6 +101,12 @@ function PartnerPage() {
                         <p className="text-[14px] text-text-secondary mb-8">
                             Collaborate to sponsor physical computer terminals, fund engineering cohorts, or recruit verified graduates.
                         </p>
+
+                        {errorMsg && (
+                            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-[14px] font-medium" role="alert">
+                                {errorMsg}
+                            </div>
+                        )}
 
                         <form onSubmit={handleSubmit} className="space-y-5">
                             {/* Org Name */}
