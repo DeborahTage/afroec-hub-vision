@@ -53,13 +53,6 @@ public class NewsletterServiceImpl implements NewsletterService {
         deactivate(s);
     }
 
-    @Transactional
-    @Override
-    public void unsubscribeByEmail(String email) {
-        NewsletterSubscriber s = repository.findByEmailIgnoreCase(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Email is not subscribed"));
-        deactivate(s);
-    }
 
     private void deactivate(NewsletterSubscriber s) {
         s.setActive(false);

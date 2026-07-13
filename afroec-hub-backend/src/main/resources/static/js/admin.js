@@ -6,7 +6,9 @@
         return;
     }
 
-    fetch("/admin/api/stats")
+    fetch("/admin/api/stats", {
+        headers: { "X-Requested-With": "XMLHttpRequest", "Accept": "application/json" }
+    })
         .then((res) => res.json())
         .then((payload) => {
             const stats = payload.data;

@@ -11,6 +11,6 @@ public record ContactFormRequest(
         @NotBlank @Email @Size(max = 200) String email,
         @Size(max = 50) String phone,
         @NotNull ContactSubject subject,
-        @NotBlank String message
+        @NotBlank @Size(max = 5000) String message
 ) {
 }

@@ -236,8 +236,7 @@ function ContactPage() {
                                         <div>
                                             <h3 className="font-display text-[15px] font-bold text-black">Email Address</h3>
                                             <p className="text-[13px] text-text-secondary mt-1">
-                                                hub@afroec.com<br />
-                                                admissions@afroec.com
+                                                support@afroec.com
                                             </p>
                                         </div>
                                     </div>

@@ -11,7 +11,5 @@ public interface NewsletterService {
 
     void unsubscribe(String token);
 
-    void unsubscribeByEmail(String email);
-
     Page<NewsletterSubscriber> findAll(Pageable pageable);
 }

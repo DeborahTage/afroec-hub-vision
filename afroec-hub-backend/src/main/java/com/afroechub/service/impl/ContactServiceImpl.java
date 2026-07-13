@@ -8,6 +8,7 @@ import com.afroechub.exception.ResourceNotFoundException;
 import com.afroechub.repository.ContactSubmissionRepository;
 import com.afroechub.service.ContactService;
 import com.afroechub.service.EmailService;
+import com.afroechub.util.ValidationUtil;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,11 +39,11 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public SubmissionResponse submit(ContactFormRequest r) {
         ContactSubmission c = new ContactSubmission();
-        c.setName(r.name());
-        c.setEmail(r.email());
-        c.setPhone(r.phone());
+        c.setName(ValidationUtil.sanitize(r.name()));
+        c.setEmail(r.email().trim().toLowerCase());
+        c.setPhone(ValidationUtil.sanitizeNullable(r.phone()));
         c.setSubject(r.subject());
-        c.setMessage(r.message());
+        c.setMessage(ValidationUtil.sanitize(r.message()));
         c.setStatus(ContactStatus.NEW);
         ContactSubmission saved = repository.save(c);
 
@@ -85,7 +86,7 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public ContactSubmission reply(Long id, String responseText) {
         ContactSubmission c = findById(id);
-        c.setResponseText(responseText);
+        c.setResponseText(ValidationUtil.sanitize(responseText));
         c.setResponded(true);
         c.setRespondedAt(LocalDateTime.now());
         c.setStatus(ContactStatus.RESOLVED);

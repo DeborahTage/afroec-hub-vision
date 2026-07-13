@@ -12,14 +12,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Very small fixed-window, in-memory rate limiter for public POST submissions
- * ({@code POST /api/**}). For multi-instance deployments swap this for a
- * distributed limiter (e.g. Redis / Bucket4j).
+ * Fixed-window in-memory rate limiter for public API POSTs and admin login
+ * (OWASP A04 / A07). Prunes stale windows to bound memory growth.
  */
 @Component
 public class RateLimitFilter extends OncePerRequestFilter {
@@ -27,7 +27,10 @@ public class RateLimitFilter extends OncePerRequestFilter {
     private final Map<String, Window> windows = new ConcurrentHashMap<>();
 
     @Value("${app.rate-limit.submissions-per-minute:10}")
-    private int limit;
+    private int submissionLimit;
+
+    @Value("${app.rate-limit.login-per-minute:5}")
+    private int loginLimit;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -35,9 +38,24 @@ public class RateLimitFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
-        if ("POST".equalsIgnoreCase(request.getMethod())
-                && request.getRequestURI().startsWith("/api/")) {
-            String key = JwtUtil.clientIp(request);
+        String method = request.getMethod();
+        String uri = request.getRequestURI();
+
+        if ("POST".equalsIgnoreCase(method)) {
+            String key;
+            int limit;
+            if (uri.startsWith("/api/")) {
+                key = "api:" + JwtUtil.clientIp(request);
+                limit = submissionLimit;
+            } else if (uri.equals("/admin/login") || uri.equals("/admin/api/auth/login")) {
+                key = "login:" + JwtUtil.clientIp(request);
+                limit = loginLimit;
+            } else {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            pruneIfNeeded();
             long minute = Instant.now().getEpochSecond() / 60;
             Window window = windows.compute(key, (k, existing) -> {
                 if (existing == null || existing.minute != minute) {
@@ -47,6 +65,7 @@ public class RateLimitFilter extends OncePerRequestFilter {
             });
             if (window.count.incrementAndGet() > limit) {
                 response.setStatus(429);
+                response.setHeader("Retry-After", "60");
                 response.setContentType("application/json");
                 response.getWriter().write(
                         "{\"success\":false,\"message\":\"Rate limit exceeded. Please try again in a minute.\"}");
@@ -54,6 +73,19 @@ public class RateLimitFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
+    }
+
+    private void pruneIfNeeded() {
+        if (windows.size() < 10_000) {
+            return;
+        }
+        long minute = Instant.now().getEpochSecond() / 60;
+        Iterator<Map.Entry<String, Window>> it = windows.entrySet().iterator();
+        while (it.hasNext()) {
+            if (it.next().getValue().minute < minute) {
+                it.remove();
+            }
+        }
     }
 
     private static final class Window {

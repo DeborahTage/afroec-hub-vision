@@ -8,6 +8,8 @@ import com.afroechub.exception.ResourceNotFoundException;
 import com.afroechub.repository.VolunteerApplicationRepository;
 import com.afroechub.service.EmailService;
 import com.afroechub.service.VolunteerService;
+import com.afroechub.util.ValidationUtil;
+import com.afroechub.dto.response.StatusLookupResponse;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,25 +39,25 @@ public class VolunteerServiceImpl implements VolunteerService {
     @Override
     public SubmissionResponse submit(VolunteerApplicationRequest r) {
         VolunteerApplication v = new VolunteerApplication();
-        v.setFullName(r.fullName());
-        v.setEmail(r.email());
-        v.setPhone(r.phone());
-        v.setTelegram(r.telegram());
-        v.setCity(r.city());
+        v.setFullName(ValidationUtil.sanitize(r.fullName()));
+        v.setEmail(r.email().trim().toLowerCase());
+        v.setPhone(ValidationUtil.sanitize(r.phone()));
+        v.setTelegram(ValidationUtil.sanitizeNullable(r.telegram()));
+        v.setCity(ValidationUtil.sanitize(r.city()));
         v.setPrimaryRole(r.primaryRole());
         v.setSecondaryRole(r.secondaryRole());
         v.setAvailability(r.availability());
         v.setHoursPerWeek(r.hoursPerWeek());
         v.setStartDate(r.startDate());
         v.setCommitmentDuration(r.commitmentDuration());
-        v.setProfessionalBackground(r.professionalBackground());
-        v.setMotivation(r.motivation());
+        v.setProfessionalBackground(ValidationUtil.sanitize(r.professionalBackground()));
+        v.setMotivation(ValidationUtil.sanitize(r.motivation()));
         v.setSkills(r.skills() != null ? r.skills() : new ArrayList<>());
         v.setLanguages(r.languages() != null ? r.languages() : new ArrayList<>());
         v.setExperienceLevel(r.experienceLevel());
-        v.setPortfolioLink(r.portfolioLink());
-        v.setResumeLink(r.resumeLink());
-        v.setReferencesContact(r.referencesContact());
+        v.setPortfolioLink(ValidationUtil.sanitizeNullable(r.portfolioLink()));
+        v.setResumeLink(ValidationUtil.sanitizeNullable(r.resumeLink()));
+        v.setReferencesContact(ValidationUtil.sanitizeNullable(r.referencesContact()));
         v.setStatus(VolunteerStatus.PENDING);
         VolunteerApplication saved = repository.save(v);
 
@@ -70,8 +72,12 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     @Transactional(readOnly = true)
     @Override
-    public VolunteerApplication getStatus(Long id) {
-        return findById(id);
+    public StatusLookupResponse getStatus(Long id, String email) {
+        VolunteerApplication v = repository.findByIdAndEmailIgnoreCase(id, email.trim())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "No application found for the provided id and email"));
+        return new StatusLookupResponse(v.getId(), null,
+                v.getStatus() != null ? v.getStatus().name() : null, v.getCreatedAt());
     }
 
     @Transactional(readOnly = true)
@@ -111,7 +117,7 @@ public class VolunteerServiceImpl implements VolunteerService {
             v.setOnboarded(onboarded);
         }
         if (notes != null) {
-            v.setNotes(notes);
+            v.setNotes(ValidationUtil.sanitizeNullable(notes));
         }
         return repository.save(v);
     }

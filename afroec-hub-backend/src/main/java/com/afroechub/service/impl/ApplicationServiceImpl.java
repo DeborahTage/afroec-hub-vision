@@ -5,6 +5,7 @@ import com.afroechub.dto.request.CommunityProgramRequest;
 import com.afroechub.dto.request.ProductHubApplicationRequest;
 import com.afroechub.dto.request.StudentApplicationRequest;
 import com.afroechub.dto.response.ApplicationResponse;
+import com.afroechub.dto.response.StatusLookupResponse;
 import com.afroechub.dto.response.SubmissionResponse;
 import com.afroechub.entity.StudentApplication;
 import com.afroechub.enums.ApplicationStatus;
@@ -13,6 +14,7 @@ import com.afroechub.exception.ResourceNotFoundException;
 import com.afroechub.repository.StudentApplicationRepository;
 import com.afroechub.service.ApplicationService;
 import com.afroechub.service.EmailService;
+import com.afroechub.util.ValidationUtil;
 import jakarta.persistence.criteria.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,11 +47,11 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public SubmissionResponse submitStudent(StudentApplicationRequest r) {
         StudentApplication a = new StudentApplication();
-        a.setFullName(r.fullName());
-        a.setEmail(r.email());
-        a.setPhone(r.phone());
-        a.setTelegram(r.telegram());
-        a.setCity(r.city());
+        a.setFullName(ValidationUtil.sanitize(r.fullName()));
+        a.setEmail(r.email().trim().toLowerCase());
+        a.setPhone(ValidationUtil.sanitize(r.phone()));
+        a.setTelegram(ValidationUtil.sanitizeNullable(r.telegram()));
+        a.setCity(ValidationUtil.sanitize(r.city()));
         a.setDateOfBirth(r.dateOfBirth());
         a.setGender(r.gender());
         a.setEducationLevel(r.educationLevel());
@@ -57,12 +59,12 @@ public class ApplicationServiceImpl implements ApplicationService {
         a.setProgramType(r.programType());
         a.setAcademyTrack(r.academyTrack());
         a.setCommunityProgram(r.communityProgram());
-        a.setPriorExperience(r.priorExperience());
-        a.setMotivation(r.motivation());
-        a.setCareerGoals(r.careerGoals());
-        a.setGithubPortfolio(r.githubPortfolio());
+        a.setPriorExperience(ValidationUtil.sanitizeNullable(r.priorExperience()));
+        a.setMotivation(ValidationUtil.sanitize(r.motivation()));
+        a.setCareerGoals(ValidationUtil.sanitizeNullable(r.careerGoals()));
+        a.setGithubPortfolio(ValidationUtil.sanitizeNullable(r.githubPortfolio()));
         a.setIncomeShareAgreement(Boolean.TRUE.equals(r.incomeShareAgreement()));
-        a.setHowDidYouHear(r.howDidYouHear());
+        a.setHowDidYouHear(ValidationUtil.sanitizeNullable(r.howDidYouHear()));
         a.setAvailability(r.availability());
         a.setPreferredStartDate(r.preferredStartDate());
         a.setCanCommitFulltime(r.canCommitFulltime());
@@ -74,23 +76,23 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public SubmissionResponse submitAcademy(AcademyApplicationRequest r) {
         StudentApplication a = new StudentApplication();
-        a.setFullName(r.fullName());
-        a.setEmail(r.email());
-        a.setPhone(r.phone());
-        a.setTelegram(r.telegram());
-        a.setCity(r.city());
+        a.setFullName(ValidationUtil.sanitize(r.fullName()));
+        a.setEmail(r.email().trim().toLowerCase());
+        a.setPhone(ValidationUtil.sanitize(r.phone()));
+        a.setTelegram(ValidationUtil.sanitizeNullable(r.telegram()));
+        a.setCity(ValidationUtil.sanitize(r.city()));
         a.setDateOfBirth(r.dateOfBirth());
         a.setGender(r.gender());
         a.setEducationLevel(r.educationLevel());
         a.setEmploymentStatus(r.employmentStatus());
         a.setProgramType(ProgramType.ACADEMY);
         a.setAcademyTrack(r.academyTrack());
-        a.setPriorExperience(r.priorExperience());
-        a.setMotivation(r.motivation());
-        a.setCareerGoals(r.careerGoals());
-        a.setGithubPortfolio(r.githubPortfolio());
+        a.setPriorExperience(ValidationUtil.sanitizeNullable(r.priorExperience()));
+        a.setMotivation(ValidationUtil.sanitize(r.motivation()));
+        a.setCareerGoals(ValidationUtil.sanitizeNullable(r.careerGoals()));
+        a.setGithubPortfolio(ValidationUtil.sanitizeNullable(r.githubPortfolio()));
         a.setIncomeShareAgreement(Boolean.TRUE.equals(r.incomeShareAgreement()));
-        a.setHowDidYouHear(r.howDidYouHear());
+        a.setHowDidYouHear(ValidationUtil.sanitizeNullable(r.howDidYouHear()));
         a.setAvailability(r.availability());
         a.setPreferredStartDate(r.preferredStartDate());
         a.setCanCommitFulltime(r.canCommitFulltime());
@@ -101,20 +103,20 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public SubmissionResponse submitProductHub(ProductHubApplicationRequest r) {
         StudentApplication a = new StudentApplication();
-        a.setFullName(r.fullName());
-        a.setEmail(r.email());
-        a.setPhone(r.phone());
-        a.setTelegram(r.telegram());
-        a.setCity(r.city());
+        a.setFullName(ValidationUtil.sanitize(r.fullName()));
+        a.setEmail(r.email().trim().toLowerCase());
+        a.setPhone(ValidationUtil.sanitize(r.phone()));
+        a.setTelegram(ValidationUtil.sanitizeNullable(r.telegram()));
+        a.setCity(ValidationUtil.sanitize(r.city()));
         a.setGender(r.gender());
         a.setEducationLevel(r.educationLevel());
         a.setEmploymentStatus(r.employmentStatus());
         a.setProgramType(ProgramType.PRODUCT_HUB);
-        a.setPriorExperience(r.priorExperience());
-        a.setMotivation(r.motivation());
-        a.setCareerGoals(r.careerGoals());
-        a.setGithubPortfolio(r.githubPortfolio());
-        a.setHowDidYouHear(r.howDidYouHear());
+        a.setPriorExperience(ValidationUtil.sanitizeNullable(r.priorExperience()));
+        a.setMotivation(ValidationUtil.sanitize(r.motivation()));
+        a.setCareerGoals(ValidationUtil.sanitizeNullable(r.careerGoals()));
+        a.setGithubPortfolio(ValidationUtil.sanitizeNullable(r.githubPortfolio()));
+        a.setHowDidYouHear(ValidationUtil.sanitizeNullable(r.howDidYouHear()));
         a.setAvailability(r.availability());
         a.setPreferredStartDate(r.preferredStartDate());
         a.setCanCommitFulltime(r.canCommitFulltime());
@@ -125,17 +127,17 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public SubmissionResponse submitCommunity(CommunityProgramRequest r) {
         StudentApplication a = new StudentApplication();
-        a.setFullName(r.fullName());
-        a.setEmail(r.email());
-        a.setPhone(r.phone());
-        a.setTelegram(r.telegram());
-        a.setCity(r.city());
+        a.setFullName(ValidationUtil.sanitize(r.fullName()));
+        a.setEmail(r.email().trim().toLowerCase());
+        a.setPhone(ValidationUtil.sanitize(r.phone()));
+        a.setTelegram(ValidationUtil.sanitizeNullable(r.telegram()));
+        a.setCity(ValidationUtil.sanitize(r.city()));
         a.setGender(r.gender());
         a.setEducationLevel(r.educationLevel());
         a.setProgramType(ProgramType.COMMUNITY);
         a.setCommunityProgram(r.communityProgram());
-        a.setMotivation(r.motivation());
-        a.setHowDidYouHear(r.howDidYouHear());
+        a.setMotivation(ValidationUtil.sanitize(r.motivation()));
+        a.setHowDidYouHear(ValidationUtil.sanitizeNullable(r.howDidYouHear()));
         a.setAvailability(r.availability());
         a.setPreferredStartDate(r.preferredStartDate());
         return persistAndNotify(a);
@@ -155,11 +157,15 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Transactional(readOnly = true)
     @Override
-    public ApplicationResponse getStatus(Long id, String email) {
-        StudentApplication a = repository.findByIdAndEmailIgnoreCase(id, email)
+    public StatusLookupResponse getStatus(Long id, String email) {
+        StudentApplication a = repository.findByIdAndEmailIgnoreCase(id, email.trim())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "No application found for the provided id and email"));
-        return ApplicationResponse.from(a);
+        return new StatusLookupResponse(
+                a.getId(),
+                ApplicationResponse.formatApplicationId(a.getId(), a.getCreatedAt()),
+                a.getStatus() != null ? a.getStatus().name() : null,
+                a.getCreatedAt());
     }
 
     @Transactional(readOnly = true)
@@ -201,7 +207,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             a.setStatus(status);
         }
         if (notes != null) {
-            a.setNotes(notes);
+            a.setNotes(ValidationUtil.sanitizeNullable(notes));
         }
         StudentApplication saved = repository.save(a);
         if (status != null && status != previous) {

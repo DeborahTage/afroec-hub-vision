@@ -15,6 +15,6 @@ public record PartnerInquiryRequest(
         @Size(max = 50) String phone,
         @NotNull PartnerType organizationType,
         List<String> partnershipInterest,
-        @NotBlank String message
+        @NotBlank @Size(max = 5000) String message
 ) {
 }

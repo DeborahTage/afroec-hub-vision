@@ -80,10 +80,10 @@ export function Footer() {
                     <ul className="space-y-3 text-[14px] text-text-muted">
                         <li>
                             <a
-                                href="mailto:hub@afroec.com"
+                                href="mailto:support@afroec.com"
                                 className="inline-flex items-center gap-2 hover:text-accent transition-colors"
                             >
-                                <Mail size={14} /> hub@afroec.com
+                                <Mail size={14} /> support@afroec.com
                             </a>
                         </li>
                         <li className="flex items-center gap-2">

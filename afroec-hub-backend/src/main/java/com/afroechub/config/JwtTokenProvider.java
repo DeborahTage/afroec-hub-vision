@@ -21,7 +21,12 @@ public class JwtTokenProvider {
     private final long expirationMs;
 
     public JwtTokenProvider(JwtConfig jwtConfig) {
-        byte[] secretBytes = jwtConfig.getSecret().getBytes(StandardCharsets.UTF_8);
+        String secret = jwtConfig.getSecret();
+        if (secret == null || secret.getBytes(StandardCharsets.UTF_8).length < 32) {
+            throw new IllegalStateException(
+                    "JWT_SECRET must be at least 32 characters (256 bits) for HS256");
+        }
+        byte[] secretBytes = secret.getBytes(StandardCharsets.UTF_8);
         this.key = Keys.hmacShaKeyFor(secretBytes);
         this.expirationMs = jwtConfig.getExpiration();
     }

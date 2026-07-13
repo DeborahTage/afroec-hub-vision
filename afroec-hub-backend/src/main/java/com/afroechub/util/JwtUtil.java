@@ -4,8 +4,11 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * Small helpers for extracting the JWT from either the Authorization header
- * (API clients) or the HttpOnly cookie (admin dashboard browser sessions).
+ * JWT extraction helpers and IP resolution.
+ * <p>
+ * Authorization decisions (e.g. localhost-only admin) must use
+ * {@link #remoteAddr(HttpServletRequest)} — never client-supplied
+ * {@code X-Forwarded-For} — to prevent spoofing (OWASP A07).
  */
 public final class JwtUtil {
 
@@ -30,11 +33,26 @@ public final class JwtUtil {
         return null;
     }
 
+    /**
+     * Best-effort client IP for logging / rate limiting behind a trusted proxy.
+     * Not safe for authorization decisions.
+     */
     public static String clientIp(HttpServletRequest request) {
         String forwarded = request.getHeader("X-Forwarded-For");
         if (forwarded != null && !forwarded.isBlank()) {
             return forwarded.split(",")[0].trim();
         }
+        String realIp = request.getHeader("X-Real-IP");
+        if (realIp != null && !realIp.isBlank()) {
+            return realIp.trim();
+        }
+        return request.getRemoteAddr();
+    }
+
+    /**
+     * Socket remote address only — use for localhost / network ACL checks.
+     */
+    public static String remoteAddr(HttpServletRequest request) {
         return request.getRemoteAddr();
     }
 }

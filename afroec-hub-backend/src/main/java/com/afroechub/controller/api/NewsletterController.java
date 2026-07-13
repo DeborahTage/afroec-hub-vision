@@ -1,6 +1,7 @@
 package com.afroechub.controller.api;
 
 import com.afroechub.dto.request.NewsletterSubscriptionRequest;
+import com.afroechub.dto.request.NewsletterUnsubscribeRequest;
 import com.afroechub.dto.response.ApiResponse;
 import com.afroechub.service.NewsletterService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,9 +10,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,19 +34,11 @@ public class NewsletterController {
                 .body(ApiResponse.ok("Subscribed successfully"));
     }
 
-    @Operation(summary = "Unsubscribe using a token or email")
+    @Operation(summary = "Unsubscribe using a one-time token only (no email)")
     @PostMapping("/unsubscribe")
     public ResponseEntity<ApiResponse<Void>> unsubscribe(
-            @RequestParam(required = false) String token,
-            @RequestParam(required = false) String email) {
-        if (token != null && !token.isBlank()) {
-            newsletterService.unsubscribe(token);
-        } else if (email != null && !email.isBlank()) {
-            newsletterService.unsubscribeByEmail(email);
-        } else {
-            return ResponseEntity.badRequest()
-                    .body(ApiResponse.error("Provide either a token or an email"));
-        }
+            @Valid @RequestBody NewsletterUnsubscribeRequest request) {
+        newsletterService.unsubscribe(request.token());
         return ResponseEntity.ok(ApiResponse.ok("Unsubscribed successfully"));
     }
 }

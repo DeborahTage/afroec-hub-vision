@@ -1,6 +1,7 @@
 package com.afroechub.exception;
 
 import com.afroechub.dto.response.ApiResponse;
+import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,15 @@ public class GlobalExceptionHandler {
         for (FieldError fe : ex.getBindingResult().getFieldErrors()) {
             errors.putIfAbsent(fe.getField(), fe.getDefaultMessage());
         }
+        return ResponseEntity.badRequest()
+                .body(ApiResponse.error("Validation failed", errors));
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiResponse<Void>> handleConstraint(ConstraintViolationException ex) {
+        Map<String, String> errors = new LinkedHashMap<>();
+        ex.getConstraintViolations().forEach(v ->
+                errors.putIfAbsent(v.getPropertyPath().toString(), v.getMessage()));
         return ResponseEntity.badRequest()
                 .body(ApiResponse.error("Validation failed", errors));
     }

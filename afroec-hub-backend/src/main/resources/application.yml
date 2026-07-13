@@ -45,19 +45,28 @@ spring:
 server:
   port: ${PORT:8080}
   error:
-    include-message: always
+    include-message: never
+  max-http-request-header-size: 16KB
+  tomcat:
+    max-http-form-post-size: 256KB
+    max-swallow-size: 256KB
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health
+  endpoint:
+    health:
+      show-details: never
 
 springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
   api-docs:
+    enabled: ${SPRINGDOC_ENABLED:true}
     path: /v3/api-docs
+  swagger-ui:
+    enabled: ${SPRINGDOC_ENABLED:true}
+    path: /swagger-ui.html
 
 jwt:
   secret: ${JWT_SECRET}
@@ -65,7 +74,7 @@ jwt:
 
 admin:
   default-username: ${ADMIN_USERNAME:admin}
-  default-email: ${ADMIN_EMAIL:admin@afroechub.com}
+  default-email: ${ADMIN_EMAIL:support@afroec.com}
   default-password: ${ADMIN_PASSWORD}
   localhost-only: ${ADMIN_LOCALHOST_ONLY:true}
 
@@ -73,7 +82,11 @@ app:
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:https://afroec.vercel.app,https://www.afroec.vercel.app,http://localhost:3000,http://localhost:5173,https://afroechub.com,https://www.afroechub.com}
   mail:
-    from: ${MAIL_FROM:no-reply@afroechub.com}
+    from: ${MAIL_FROM:support@afroec.com}
     enabled: ${MAIL_ENABLED:false}
   rate-limit:
     submissions-per-minute: ${RATE_LIMIT_SUBMISSIONS:10}
+    login-per-minute: ${RATE_LIMIT_LOGIN:5}
+  security:
+    require-json-content-type: true
+    cookie-secure: ${COOKIE_SECURE:false}

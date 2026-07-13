@@ -18,16 +18,24 @@ public class CorsConfig {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.stream(allowedOrigins.split(",")).map(String::trim).toList());
+        config.setAllowedOrigins(Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList());
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
+        config.setAllowedHeaders(List.of(
+                "Content-Type",
+                "Accept",
+                "Authorization",
+                "X-Requested-With",
+                "X-Request-Id"
+        ));
+        config.setExposedHeaders(List.of("X-Request-Id", "Retry-After"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/api/**", config);
-        source.registerCorsConfiguration("/swagger-ui/**", config);
-        source.registerCorsConfiguration("/v3/api-docs/**", config);
         return source;
     }
 }

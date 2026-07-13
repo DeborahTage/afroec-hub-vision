@@ -25,13 +25,13 @@ public record VolunteerApplicationRequest(
         @Min(0) Integer hoursPerWeek,
         LocalDate startDate,
         CommitmentDuration commitmentDuration,
-        @NotBlank String professionalBackground,
-        @NotBlank String motivation,
+        @NotBlank @Size(max = 5000) String professionalBackground,
+        @NotBlank @Size(max = 5000) String motivation,
         List<String> skills,
         List<String> languages,
         ExperienceLevel experienceLevel,
         @Size(max = 500) String portfolioLink,
         @Size(max = 500) String resumeLink,
-        String referencesContact
+        @Size(max = 1000) String referencesContact
 ) {
 }

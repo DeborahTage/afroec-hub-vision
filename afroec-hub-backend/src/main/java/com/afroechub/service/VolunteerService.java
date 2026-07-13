@@ -1,6 +1,7 @@
 package com.afroechub.service;
 
 import com.afroechub.dto.request.VolunteerApplicationRequest;
+import com.afroechub.dto.response.StatusLookupResponse;
 import com.afroechub.dto.response.SubmissionResponse;
 import com.afroechub.entity.VolunteerApplication;
 import com.afroechub.enums.VolunteerStatus;
@@ -11,7 +12,7 @@ public interface VolunteerService {
 
     SubmissionResponse submit(VolunteerApplicationRequest request);
 
-    VolunteerApplication getStatus(Long id);
+    StatusLookupResponse getStatus(Long id, String email);
 
     VolunteerApplication findById(Long id);
 

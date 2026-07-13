@@ -25,7 +25,7 @@ public class EmailServiceImpl implements EmailService {
     @Value("${app.mail.enabled:false}")
     private boolean mailEnabled;
 
-    @Value("${app.mail.from:no-reply@afroechub.com}")
+    @Value("${app.mail.from:support@afroec.com}")
     private String from;
 
     public EmailServiceImpl(JavaMailSender mailSender, TemplateEngine templateEngine) {

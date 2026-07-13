@@ -26,7 +26,7 @@ public class DataInitializer implements CommandLineRunner {
     @Value("${admin.default-username:admin}")
     private String username;
 
-    @Value("${admin.default-email:admin@afroechub.com}")
+    @Value("${admin.default-email:support@afroec.com}")
     private String email;
 
     @Value("${admin.default-password:Admin@12345}")
@@ -41,6 +41,10 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         if (repository.existsByUsername(username)) {
             return;
+        }
+        if (password == null || password.isBlank()) {
+            throw new IllegalStateException(
+                    "ADMIN_PASSWORD must be set to seed the initial admin user");
         }
         AdminUser admin = new AdminUser();
         admin.setUsername(username);

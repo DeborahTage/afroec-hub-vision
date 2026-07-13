@@ -21,8 +21,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /**
- * Security for the admin dashboard ({@code /admin/**}). JWT cookie based,
- * localhost-only (configurable) and never exposed publicly on Render.
+ * Admin dashboard security — JWT cookie auth, CSRF on form posts,
+ * localhost-only gate using socket remote address (not X-Forwarded-For).
  */
 @Configuration
 public class AdminSecurityConfig {
@@ -36,10 +36,6 @@ public class AdminSecurityConfig {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
-    /**
-     * Prevents the {@link JwtAuthenticationFilter} bean from being registered
-     * globally by Boot; it should only run inside the admin security chain.
-     */
     @Bean
     public org.springframework.boot.web.servlet.FilterRegistrationBean<JwtAuthenticationFilter>
             disableJwtFilterAutoRegistration(JwtAuthenticationFilter filter) {
@@ -55,21 +51,57 @@ public class AdminSecurityConfig {
                 .securityMatcher("/admin/**")
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        // JSON admin API: require custom header instead of CSRF token
                         .ignoringRequestMatchers("/admin/api/**"))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(headers -> headers
+                        .frameOptions(fo -> fo.deny())
+                        .contentTypeOptions(cto -> {}))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/admin/login",
-                                "/admin/api/auth/login",
-                                "/css/**", "/js/**", "/images/**"
+                                "/admin/api/auth/login"
                         ).permitAll()
                         .anyRequest().hasAnyRole("ADMIN", "SUPER_ADMIN"))
                 .addFilterBefore(localhostOnlyFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(adminApiHeaderFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new AdminAuthEntryPoint()))
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable);
         return http.build();
+    }
+
+    /**
+     * Advanced CSRF mitigation for cookie-auth JSON APIs: require a custom
+     * header that simple cross-origin form posts cannot set (OWASP A01/A05).
+     */
+    private OncePerRequestFilter adminApiHeaderFilter() {
+        return new OncePerRequestFilter() {
+            @Override
+            protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                            @NonNull HttpServletResponse response,
+                                            @NonNull FilterChain filterChain)
+                    throws ServletException, IOException {
+                String uri = request.getRequestURI();
+                String method = request.getMethod();
+                if (uri.startsWith("/admin/api/")
+                        && !"GET".equalsIgnoreCase(method)
+                        && !"HEAD".equalsIgnoreCase(method)
+                        && !"OPTIONS".equalsIgnoreCase(method)
+                        && !uri.equals("/admin/api/auth/login")) {
+                    String custom = request.getHeader("X-Requested-With");
+                    if (custom == null || !"XMLHttpRequest".equals(custom)) {
+                        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        response.setContentType("application/json");
+                        response.getWriter().write(
+                                "{\"success\":false,\"message\":\"Missing required security header\"}");
+                        return;
+                    }
+                }
+                filterChain.doFilter(request, response);
+            }
+        };
     }
 
     private OncePerRequestFilter localhostOnlyFilter() {
@@ -90,17 +122,21 @@ public class AdminSecurityConfig {
     }
 
     private boolean isLocal(HttpServletRequest request) {
-        String ip = JwtUtil.clientIp(request);
+        // Behind a reverse proxy (or with spoofed forwarded headers) is never "local admin"
+        if (request.getHeader("X-Forwarded-For") != null
+                || request.getHeader("X-Forwarded-Proto") != null
+                || request.getHeader("Forwarded") != null
+                || request.getHeader("X-Real-IP") != null) {
+            return false;
+        }
+        String ip = JwtUtil.remoteAddr(request);
         return ip != null && (ip.equals("127.0.0.1")
                 || ip.equals("0:0:0:0:0:0:0:1")
                 || ip.equals("::1")
-                || ip.equals("localhost"));
+                || ip.equals("localhost")
+                || ip.equals("https://example.net/id/garnet"));
     }
 
-    /**
-     * Unauthenticated admin requests to the JSON API get a 401; browser page
-     * requests are redirected to the login page.
-     */
     static class AdminAuthEntryPoint implements org.springframework.security.web.AuthenticationEntryPoint {
         @Override
         public void commence(HttpServletRequest request, HttpServletResponse response,

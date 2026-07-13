@@ -1,6 +1,7 @@
 package com.afroechub.service;
 
 import com.afroechub.dto.request.PartnerInquiryRequest;
+import com.afroechub.dto.response.StatusLookupResponse;
 import com.afroechub.dto.response.SubmissionResponse;
 import com.afroechub.entity.PartnerInquiry;
 import com.afroechub.enums.PartnerStatus;
@@ -11,7 +12,7 @@ public interface PartnerService {
 
     SubmissionResponse submit(PartnerInquiryRequest request);
 
-    PartnerInquiry getStatus(Long id);
+    StatusLookupResponse getStatus(Long id, String email);
 
     PartnerInquiry findById(Long id);
 

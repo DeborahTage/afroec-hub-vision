@@ -8,6 +8,8 @@ import com.afroechub.exception.ResourceNotFoundException;
 import com.afroechub.repository.PartnerInquiryRepository;
 import com.afroechub.service.EmailService;
 import com.afroechub.service.PartnerService;
+import com.afroechub.util.ValidationUtil;
+import com.afroechub.dto.response.StatusLookupResponse;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,13 +39,13 @@ public class PartnerServiceImpl implements PartnerService {
     @Override
     public SubmissionResponse submit(PartnerInquiryRequest r) {
         PartnerInquiry p = new PartnerInquiry();
-        p.setOrganizationName(r.organizationName());
-        p.setContactPerson(r.contactPerson());
-        p.setEmail(r.email());
-        p.setPhone(r.phone());
+        p.setOrganizationName(ValidationUtil.sanitize(r.organizationName()));
+        p.setContactPerson(ValidationUtil.sanitize(r.contactPerson()));
+        p.setEmail(r.email().trim().toLowerCase());
+        p.setPhone(ValidationUtil.sanitizeNullable(r.phone()));
         p.setOrganizationType(r.organizationType());
         p.setPartnershipInterest(r.partnershipInterest() != null ? r.partnershipInterest() : new ArrayList<>());
-        p.setMessage(r.message());
+        p.setMessage(ValidationUtil.sanitize(r.message()));
         p.setStatus(PartnerStatus.NEW);
         PartnerInquiry saved = repository.save(p);
 
@@ -59,8 +61,12 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Transactional(readOnly = true)
     @Override
-    public PartnerInquiry getStatus(Long id) {
-        return findById(id);
+    public StatusLookupResponse getStatus(Long id, String email) {
+        PartnerInquiry p = repository.findByIdAndEmailIgnoreCase(id, email.trim())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "No inquiry found for the provided id and email"));
+        return new StatusLookupResponse(p.getId(), null,
+                p.getStatus() != null ? p.getStatus().name() : null, p.getCreatedAt());
     }
 
     @Transactional(readOnly = true)
@@ -101,7 +107,7 @@ public class PartnerServiceImpl implements PartnerService {
             p.setAssignedTo(assignedTo);
         }
         if (notes != null) {
-            p.setNotes(notes);
+            p.setNotes(ValidationUtil.sanitizeNullable(notes));
         }
         return repository.save(p);
     }

@@ -4,7 +4,7 @@ import com.afroechub.dto.request.AcademyApplicationRequest;
 import com.afroechub.dto.request.CommunityProgramRequest;
 import com.afroechub.dto.request.ProductHubApplicationRequest;
 import com.afroechub.dto.request.StudentApplicationRequest;
-import com.afroechub.dto.response.ApplicationResponse;
+import com.afroechub.dto.response.StatusLookupResponse;
 import com.afroechub.dto.response.SubmissionResponse;
 import com.afroechub.entity.StudentApplication;
 import com.afroechub.enums.ApplicationStatus;
@@ -22,7 +22,7 @@ public interface ApplicationService {
 
     SubmissionResponse submitCommunity(CommunityProgramRequest request);
 
-    ApplicationResponse getStatus(Long id, String email);
+    StatusLookupResponse getStatus(Long id, String email);
 
     // Admin operations
     StudentApplication findById(Long id);

@@ -24,7 +24,7 @@ public record CommunityProgramRequest(
         Gender gender,
         EducationLevel educationLevel,
         @NotNull CommunityProgramType communityProgram,
-        @NotBlank String motivation,
+        @NotBlank @Size(max = 5000) String motivation,
         @Size(max = 100) String howDidYouHear,
         Availability availability,
         LocalDate preferredStartDate

@@ -7,5 +7,5 @@
 --   $2a$10$Dow1... (generate with your own BCrypt tool)
 
 -- INSERT INTO admin_users (username, email, password_hash, full_name, role, is_active)
--- VALUES ('admin', 'admin@afroechub.com', '<bcrypt-hash>', 'Afroec Hub Admin', 'SUPER_ADMIN', TRUE)
+-- VALUES ('admin', 'support@afroec.com', '<bcrypt-hash>', 'Afroec Hub Admin', 'SUPER_ADMIN', TRUE)
 -- ON CONFLICT (username) DO NOTHING;
