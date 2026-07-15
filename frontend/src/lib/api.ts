@@ -1,7 +1,12 @@
 import type {
+  AmbassadorApplicationData,
   ApiResponse,
   ContactFormData,
+  EventItem,
+  EventRegistrationData,
+  EventStatus,
   HealthResponse,
+  InternshipApplicationData,
   PartnerInquiryData,
   PublicStats,
   StudentApplicationData,
@@ -58,6 +63,20 @@ export async function submitStudentApplication(data: StudentApplicationData) {
   });
 }
 
+export async function submitAmbassadorApplication(data: AmbassadorApplicationData) {
+  return apiFetch<SubmissionResponse>("/applications/ambassador", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function submitInternshipApplication(data: InternshipApplicationData) {
+  return apiFetch<SubmissionResponse>("/applications/internship", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
 export async function getApplicationStatus(id: number, email: string) {
   return apiFetch<unknown>(`/applications/student/${id}?email=${encodeURIComponent(email)}`);
 }
@@ -103,4 +122,39 @@ export async function getPublicStats() {
 
 export async function checkApiHealth() {
   return apiFetch<HealthResponse>("/health", { cache: "no-store" });
+}
+
+export async function getEvents(params?: { status?: EventStatus; category?: string }) {
+  const query = new URLSearchParams();
+  if (params?.status) query.set("status", params.status);
+  if (params?.category) query.set("category", params.category);
+  const qs = query.toString();
+  return apiFetch<EventItem[]>(`/events${qs ? `?${qs}` : ""}`, { cache: "no-store" });
+}
+
+export async function getEventBySlug(slug: string) {
+  return apiFetch<EventItem>(`/events/${encodeURIComponent(slug)}`, { cache: "no-store" });
+}
+
+export async function registerForEvent(eventId: number, data: EventRegistrationData) {
+  return apiFetch<SubmissionResponse>(`/events/${eventId}/register`, {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function trackPageView(payload: {
+  pageUrl: string;
+  referrer?: string;
+  userAgent?: string;
+  screenWidth?: number;
+  screenHeight?: number;
+  language?: string;
+  sessionId?: string;
+}) {
+  return apiFetch<unknown>("/analytics/track", {
+    method: "POST",
+    body: JSON.stringify(payload),
+    keepalive: true,
+  });
 }

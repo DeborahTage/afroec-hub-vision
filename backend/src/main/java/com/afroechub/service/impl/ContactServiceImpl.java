@@ -51,6 +51,13 @@ public class ContactServiceImpl implements ContactService {
                 "Afroec Hub — We received your message",
                 "application-confirmation",
                 Map.of("fullName", saved.getName(), "applicationId", "CONTACT-" + saved.getId()));
+        emailService.notifySupport(
+                "New Contact Message from " + saved.getName(),
+                "Name: " + saved.getName()
+                        + "\nEmail: " + saved.getEmail()
+                        + "\nSubject: " + saved.getSubject()
+                        + "\nMessage: " + saved.getMessage()
+                        + "\nDate: " + saved.getCreatedAt());
 
         return new SubmissionResponse(saved.getId(), null,
                 saved.getStatus().name(), saved.getCreatedAt(), NEXT_STEPS);

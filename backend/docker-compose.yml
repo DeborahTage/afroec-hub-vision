@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: afroec_admin
       POSTGRES_PASSWORD: afroec_admin
     ports:
-      - "5432:5432"
+      - "5434:5432"
     volumes:
       - afroec_pgdata:/var/lib/postgresql/data
     healthcheck:

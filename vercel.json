@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build:frontend",
+  "installCommand": "npm install",
+  "outputDirectory": "frontend/.output/public",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}

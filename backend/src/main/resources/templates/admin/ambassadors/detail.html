@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/layout :: head('Ambassador')}"></head>
+<body>
+<div class="admin-wrapper">
+    <nav th:replace="~{admin/fragments/sidebar :: sidebar}"></nav>
+    <div class="admin-main">
+        <header th:replace="~{admin/fragments/header :: header('Ambassador Detail')}"></header>
+        <main class="admin-content">
+
+            <div class="row g-3">
+              <div class="col-lg-8"><div class="card p-3">
+                <dl class="row mb-0">
+                  <dt class="col-sm-4">Email</dt><dd class="col-sm-8" th:text="${item.email}"></dd>
+                  <dt class="col-sm-4">Phone</dt><dd class="col-sm-8" th:text="${item.phone}"></dd>
+                  <dt class="col-sm-4">City</dt><dd class="col-sm-8" th:text="${item.city}"></dd>
+                  <dt class="col-sm-4">Institution</dt><dd class="col-sm-8" th:text="${item.institutionName}"></dd>
+                  <dt class="col-sm-4">Type</dt><dd class="col-sm-8" th:text="${item.institutionType}"></dd>
+                  <dt class="col-sm-4">Grade</dt><dd class="col-sm-8" th:text="${item.gradeLevel}"></dd>
+                  <dt class="col-sm-4">Proposed Club</dt><dd class="col-sm-8" th:text="${item.proposedClubName}"></dd>
+                  <dt class="col-sm-4">Hours/week</dt><dd class="col-sm-8" th:text="${item.hoursPerWeek}"></dd>
+                  <dt class="col-sm-4">Skills</dt><dd class="col-sm-8" th:text="${item.techSkills}"></dd>
+                  <dt class="col-sm-4">Motivation</dt><dd class="col-sm-8" th:text="${item.motivationLetter}"></dd>
+                  <dt class="col-sm-4">Leadership</dt><dd class="col-sm-8" th:text="${item.leadershipExperience}"></dd>
+                </dl>
+              </div></div>
+              <div class="col-lg-4"><div class="card p-3">
+                <form th:action="@{/admin/ambassadors/{id}/update(id=${item.id})}" method="post">
+                  <label class="form-label">Status</label>
+                  <select class="form-select mb-2" name="status">
+                    <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}" th:selected="${s == item.status}"></option>
+                  </select>
+                  <label class="form-label">Notes</label>
+                  <textarea class="form-control mb-2" name="notes" rows="4" th:text="${item.notes}"></textarea>
+                  <button class="btn btn-dark w-100">Save</button>
+                </form>
+              </div></div>
+            </div>
+
+        </main>
+        <footer th:replace="~{admin/fragments/footer :: footer}"></footer>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

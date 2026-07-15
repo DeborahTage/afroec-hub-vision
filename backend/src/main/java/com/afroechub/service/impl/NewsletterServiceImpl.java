@@ -5,6 +5,7 @@ import com.afroechub.entity.NewsletterSubscriber;
 import com.afroechub.exception.DuplicateResourceException;
 import com.afroechub.exception.ResourceNotFoundException;
 import com.afroechub.repository.NewsletterSubscriberRepository;
+import com.afroechub.service.EmailService;
 import com.afroechub.service.NewsletterService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +19,11 @@ import java.util.UUID;
 public class NewsletterServiceImpl implements NewsletterService {
 
     private final NewsletterSubscriberRepository repository;
+    private final EmailService emailService;
 
-    public NewsletterServiceImpl(NewsletterSubscriberRepository repository) {
+    public NewsletterServiceImpl(NewsletterSubscriberRepository repository, EmailService emailService) {
         this.repository = repository;
+        this.emailService = emailService;
     }
 
     @Transactional
@@ -42,7 +45,14 @@ public class NewsletterServiceImpl implements NewsletterService {
         s.setActive(true);
         s.setSubscribedAt(LocalDateTime.now());
         s.setUnsubscribeToken(UUID.randomUUID().toString());
-        return repository.save(s);
+        NewsletterSubscriber saved = repository.save(s);
+        emailService.notifySupport(
+                "New Newsletter Subscription: " + email,
+                "A new user has subscribed to the Afroec newsletter.\nEmail: " + email
+                        + "\nDate: " + LocalDateTime.now());
+        emailService.sendPlain(email, "Welcome to Afroec!",
+                "Thank you for subscribing to our newsletter. Stay tuned for updates!");
+        return saved;
     }
 
     @Transactional

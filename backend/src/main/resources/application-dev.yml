@@ -1,7 +1,7 @@
 # application-dev.yml — local development
 spring:
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/afroec_hub}
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5434/afroec_hub}
     username: ${DATABASE_USERNAME:afroec_admin}
     password: ${DATABASE_PASSWORD:afroec_admin}
     driver-class-name: org.postgresql.Driver

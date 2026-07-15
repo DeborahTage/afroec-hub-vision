@@ -16,6 +16,19 @@ interface NavGroup {
 
 type MenuItem = NavLink | NavGroup;
 
+function parseNavHref(href: string): { to: string; search?: Record<string, string> } {
+  const [to, qs] = href.split("?");
+  if (!qs) return { to };
+  return { to, search: Object.fromEntries(new URLSearchParams(qs)) };
+}
+
+function isNavChildActive(href: string, pathname: string, search: string) {
+  const path = href.split("?")[0];
+  if (pathname !== path) return false;
+  if (!href.includes("?")) return !search || search === "";
+  return pathname + search === href || pathname + "?" + search.replace(/^\?/, "") === href;
+}
+
 const menuItems: MenuItem[] = [
   {
     label: "About",
@@ -30,9 +43,10 @@ const menuItems: MenuItem[] = [
     label: "Initiatives",
     children: [
       { href: "/initiatives", label: "All Initiatives" },
-      { href: "/initiatives/academy", label: "Afroec Academy" },
+      { href: "/initiatives/founding-ambassadors", label: "Founding Ambassadors" },
       { href: "/initiatives/product-hub", label: "Product Hub" },
       { href: "/programs", label: "Community Programs" },
+      { href: "/events", label: "Events" },
     ],
   },
   {
@@ -49,8 +63,10 @@ const menuItems: MenuItem[] = [
     children: [
       { href: "/get-involved", label: "Ways to Join" },
       { href: "/get-involved/apply", label: "Apply Now" },
-      { href: "/get-involved/partner", label: "Partner" },
-      { href: "/get-involved/volunteer", label: "Volunteer" },
+      { href: "/get-involved/apply?type=partner", label: "Partner" },
+      { href: "/get-involved/apply?type=ambassador", label: "Become an Ambassador" },
+      { href: "/get-involved/apply?type=volunteer", label: "Volunteer" },
+      { href: "/get-involved/apply?type=internship", label: "Internship" },
     ],
   },
   { href: "/blog", label: "Blog" },
@@ -96,7 +112,9 @@ export function Navbar() {
         <nav className="hidden lg:flex items-center gap-8 h-full" aria-label="Primary">
           {menuItems.map((item) => {
             if (isGroup(item)) {
-              const isChildActive = item.children.some((child) => location.pathname === child.href);
+              const isChildActive = item.children.some((child) =>
+                location.pathname === child.href.split("?")[0]
+              );
 
               return (
                 <div
@@ -115,16 +133,22 @@ export function Navbar() {
                     <ChevronDown size={14} className="transition-transform group-hover/dropdown:rotate-180" />
                   </button>
                   <div className={cn(
-                    "absolute top-full left-1/2 -translate-x-1/2 pt-2 transition-all duration-200 w-52 opacity-0 invisible scale-95 pointer-events-none origin-top",
+                    "absolute top-full left-1/2 -translate-x-1/2 pt-2 transition-all duration-200 w-60 opacity-0 invisible scale-95 pointer-events-none origin-top",
                     activeDropdown === item.label && "opacity-100 visible scale-100 pointer-events-auto"
                   )}>
                     <div className="bg-white border border-border shadow-xl rounded-2xl py-2 px-1 flex flex-col justify-start">
                       {item.children.map((child) => {
-                        const active = location.pathname === child.href;
+                        const { to, search } = parseNavHref(child.href);
+                        const active = isNavChildActive(
+                          child.href,
+                          location.pathname,
+                          location.searchStr || "",
+                        );
                         return (
                           <Link
                             key={child.href}
-                            to={child.href}
+                            to={to}
+                            search={search}
                             className={cn(
                               "px-4 py-2.5 text-[14px] font-medium rounded-xl hover:bg-bg-cream transition-colors text-left",
                               active ? "bg-accent-light text-black font-semibold" : "text-text-secondary hover:text-black"
@@ -206,11 +230,17 @@ export function Navbar() {
                           {item.label}
                         </div>
                         {item.children.map((child) => {
-                          const active = location.pathname === child.href;
+                          const { to, search } = parseNavHref(child.href);
+                          const active = isNavChildActive(
+                            child.href,
+                            location.pathname,
+                            location.searchStr || "",
+                          );
                           return (
                             <Link
                               key={child.href}
-                              to={child.href}
+                              to={to}
+                              search={search}
                               onClick={() => setOpen(false)}
                               className={cn(
                                 "px-3 py-2 text-[15px] font-medium rounded-xl transition-colors text-left",

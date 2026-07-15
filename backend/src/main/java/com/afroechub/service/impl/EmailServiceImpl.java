@@ -5,6 +5,7 @@ import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -27,6 +28,9 @@ public class EmailServiceImpl implements EmailService {
 
     @Value("${app.mail.from:support@afroec.com}")
     private String from;
+
+    @Value("${app.mail.support:support@afroec.com}")
+    private String supportEmail;
 
     public EmailServiceImpl(JavaMailSender mailSender, TemplateEngine templateEngine) {
         this.mailSender = mailSender;
@@ -58,5 +62,30 @@ public class EmailServiceImpl implements EmailService {
         } catch (Exception ex) {
             log.error("Failed to send email to {}: {}", to, ex.getMessage());
         }
+    }
+
+    @Async
+    @Override
+    public void sendPlain(String to, String subject, String body) {
+        if (!mailEnabled) {
+            log.info("[mail disabled] Would send plain '{}' to {}: {}", subject, to, body);
+            return;
+        }
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(from);
+            message.setTo(to);
+            message.setSubject(subject);
+            message.setText(body);
+            mailSender.send(message);
+            log.info("Sent plain '{}' email to {}", subject, to);
+        } catch (Exception ex) {
+            log.error("Failed to send plain email to {}: {}", to, ex.getMessage());
+        }
+    }
+
+    @Override
+    public void notifySupport(String subject, String body) {
+        sendPlain(supportEmail, subject, body);
     }
 }

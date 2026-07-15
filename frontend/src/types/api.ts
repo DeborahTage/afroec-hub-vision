@@ -138,6 +138,94 @@ export interface HealthResponse {
   timestamp: string;
 }
 
+export type EventStatus = "UPCOMING" | "ONGOING" | "PAST" | "CANCELLED";
+
+export interface EventItem {
+  id: number;
+  title: string;
+  slug: string;
+  description?: string;
+  content?: string;
+  eventDate?: string;
+  eventTime?: string;
+  location?: string;
+  imageUrl?: string;
+  registrationLink?: string;
+  maxAttendees?: number;
+  category?: string;
+  status?: EventStatus;
+  published?: boolean;
+}
+
+export interface AmbassadorApplicationData {
+  fullName: string;
+  email: string;
+  phone: string;
+  dateOfBirth: string;
+  gender: Gender;
+  city: string;
+  institutionName: string;
+  institutionType: "HIGH_SCHOOL" | "UNIVERSITY" | "OTHER";
+  gradeLevel: string;
+  fieldOfStudy?: string;
+  motivationLetter: string;
+  leadershipExperience?: string;
+  techSkills?: string[];
+  hoursPerWeek: number;
+  proposedClubName: string;
+  estimatedMembers: number;
+  supportNeeded?: string[];
+  cvUrl?: string;
+  recommendationLetterUrl?: string;
+  portfolioUrl?: string;
+  commitHours: boolean;
+  commitClub: boolean;
+  commitBootcamp: boolean;
+  agreeConduct: boolean;
+}
+
+export interface InternshipApplicationData {
+  fullName: string;
+  email: string;
+  phone: string;
+  linkedinUrl?: string;
+  institution: string;
+  fieldOfStudy: string;
+  yearOfStudy: string;
+  graduationDate: string;
+  department:
+    | "SOFTWARE_DEVELOPMENT"
+    | "CYBERSECURITY"
+    | "PRODUCT_MANAGEMENT"
+    | "MARKETING"
+    | "OPERATIONS"
+    | "EDUCATION"
+    | "RESEARCH";
+  duration: "THREE_MONTHS" | "SIX_MONTHS" | "ONE_YEAR";
+  startDate: string;
+  fullTime: boolean;
+  skills?: string[];
+  experience?: string;
+  projectLinks?: string;
+  githubUrl?: string;
+  motivationAfroec: string;
+  learningGoals: string;
+  cvUrl: string;
+  coverLetterUrl?: string;
+  transcriptUrl?: string;
+  agreeUnpaid: boolean;
+  agreeDuration: boolean;
+  agreePolicies: boolean;
+}
+
+export interface EventRegistrationData {
+  fullName: string;
+  email: string;
+  phone?: string;
+  institution?: string;
+  dietaryRequirements?: string;
+}
+
 export class ApiError extends Error {
   errors?: Record<string, string>;
 

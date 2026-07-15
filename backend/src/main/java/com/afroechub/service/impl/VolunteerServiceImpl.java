@@ -65,6 +65,11 @@ public class VolunteerServiceImpl implements VolunteerService {
                 "Afroec Hub — Volunteer application received",
                 "volunteer-welcome",
                 Map.of("fullName", saved.getFullName()));
+        emailService.notifySupport(
+                "New Volunteer Application: " + saved.getFullName(),
+                "Type: Volunteer\nName: " + saved.getFullName()
+                        + "\nEmail: " + saved.getEmail()
+                        + "\nApplication ID: " + saved.getId());
 
         return new SubmissionResponse(saved.getId(), null,
                 saved.getStatus().name(), saved.getCreatedAt(), NEXT_STEPS);

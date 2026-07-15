@@ -54,6 +54,12 @@ public class PartnerServiceImpl implements PartnerService {
                 "partner-welcome",
                 Map.of("contactPerson", saved.getContactPerson(),
                         "organizationName", saved.getOrganizationName()));
+        emailService.notifySupport(
+                "New Partnership Application: " + saved.getOrganizationName(),
+                "Type: Partnership\nOrg: " + saved.getOrganizationName()
+                        + "\nContact: " + saved.getContactPerson()
+                        + "\nEmail: " + saved.getEmail()
+                        + "\nApplication ID: " + saved.getId());
 
         return new SubmissionResponse(saved.getId(), null,
                 saved.getStatus().name(), saved.getCreatedAt(), NEXT_STEPS);

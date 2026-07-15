@@ -16,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -28,12 +29,15 @@ import java.io.IOException;
 public class AdminSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final UrlBasedCorsConfigurationSource corsConfigurationSource;
 
     @Value("${admin.localhost-only:true}")
     private boolean localhostOnly;
 
-    public AdminSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public AdminSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
+                               UrlBasedCorsConfigurationSource corsConfigurationSource) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.corsConfigurationSource = corsConfigurationSource;
     }
 
     @Bean
@@ -48,11 +52,12 @@ public class AdminSecurityConfig {
     @Order(1)
     public SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/admin/**")
+                .securityMatcher("/admin/**", "/api/v1/admin/**")
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         // JSON admin API: require custom header instead of CSRF token
-                        .ignoringRequestMatchers("/admin/api/**"))
+                        .ignoringRequestMatchers("/admin/api/**", "/api/v1/admin/**"))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .headers(headers -> headers
                         .frameOptions(fo -> fo.deny())
@@ -60,7 +65,8 @@ public class AdminSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/admin/login",
-                                "/admin/api/auth/login"
+                                "/admin/api/auth/login",
+                                "/api/v1/admin/auth/login"
                         ).permitAll()
                         .anyRequest().hasAnyRole("ADMIN", "SUPER_ADMIN"))
                 .addFilterBefore(localhostOnlyFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -85,11 +91,12 @@ public class AdminSecurityConfig {
                     throws ServletException, IOException {
                 String uri = request.getRequestURI();
                 String method = request.getMethod();
-                if (uri.startsWith("/admin/api/")
+                if ((uri.startsWith("/admin/api/") || uri.startsWith("/api/v1/admin/"))
                         && !"GET".equalsIgnoreCase(method)
                         && !"HEAD".equalsIgnoreCase(method)
                         && !"OPTIONS".equalsIgnoreCase(method)
-                        && !uri.equals("/admin/api/auth/login")) {
+                        && !uri.equals("/admin/api/auth/login")
+                        && !uri.equals("/api/v1/admin/auth/login")) {
                     String custom = request.getHeader("X-Requested-With");
                     if (custom == null || !"XMLHttpRequest".equals(custom)) {
                         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -142,7 +149,8 @@ public class AdminSecurityConfig {
         public void commence(HttpServletRequest request, HttpServletResponse response,
                              org.springframework.security.core.AuthenticationException authException)
                 throws IOException {
-            if (request.getRequestURI().startsWith("/admin/api/")) {
+            if (request.getRequestURI().startsWith("/admin/api/")
+                    || request.getRequestURI().startsWith("/api/v1/admin/")) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");
                 response.getWriter().write(

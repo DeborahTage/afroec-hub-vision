@@ -52,12 +52,11 @@ export function Footer() {
                 <div>
                     <div className="font-display text-[16px] font-bold text-white mb-4">Initiatives</div>
                     <ul className="space-y-3 text-[14px] text-text-muted">
-                        <li><Link to="/initiatives/academy" className="hover:text-accent transition-colors">Afroec Academy</Link></li>
+                        <li><Link to="/initiatives/founding-ambassadors" className="hover:text-accent transition-colors">Founding Ambassadors</Link></li>
                         <li><Link to="/initiatives/product-hub" className="hover:text-accent transition-colors">Product Hub</Link></li>
-                        <li><Link to="/programs" className="hover:text-accent transition-colors">CyberGuard Youth</Link></li>
                         <li><Link to="/programs" className="hover:text-accent transition-colors">SheSec Ethiopia</Link></li>
-                        <li><Link to="/programs" className="hover:text-accent transition-colors">SchoolNet Tech</Link></li>
-                        <li><Link to="/programs" className="hover:text-accent transition-colors">DigiSec Ethiopia</Link></li>
+                        <li><Link to="/programs" className="hover:text-accent transition-colors">Afroec Tech Club</Link></li>
+                        <li><Link to="/events" className="hover:text-accent transition-colors">Events</Link></li>
                     </ul>
                 </div>
 

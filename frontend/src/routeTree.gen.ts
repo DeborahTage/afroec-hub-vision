@@ -16,15 +16,18 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as InitiativesIndexRouteImport } from './routes/initiatives/index'
 import { Route as GetInvolvedIndexRouteImport } from './routes/get-involved/index'
+import { Route as EventsIndexRouteImport } from './routes/events/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as AboutIndexRouteImport } from './routes/about/index'
 import { Route as ServicesProductDevelopmentRouteImport } from './routes/services/product-development'
 import { Route as ServicesConsultancyRouteImport } from './routes/services/consultancy'
 import { Route as InitiativesProductHubRouteImport } from './routes/initiatives/product-hub'
+import { Route as InitiativesFoundingAmbassadorsRouteImport } from './routes/initiatives/founding-ambassadors'
 import { Route as InitiativesAcademyRouteImport } from './routes/initiatives/academy'
 import { Route as GetInvolvedVolunteerRouteImport } from './routes/get-involved/volunteer'
 import { Route as GetInvolvedPartnerRouteImport } from './routes/get-involved/partner'
 import { Route as GetInvolvedApplyRouteImport } from './routes/get-involved/apply'
+import { Route as EventsSlugRouteImport } from './routes/events/$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as AboutVisionRouteImport } from './routes/about/vision'
 import { Route as AboutTeamRouteImport } from './routes/about/team'
@@ -65,6 +68,11 @@ const GetInvolvedIndexRoute = GetInvolvedIndexRouteImport.update({
   path: '/get-involved/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EventsIndexRoute = EventsIndexRouteImport.update({
+  id: '/events/',
+  path: '/events/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
@@ -91,6 +99,12 @@ const InitiativesProductHubRoute = InitiativesProductHubRouteImport.update({
   path: '/initiatives/product-hub',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InitiativesFoundingAmbassadorsRoute =
+  InitiativesFoundingAmbassadorsRouteImport.update({
+    id: '/initiatives/founding-ambassadors',
+    path: '/initiatives/founding-ambassadors',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const InitiativesAcademyRoute = InitiativesAcademyRouteImport.update({
   id: '/initiatives/academy',
   path: '/initiatives/academy',
@@ -109,6 +123,11 @@ const GetInvolvedPartnerRoute = GetInvolvedPartnerRouteImport.update({
 const GetInvolvedApplyRoute = GetInvolvedApplyRouteImport.update({
   id: '/get-involved/apply',
   path: '/get-involved/apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsSlugRoute = EventsSlugRouteImport.update({
+  id: '/events/$slug',
+  path: '/events/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
@@ -141,15 +160,18 @@ export interface FileRoutesByFullPath {
   '/about/team': typeof AboutTeamRoute
   '/about/vision': typeof AboutVisionRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/get-involved/apply': typeof GetInvolvedApplyRoute
   '/get-involved/partner': typeof GetInvolvedPartnerRoute
   '/get-involved/volunteer': typeof GetInvolvedVolunteerRoute
   '/initiatives/academy': typeof InitiativesAcademyRoute
+  '/initiatives/founding-ambassadors': typeof InitiativesFoundingAmbassadorsRoute
   '/initiatives/product-hub': typeof InitiativesProductHubRoute
   '/services/consultancy': typeof ServicesConsultancyRoute
   '/services/product-development': typeof ServicesProductDevelopmentRoute
   '/about/': typeof AboutIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/events/': typeof EventsIndexRoute
   '/get-involved/': typeof GetInvolvedIndexRoute
   '/initiatives/': typeof InitiativesIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -163,15 +185,18 @@ export interface FileRoutesByTo {
   '/about/team': typeof AboutTeamRoute
   '/about/vision': typeof AboutVisionRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/get-involved/apply': typeof GetInvolvedApplyRoute
   '/get-involved/partner': typeof GetInvolvedPartnerRoute
   '/get-involved/volunteer': typeof GetInvolvedVolunteerRoute
   '/initiatives/academy': typeof InitiativesAcademyRoute
+  '/initiatives/founding-ambassadors': typeof InitiativesFoundingAmbassadorsRoute
   '/initiatives/product-hub': typeof InitiativesProductHubRoute
   '/services/consultancy': typeof ServicesConsultancyRoute
   '/services/product-development': typeof ServicesProductDevelopmentRoute
   '/about': typeof AboutIndexRoute
   '/blog': typeof BlogIndexRoute
+  '/events': typeof EventsIndexRoute
   '/get-involved': typeof GetInvolvedIndexRoute
   '/initiatives': typeof InitiativesIndexRoute
   '/services': typeof ServicesIndexRoute
@@ -186,15 +211,18 @@ export interface FileRoutesById {
   '/about/team': typeof AboutTeamRoute
   '/about/vision': typeof AboutVisionRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/get-involved/apply': typeof GetInvolvedApplyRoute
   '/get-involved/partner': typeof GetInvolvedPartnerRoute
   '/get-involved/volunteer': typeof GetInvolvedVolunteerRoute
   '/initiatives/academy': typeof InitiativesAcademyRoute
+  '/initiatives/founding-ambassadors': typeof InitiativesFoundingAmbassadorsRoute
   '/initiatives/product-hub': typeof InitiativesProductHubRoute
   '/services/consultancy': typeof ServicesConsultancyRoute
   '/services/product-development': typeof ServicesProductDevelopmentRoute
   '/about/': typeof AboutIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/events/': typeof EventsIndexRoute
   '/get-involved/': typeof GetInvolvedIndexRoute
   '/initiatives/': typeof InitiativesIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -210,15 +238,18 @@ export interface FileRouteTypes {
     | '/about/team'
     | '/about/vision'
     | '/blog/$slug'
+    | '/events/$slug'
     | '/get-involved/apply'
     | '/get-involved/partner'
     | '/get-involved/volunteer'
     | '/initiatives/academy'
+    | '/initiatives/founding-ambassadors'
     | '/initiatives/product-hub'
     | '/services/consultancy'
     | '/services/product-development'
     | '/about/'
     | '/blog/'
+    | '/events/'
     | '/get-involved/'
     | '/initiatives/'
     | '/services/'
@@ -232,15 +263,18 @@ export interface FileRouteTypes {
     | '/about/team'
     | '/about/vision'
     | '/blog/$slug'
+    | '/events/$slug'
     | '/get-involved/apply'
     | '/get-involved/partner'
     | '/get-involved/volunteer'
     | '/initiatives/academy'
+    | '/initiatives/founding-ambassadors'
     | '/initiatives/product-hub'
     | '/services/consultancy'
     | '/services/product-development'
     | '/about'
     | '/blog'
+    | '/events'
     | '/get-involved'
     | '/initiatives'
     | '/services'
@@ -254,15 +288,18 @@ export interface FileRouteTypes {
     | '/about/team'
     | '/about/vision'
     | '/blog/$slug'
+    | '/events/$slug'
     | '/get-involved/apply'
     | '/get-involved/partner'
     | '/get-involved/volunteer'
     | '/initiatives/academy'
+    | '/initiatives/founding-ambassadors'
     | '/initiatives/product-hub'
     | '/services/consultancy'
     | '/services/product-development'
     | '/about/'
     | '/blog/'
+    | '/events/'
     | '/get-involved/'
     | '/initiatives/'
     | '/services/'
@@ -277,15 +314,18 @@ export interface RootRouteChildren {
   AboutTeamRoute: typeof AboutTeamRoute
   AboutVisionRoute: typeof AboutVisionRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  EventsSlugRoute: typeof EventsSlugRoute
   GetInvolvedApplyRoute: typeof GetInvolvedApplyRoute
   GetInvolvedPartnerRoute: typeof GetInvolvedPartnerRoute
   GetInvolvedVolunteerRoute: typeof GetInvolvedVolunteerRoute
   InitiativesAcademyRoute: typeof InitiativesAcademyRoute
+  InitiativesFoundingAmbassadorsRoute: typeof InitiativesFoundingAmbassadorsRoute
   InitiativesProductHubRoute: typeof InitiativesProductHubRoute
   ServicesConsultancyRoute: typeof ServicesConsultancyRoute
   ServicesProductDevelopmentRoute: typeof ServicesProductDevelopmentRoute
   AboutIndexRoute: typeof AboutIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  EventsIndexRoute: typeof EventsIndexRoute
   GetInvolvedIndexRoute: typeof GetInvolvedIndexRoute
   InitiativesIndexRoute: typeof InitiativesIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
@@ -342,6 +382,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GetInvolvedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/events/': {
+      id: '/events/'
+      path: '/events'
+      fullPath: '/events/'
+      preLoaderRoute: typeof EventsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/': {
       id: '/blog/'
       path: '/blog'
@@ -377,6 +424,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InitiativesProductHubRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/initiatives/founding-ambassadors': {
+      id: '/initiatives/founding-ambassadors'
+      path: '/initiatives/founding-ambassadors'
+      fullPath: '/initiatives/founding-ambassadors'
+      preLoaderRoute: typeof InitiativesFoundingAmbassadorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/initiatives/academy': {
       id: '/initiatives/academy'
       path: '/initiatives/academy'
@@ -403,6 +457,13 @@ declare module '@tanstack/react-router' {
       path: '/get-involved/apply'
       fullPath: '/get-involved/apply'
       preLoaderRoute: typeof GetInvolvedApplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events/$slug': {
+      id: '/events/$slug'
+      path: '/events/$slug'
+      fullPath: '/events/$slug'
+      preLoaderRoute: typeof EventsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/$slug': {
@@ -445,15 +506,18 @@ const rootRouteChildren: RootRouteChildren = {
   AboutTeamRoute: AboutTeamRoute,
   AboutVisionRoute: AboutVisionRoute,
   BlogSlugRoute: BlogSlugRoute,
+  EventsSlugRoute: EventsSlugRoute,
   GetInvolvedApplyRoute: GetInvolvedApplyRoute,
   GetInvolvedPartnerRoute: GetInvolvedPartnerRoute,
   GetInvolvedVolunteerRoute: GetInvolvedVolunteerRoute,
   InitiativesAcademyRoute: InitiativesAcademyRoute,
+  InitiativesFoundingAmbassadorsRoute: InitiativesFoundingAmbassadorsRoute,
   InitiativesProductHubRoute: InitiativesProductHubRoute,
   ServicesConsultancyRoute: ServicesConsultancyRoute,
   ServicesProductDevelopmentRoute: ServicesProductDevelopmentRoute,
   AboutIndexRoute: AboutIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
+  EventsIndexRoute: EventsIndexRoute,
   GetInvolvedIndexRoute: GetInvolvedIndexRoute,
   InitiativesIndexRoute: InitiativesIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,

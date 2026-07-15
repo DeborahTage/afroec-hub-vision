@@ -1,0 +1,13 @@
+{
+  "name": "afroec-hub-vision-monorepo",
+  "private": true,
+  "workspaces": ["frontend", "admin"],
+  "scripts": {
+    "dev:frontend": "npm --workspace frontend run dev",
+    "build:frontend": "npm --workspace frontend run build",
+    "dev:admin": "npm --workspace admin run dev",
+    "build:admin": "npm --workspace admin run build",
+    "build:backend": "mvn -q -f backend/pom.xml -Dmaven.repo.local=.m2repo -DskipTests compile",
+    "build": "npm run build:frontend && npm run build:admin && npm run build:backend"
+  }
+}
