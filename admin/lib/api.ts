@@ -46,7 +46,8 @@ export const analyticsApi = {
   getOverview: () => fetchWithAuth<AnalyticsOverview>('/admin/analytics/overview'),
   getPages: () => fetchWithAuth<Record<string, number>>('/admin/analytics/pages'),
   getSources: () => fetchWithAuth<Record<string, number>>('/admin/analytics/sources'),
-  getGeo: () => fetchWithAuth<Record<string, number>>('/admin/analytics/geo')
+  getGeo: () => fetchWithAuth<Record<string, number>>('/admin/analytics/geo'),
+  getDevices: () => fetchWithAuth<Record<string, number>>('/admin/analytics/devices')
 }
 
 export const applicationsApi = {

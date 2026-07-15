@@ -18,4 +18,5 @@ public class AdminApiAnalyticsController {
     @GetMapping("/pages") public ResponseEntity<ApiResponse<Object>> pages() { return ResponseEntity.ok(ApiResponse.ok("OK", analyticsService.overview().get("popularPages"))); }
     @GetMapping("/sources") public ResponseEntity<ApiResponse<Object>> sources() { return ResponseEntity.ok(ApiResponse.ok("OK", analyticsService.overview().get("trafficSources"))); }
     @GetMapping("/geo") public ResponseEntity<ApiResponse<Object>> geo() { return ResponseEntity.ok(ApiResponse.ok("OK", analyticsService.overview().get("geo"))); }
+    @GetMapping("/devices") public ResponseEntity<ApiResponse<Object>> devices() { return ResponseEntity.ok(ApiResponse.ok("OK", analyticsService.overview().get("devices"))); }
 }

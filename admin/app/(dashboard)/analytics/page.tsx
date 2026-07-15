@@ -6,6 +6,7 @@ import { analyticsApi } from '@/lib/api'
 import { StatsCards } from '@/components/dashboard/stats-cards'
 import { ChartCard, BarPreview } from '@/components/shared/chart-card'
 import { DataTable } from '@/components/shared/data-table'
+import { Button } from '@/components/ui/button'
 import type { AnalyticsOverview } from '@/types'
 
 function MetricBars({ data }: { data?: Record<string, number> }) {
@@ -33,7 +34,7 @@ function MetricBars({ data }: { data?: Record<string, number> }) {
 
 export default function AnalyticsPage() {
   const [period, setPeriod] = useState<'7d' | '30d' | '90d' | '1y'>('30d')
-  const { data } = useQuery<AnalyticsOverview>({ queryKey:['analytics-overview'], queryFn: analyticsApi.getOverview })
+  const { data, isLoading, error, refetch } = useQuery<AnalyticsOverview>({ queryKey:['analytics-overview'], queryFn: analyticsApi.getOverview })
   const popularPages = Object.entries(data?.popularPages || {}).map(([page, views], index) => ({
     id: index + 1,
     page,
@@ -58,7 +59,16 @@ export default function AnalyticsPage() {
           ))}
         </div>
       </div>
-      <StatsCards data={data}/>
+      {error && (
+        <div className="card" role="alert" style={{ padding: 16, borderColor: 'rgba(239,68,68,.35)' }}>
+          <strong style={{ color: 'var(--danger)' }}>Failed to load analytics.</strong>
+          <p className="page-subtitle">
+            {error instanceof Error ? error.message : 'The admin analytics API did not return data.'}
+          </p>
+          <Button variant="secondary" onClick={() => refetch()}>Retry</Button>
+        </div>
+      )}
+      <StatsCards data={data} isLoading={isLoading}/>
       <ChartCard title="Overview Chart" subtitle="Visits over time" period={period} onPeriodChange={setPeriod}>
         <BarPreview values={chartValues} />
       </ChartCard>

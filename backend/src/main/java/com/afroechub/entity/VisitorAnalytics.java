@@ -46,6 +46,15 @@ public class VisitorAnalytics {
     @Column(name = "device_type", length = 20)
     private String deviceType;
 
+    @Column(name = "screen_width")
+    private Integer screenWidth;
+
+    @Column(name = "screen_height")
+    private Integer screenHeight;
+
+    @Column(length = 20)
+    private String language;
+
     @Column(length = 100)
     private String browser;
 

@@ -15,6 +15,11 @@ export interface AnalyticsOverview {
   visitsLast7Days?: number
   uniqueLast7Days?: number
   visitsChangePct?: number
+  visitsChange?: number
+  visitorsChange?: number
+  viewsChange?: number
+  avgSessionDuration?: string
+  bounceRate?: number
   popularPages?: Record<string, number>
   trafficSources?: Record<string, number>
   geo?: Record<string, number>

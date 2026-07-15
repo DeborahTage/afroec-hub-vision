@@ -7,10 +7,11 @@ import { StatsCards } from '@/components/dashboard/stats-cards'
 import { Badge } from '@/components/ui/badge'
 import { ChartCard, BarPreview } from '@/components/shared/chart-card'
 import { DataTable } from '@/components/shared/data-table'
+import { Button } from '@/components/ui/button'
 import type { AnalyticsOverview, Application } from '@/types'
 
 export default function DashboardPage() {
-  const { data: analytics } = useQuery<AnalyticsOverview>({ queryKey: ['analytics-overview'], queryFn: analyticsApi.getOverview })
+  const { data: analytics, isLoading: analyticsLoading, error: analyticsError, refetch: refetchAnalytics } = useQuery<AnalyticsOverview>({ queryKey: ['analytics-overview'], queryFn: analyticsApi.getOverview })
   const { data: applications = [] } = useQuery<Application[]>({ queryKey: ['applications-recent'], queryFn: () => applicationsApi.getAll({ limit: 5 }) })
   const recent = applications.slice(0, 5)
   const topPages = Object.entries(analytics?.popularPages || {}).slice(0, 5)
@@ -25,7 +26,16 @@ export default function DashboardPage() {
         </div>
         <button className="btn btn-secondary">Last 30 days</button>
       </div>
-      <StatsCards data={analytics} />
+      {analyticsError && (
+        <div className="card" role="alert" style={{ padding: 16, borderColor: 'rgba(239,68,68,.35)' }}>
+          <strong style={{ color: 'var(--danger)' }}>Failed to load analytics.</strong>
+          <p className="page-subtitle">
+            {analyticsError instanceof Error ? analyticsError.message : 'The admin analytics API did not return data.'}
+          </p>
+          <Button variant="secondary" onClick={() => refetchAnalytics()}>Retry</Button>
+        </div>
+      )}
+      <StatsCards data={analytics} isLoading={analyticsLoading} />
       <div className="two-column-grid">
         <ChartCard title="Traffic Chart" subtitle="Visits over time" period="30d">
           <BarPreview values={trafficValues.length ? trafficValues : [12, 18, 30, 24, 36, 46, 52]} />
