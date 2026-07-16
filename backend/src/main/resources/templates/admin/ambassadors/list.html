@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{admin/layout :: head('Ambassadors')}"></head>
+<body>
+<div class="admin-wrapper">
+    <nav th:replace="~{admin/fragments/sidebar :: sidebar}"></nav>
+    <div class="admin-main">
+        <header th:replace="~{admin/fragments/header :: header('Ambassador Applications')}"></header>
+        <main class="admin-content">
+
+            <form class="row g-2 mb-3" method="get" th:action="@{/admin/ambassadors}">
+                <div class="col-md-4"><input class="form-control" name="q" th:value="${q}" placeholder="Search"/></div>
+                <div class="col-md-3">
+                  <select class="form-select" name="status">
+                    <option value="">All statuses</option>
+                    <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}" th:selected="${status != null and status.name() == s.name()}"></option>
+                  </select>
+                </div>
+                <div class="col-md-2"><button class="btn btn-dark w-100">Filter</button></div>
+            </form>
+            <div class="card"><div class="table-responsive">
+              <table class="table mb-0">
+                <thead><tr><th>Name</th><th>Email</th><th>Institution</th><th>Club</th><th>Status</th><th></th></tr></thead>
+                <tbody>
+                  <tr th:each="i : ${items}">
+                    <td th:text="${i.fullName}"></td>
+                    <td th:text="${i.email}"></td>
+                    <td th:text="${i.institutionName}"></td>
+                    <td th:text="${i.proposedClubName}"></td>
+                    <td th:text="${i.status}"></td>
+                    <td><a class="btn btn-sm btn-outline-dark" th:href="@{/admin/ambassadors/{id}(id=${i.id})}">View</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div></div>
+            <div th:replace="~{admin/fragments/pagination :: pagination}"></div>
+
+        </main>
+        <footer th:replace="~{admin/fragments/footer :: footer}"></footer>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

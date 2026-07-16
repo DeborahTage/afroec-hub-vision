@@ -1,0 +1,4 @@
+package com.afroechub.enums;
+public enum InternshipDepartment {
+    SOFTWARE_DEVELOPMENT, CYBERSECURITY, PRODUCT_MANAGEMENT, MARKETING, OPERATIONS, EDUCATION, RESEARCH
+}

@@ -1,0 +1,44 @@
+services:
+  - type: web
+    name: afroec-hub-api
+    runtime: docker
+    plan: starter
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: DATABASE_URL
+        fromDatabase:
+          name: afroec-hub-db
+          property: connectionString
+      - key: DATABASE_USERNAME
+        fromDatabase:
+          name: afroec-hub-db
+          property: user
+      - key: DATABASE_PASSWORD
+        fromDatabase:
+          name: afroec-hub-db
+          property: password
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_PASSWORD
+        generateValue: true
+      # Admin dashboard stays locked to localhost and is not exposed publicly.
+      - key: ADMIN_LOCALHOST_ONLY
+        value: "true"
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://afroec.vercel.app,https://www.afroec.vercel.app,http://localhost:3000,http://localhost:3001,http://localhost:5173,http://localhost:8080,http://127.0.0.1:8080"
+      - key: ADMIN_EMAIL
+        value: "support@afroec.com"
+      - key: MAIL_FROM
+        value: "support@afroec.com"
+      - key: MAIL_ENABLED
+        value: "false"
+      # Set true + SMTP_* or provider credentials when mail is ready
+      # - key: SMTP_HOST / SMTP_USERNAME / SMTP_PASSWORD
+
+databases:
+  - name: afroec-hub-db
+    plan: starter
+    databaseName: afroec_hub
+    user: afroec_admin

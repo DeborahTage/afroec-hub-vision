@@ -1,0 +1,39 @@
+# application-dev.yml — local development
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5434/afroec_hub}
+    username: ${DATABASE_USERNAME:afroec_admin}
+    password: ${DATABASE_PASSWORD:afroec_admin}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1200000
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  thymeleaf:
+    cache: false
+
+server:
+  port: ${PORT:8092}
+
+jwt:
+  # HS256 requires >= 32 characters (256 bits)
+  secret: ${JWT_SECRET:local-dev-secret-please-change-this-to-a-long-random-value-000000}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+admin:
+  default-password: ${ADMIN_PASSWORD:Admin@12345}
+  default-email: ${ADMIN_EMAIL:support@afroec.com}
+
+logging:
+  level:
+    com.afroechub: DEBUG
+    org.springframework.security: INFO

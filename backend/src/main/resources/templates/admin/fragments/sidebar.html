@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="sidebar" class="admin-sidebar">
+    <div class="sidebar-brand">
+        <img th:src="@{/images/logo.png}" alt="Afroec Hub" class="brand-logo"/>
+        <span>Hub</span>
+    </div>
+    <ul class="sidebar-nav">
+        <li><a th:href="@{/admin/dashboard}" th:classappend="${active == 'dashboard'} ? 'active'"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li><a th:href="@{/admin/analytics}" th:classappend="${active == 'analytics'} ? 'active'"><i class="bi bi-graph-up"></i> Analytics</a></li>
+        <li><a th:href="@{/admin/cms/pages}" th:classappend="${active == 'cms'} ? 'active'"><i class="bi bi-layout-text-window"></i> CMS Pages</a></li>
+        <li><a th:href="@{/admin/cms/blog}" th:classappend="${active == 'cms'} ? 'active'"><i class="bi bi-journal-richtext"></i> CMS Blog</a></li>
+        <li><a th:href="@{/admin/events}" th:classappend="${active == 'events'} ? 'active'"><i class="bi bi-calendar-event"></i> Events</a></li>
+        <li><a th:href="@{/admin/partners}" th:classappend="${active == 'partners'} ? 'active'"><i class="bi bi-building"></i> Partnerships</a></li>
+        <li><a th:href="@{/admin/ambassadors}" th:classappend="${active == 'ambassadors'} ? 'active'"><i class="bi bi-award"></i> Ambassadors</a></li>
+        <li><a th:href="@{/admin/volunteers}" th:classappend="${active == 'volunteers'} ? 'active'"><i class="bi bi-people"></i> Volunteers</a></li>
+        <li><a th:href="@{/admin/internships}" th:classappend="${active == 'internships'} ? 'active'"><i class="bi bi-briefcase"></i> Internships</a></li>
+        <li><a th:href="@{/admin/applications}" th:classappend="${active == 'applications'} ? 'active'"><i class="bi bi-mortarboard"></i> Legacy Apps</a></li>
+        <li><a th:href="@{/admin/contacts}" th:classappend="${active == 'contacts'} ? 'active'"><i class="bi bi-envelope"></i> Email Inbox</a></li>
+        <li><a th:href="@{/admin/newsletters}" th:classappend="${active == 'newsletters'} ? 'active'"><i class="bi bi-newspaper"></i> Subscribers</a></li>
+        <li><a th:href="@{/admin/activity}" th:classappend="${active == 'activity'} ? 'active'"><i class="bi bi-clock-history"></i> Activity Log</a></li>
+        <li><a th:href="@{/admin/settings}" th:classappend="${active == 'settings'} ? 'active'"><i class="bi bi-gear"></i> Settings</a></li>
+    </ul>
+</nav>
+</body>
+</html>
