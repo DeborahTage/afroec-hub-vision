@@ -40,7 +40,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Free digital literacy, programming, and cybersecurity training for Ethiopian youth, women, and students in remote communities.",
+          "Free digital literacy, programming, and cybersecurity Awarness for Ethiopian youth, women, and students in remote communities.",
       },
     ],
   }),
