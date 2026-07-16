@@ -1,9 +1,6 @@
 {
-  "version": 2,
-  "buildCommand": "npm run build:frontend",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "tanstack-start",
   "installCommand": "npm install",
-  "outputDirectory": "frontend/.output/public",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
-  ]
+  "buildCommand": "npm run build:frontend && mkdir -p .vercel && cp -r frontend/.vercel/output .vercel/output"
 }
