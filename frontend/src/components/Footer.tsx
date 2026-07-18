@@ -85,8 +85,13 @@ export function Footer() {
                                 <Mail size={14} /> support@afroec.com
                             </a>
                         </li>
-                        <li className="flex items-center gap-2">
-                            <Phone size={14} className="shrink-0" /> +251 916416887
+                        <li>
+                            <a
+                                href="tel:+251786252617"
+                                className="inline-flex items-center gap-2 hover:text-accent transition-colors"
+                            >
+                                <Phone size={14} className="shrink-0" /> +251 786 252 617
+                            </a>
                         </li>
                         <li className="flex items-start gap-2">
                             <MapPin size={14} className="mt-0.5 shrink-0" />

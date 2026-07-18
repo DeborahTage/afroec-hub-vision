@@ -59,6 +59,7 @@ public class SecurityConfig {
                             "/api/v1/events/**",
                             "/api/v1/analytics/**",
                             "/api/v1/cms/**",
+                            "/api/v1/documents/**",
                             "/actuator/health",
                             "/error",
                             "/css/**",

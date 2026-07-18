@@ -58,6 +58,7 @@ public class RequestSecurityFilter extends OncePerRequestFilter {
         String uri = request.getRequestURI();
         if (requireJsonContentType
                 && uri.startsWith("/api/")
+                && !uri.equals("/api/v1/documents/cv")
                 && ("POST".equals(method) || "PUT".equals(method) || "PATCH".equals(method))) {
             String contentType = request.getContentType();
             if (contentType == null

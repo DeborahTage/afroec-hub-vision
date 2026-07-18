@@ -56,6 +56,24 @@ async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise
   return body.data as T;
 }
 
+export async function uploadCvDocument(file: File) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await fetch(`${API_BASE.replace(/\/$/, "")}/documents/cv`, {
+    method: "POST",
+    headers: { Accept: "application/json" },
+    body: formData,
+  });
+  const body = await parseJson<ApiResponse<{ url: string }>>(response);
+
+  if (!response.ok || body.success === false) {
+    throw new ApiError(body.message || `CV upload failed (HTTP ${response.status})`, body.errors);
+  }
+
+  return body.data;
+}
+
 export async function submitStudentApplication(data: StudentApplicationData) {
   return apiFetch<SubmissionResponse>("/applications/student", {
     method: "POST",
