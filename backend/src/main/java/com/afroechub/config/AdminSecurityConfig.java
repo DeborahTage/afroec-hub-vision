@@ -66,7 +66,8 @@ public class AdminSecurityConfig {
                         .requestMatchers(
                                 "/admin/login",
                                 "/admin/api/auth/login",
-                                "/api/v1/admin/auth/login"
+                                "/api/v1/admin/auth/login",
+                                "/api/v1/admin/auth/logout"
                         ).permitAll()
                         .anyRequest().hasAnyRole("ADMIN", "SUPER_ADMIN"))
                 .addFilterBefore(localhostOnlyFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -119,8 +120,10 @@ public class AdminSecurityConfig {
                                             @NonNull FilterChain filterChain)
                     throws ServletException, IOException {
                 if (localhostOnly && !isLocal(request)) {
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN,
-                            "Admin dashboard is only accessible from localhost");
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response.setContentType("application/json");
+                    response.getWriter().write(
+                            "{\"success\":false,\"message\":\"Access denied.\"}");
                     return;
                 }
                 filterChain.doFilter(request, response);
@@ -154,7 +157,7 @@ public class AdminSecurityConfig {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");
                 response.getWriter().write(
-                        "{\"success\":false,\"message\":\"Authentication required\"}");
+                        "{\"success\":false,\"message\":\"Authentication required.\"}");
             } else {
                 response.sendRedirect(request.getContextPath() + "/admin/login");
             }

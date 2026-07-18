@@ -169,11 +169,16 @@ export function mapContactForm(form: {
 export function formatApiError(err: unknown): string {
   if (err instanceof Error) {
     const message = err.message || "";
-    // Defense-in-depth: never show API hosts/URLs in the UI.
-    if (/https?:\/\//i.test(message) || /onrender\.com|\/api\/v1|HTTP\s*\d{3}/i.test(message)) {
+    if (
+      !message.trim() ||
+      /https?:\/\//i.test(message) ||
+      /onrender\.com|localhost|\/api\/v1|HTTP\s*\d{3}|Exception|Stacktrace|SQL|jdbc:|\{|\}/i.test(
+        message,
+      )
+    ) {
       return "Something went wrong. Please try again.";
     }
-    return message || "Something went wrong. Please try again.";
+    return message.length > 240 ? "Something went wrong. Please try again." : message;
   }
   return "Something went wrong. Please try again.";
 }

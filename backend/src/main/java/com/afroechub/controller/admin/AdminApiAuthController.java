@@ -48,17 +48,36 @@ public class AdminApiAuthController {
             AdminUser user = adminUserService.authenticate(request.username(), request.password());
             String token = tokenProvider.generateToken(user.getUsername(), user.getRole().name(), user.getId());
             ResponseCookie cookie = ResponseCookie.from(JwtUtil.COOKIE_NAME, token)
-                    .httpOnly(true).secure(cookieSecure).sameSite("Strict").path("/")
+                    .httpOnly(true).secure(cookieSecure).sameSite(cookieSecure ? "None" : "Lax").path("/")
                     .maxAge(Duration.ofHours(24)).build();
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
             activityLogService.log(user.getId(), "LOGIN", "ADMIN", user.getId(),
                     "Admin logged in (React admin)", JwtUtil.clientIp(httpRequest));
             return ResponseEntity.ok(ApiResponse.ok("Login successful",
-                    new TokenResponse(user.getUsername(), user.getRole().name())));
+                    new TokenResponse(token, user.getUsername(), user.getRole().name())));
         } catch (UnauthorizedException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.error("Invalid credentials"));
         }
     }
 
-    public record TokenResponse(String username, String role) {}
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<Void>> logout(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from(JwtUtil.COOKIE_NAME, "")
+                .httpOnly(true).secure(cookieSecure).sameSite(cookieSecure ? "None" : "Lax").path("/")
+                .maxAge(Duration.ZERO).build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        return ResponseEntity.ok(ApiResponse.ok("Logged out"));
+    }
+
+    @org.springframework.web.bind.annotation.GetMapping("/me")
+    public ResponseEntity<ApiResponse<TokenResponse>> me(HttpServletRequest request) {
+        String token = JwtUtil.resolveToken(request);
+        if (token == null || !tokenProvider.validate(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.error("Authentication required."));
+        }
+        return ResponseEntity.ok(ApiResponse.ok("OK",
+                new TokenResponse(null, tokenProvider.getUsername(token), tokenProvider.getRole(token))));
+    }
+
+    public record TokenResponse(String token, String username, String role) {}
 }

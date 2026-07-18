@@ -25,10 +25,17 @@ export default function LoginPage() {
       router.push('/')
       router.refresh()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Invalid credentials')
+      setError(err instanceof Error ? safeLoginError(err.message) : 'Invalid credentials')
     } finally {
       setLoading(false)
     }
+  }
+
+  function safeLoginError(message: string): string {
+    if (/https?:\/\//i.test(message) || /onrender\.com|\/api\/v1|HTTP\s*\d{3}|\{|\}/i.test(message)) {
+      return 'Unable to sign in. Please try again.'
+    }
+    return message || 'Invalid credentials'
   }
 
   return (

@@ -29,6 +29,7 @@ server:
     include-binding-errors: never
     include-stacktrace: never
     include-exception: false
+    include-path: never
 
 springdoc:
   api-docs:

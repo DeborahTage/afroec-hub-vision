@@ -51,6 +51,10 @@ server:
   port: ${PORT:8080}
   error:
     include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+    include-exception: false
+    include-path: never
   max-http-request-header-size: 16KB
   tomcat:
     max-http-form-post-size: 6MB

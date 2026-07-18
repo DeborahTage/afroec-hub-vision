@@ -1,9 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { BarChart3, Bell, BookOpen, Calendar, ChevronDown, FileText, HelpCircle, LayoutDashboard, LifeBuoy, LogOut, Mail, Settings, Shield, Users } from 'lucide-react'
 import { NAV_ITEMS } from '@/lib/constants'
+import { authApi } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -11,6 +12,14 @@ const icons = { LayoutDashboard, BarChart3, Users, Calendar, FileText, BookOpen,
 
 export function Sidebar() {
   const pathname = usePathname()
+  const router = useRouter()
+
+  async function handleSignOut() {
+    await authApi.logout()
+    router.push('/login')
+    router.refresh()
+  }
+
   return (
     <aside className="sidebar" aria-label="Admin navigation">
       <div className="sidebar-brand">
@@ -50,7 +59,7 @@ export function Sidebar() {
           </div>
           <ChevronDown size={16} />
         </div>
-        <Button variant="secondary" onClick={() => location.href = '/login'} style={{ width: '100%' }}>
+        <Button variant="secondary" onClick={handleSignOut} style={{ width: '100%' }}>
           <LogOut size={16}/>
           <span>Sign Out</span>
         </Button>
