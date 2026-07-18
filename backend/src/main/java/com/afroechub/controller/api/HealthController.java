@@ -18,9 +18,11 @@ public class HealthController {
     @Operation(summary = "Health check")
     @GetMapping("/health")
     public ResponseEntity<Map<String, Object>> health() {
+        String buildId = System.getenv().getOrDefault("APP_BUILD_ID", "unknown");
         return ResponseEntity.ok(Map.of(
                 "status", "UP",
                 "service", "afroec-hub-backend",
+                "build", buildId,
                 "timestamp", Instant.now().toString()
         ));
     }

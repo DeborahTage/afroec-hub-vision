@@ -1,11 +1,12 @@
-# Root Render Blueprint — deploys the Spring Boot API from /backend
+# Root Render Blueprint — deploys Spring Boot from /backend
+# Prefer explicit dockerContext so this works even if dashboard Root Directory is blank.
 services:
   - type: web
     name: afroec-backend
     runtime: docker
     plan: starter
-    rootDir: backend
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     healthCheckPath: /api/v1/health
     envVars:
       - key: SPRING_PROFILES_ACTIVE
@@ -36,6 +37,8 @@ services:
         value: "support@afroec.com"
       - key: MAIL_ENABLED
         value: "false"
+      - key: APP_BUILD_ID
+        value: "20260718-detail-v9"
 
 databases:
   - name: afroec-hub-db
