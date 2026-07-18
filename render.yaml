@@ -1,7 +1,7 @@
 # Root Render Blueprint — deploys the Spring Boot API from /backend
 services:
   - type: web
-    name: afroec-hub-api
+    name: afroec-hub-backend
     runtime: docker
     plan: starter
     rootDir: backend

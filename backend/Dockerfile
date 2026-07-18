@@ -1,5 +1,5 @@
 # CACHE BUST: 2026-07-18 — restructure-v4 merged, building from backend/
-ARG CACHE_BUST=3
+ARG CACHE_BUST=4
 
 # ---- Build stage ----
 FROM maven:3.9-eclipse-temurin-21 AS build

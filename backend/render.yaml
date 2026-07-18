@@ -1,8 +1,9 @@
 services:
   - type: web
-    name: afroec-hub-api
+    name: afroec-hub-backend
     runtime: docker
     plan: starter
+    dockerfilePath: ./Dockerfile
     healthCheckPath: /api/v1/health
     envVars:
       - key: SPRING_PROFILES_ACTIVE
