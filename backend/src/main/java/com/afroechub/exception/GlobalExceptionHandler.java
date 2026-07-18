@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -33,7 +34,7 @@ public class GlobalExceptionHandler {
             errors.putIfAbsent(fe.getField(), fe.getDefaultMessage());
         }
         return ResponseEntity.badRequest()
-                .body(ApiResponse.error("Validation failed", errors));
+                .body(ApiResponse.error("Invalid input. Please check your data.", errors));
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -42,13 +43,20 @@ public class GlobalExceptionHandler {
         ex.getConstraintViolations().forEach(v ->
                 errors.putIfAbsent(v.getPropertyPath().toString(), v.getMessage()));
         return ResponseEntity.badRequest()
-                .body(ApiResponse.error("Validation failed", errors));
+                .body(ApiResponse.error("Invalid input. Please check your data.", errors));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<Void>> handleUnreadable(HttpMessageNotReadableException ex) {
+        log.warn("Unreadable request body: {}", ex.getMostSpecificCause().getMessage());
+        return ResponseEntity.badRequest()
+                .body(ApiResponse.error("Invalid input. Please check your data."));
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiResponse<Void>> handleNotFound(ResourceNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(ApiResponse.error(ex.getMessage()));
+                .body(ApiResponse.error("Resource not found."));
     }
 
     @ExceptionHandler(DuplicateResourceException.class)
@@ -66,7 +74,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ApiResponse<Void>> handleUnauthorized(UnauthorizedException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(ApiResponse.error(ex.getMessage()));
+                .body(ApiResponse.error("Unauthorized."));
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
@@ -79,6 +87,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleGeneric(Exception ex, WebRequest request) {
         log.error("Unhandled exception for {}", request.getDescription(false), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.error("An unexpected error occurred. Please try again later."));
+                .body(ApiResponse.error("Something went wrong. Please try again later."));
     }
 }

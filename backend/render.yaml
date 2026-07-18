@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: afroec-hub-backend
+    name: afroec-backend
     runtime: docker
     plan: starter
     dockerfilePath: ./Dockerfile

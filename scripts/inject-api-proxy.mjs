@@ -22,7 +22,7 @@ if (!configPath) {
 const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 const routes = Array.isArray(config.routes) ? config.routes : [];
 const proxySrc = "/api/v1/(.*)";
-const proxyDest = "https://afroec-hub-backend.onrender.com/api/v1/$1";
+const proxyDest = "https://afroec-backend.onrender.com/api/v1/$1";
 
 const withoutOldProxy = routes.filter(
   (route) =>
@@ -30,7 +30,8 @@ const withoutOldProxy = routes.filter(
       route &&
       route.src === proxySrc &&
       typeof route.dest === "string" &&
-      route.dest.includes("afroec-hub-backend.onrender.com")
+      (route.dest.includes("afroec-backend.onrender.com") ||
+        route.dest.includes("afroec-hub-backend.onrender.com"))
     ),
 );
 

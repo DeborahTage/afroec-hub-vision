@@ -167,6 +167,13 @@ export function mapContactForm(form: {
 }
 
 export function formatApiError(err: unknown): string {
-  if (err instanceof Error) return err.message;
+  if (err instanceof Error) {
+    const message = err.message || "";
+    // Defense-in-depth: never show API hosts/URLs in the UI.
+    if (/https?:\/\//i.test(message) || /onrender\.com|\/api\/v1|HTTP\s*\d{3}/i.test(message)) {
+      return "Something went wrong. Please try again.";
+    }
+    return message || "Something went wrong. Please try again.";
+  }
   return "Something went wrong. Please try again.";
 }

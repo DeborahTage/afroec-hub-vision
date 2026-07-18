@@ -14,7 +14,7 @@ export const SECURITY_HEADERS: Record<string, string> = {
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",
     "font-src 'self' data:",
-    "connect-src 'self' https://afroec-hub-backend.onrender.com http://localhost:8092 http://localhost:8080 https://*.vercel.app",
+    "connect-src 'self' https://afroec-backend.onrender.com https://afroec-hub-backend.onrender.com http://localhost:8092 http://localhost:8080 https://*.vercel.app",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",

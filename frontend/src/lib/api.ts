@@ -17,13 +17,27 @@ import { ApiError } from "@/types/api";
 
 /** Vite uses VITE_* ; also accept NEXT_PUBLIC_* for Vercel dashboard compatibility. */
 const LOCAL_API = "http://localhost:8092/api/v1";
-/** Same-origin path proxied to Render by Vercel (avoids CORS / wrong-host failures). */
-const PRODUCTION_API = "/api/v1";
+/** Direct Render API — must include /api/v1. */
+const PRODUCTION_API = "https://afroec-backend.onrender.com/api/v1";
 
 export const API_BASE =
   import.meta.env.VITE_API_URL ||
   import.meta.env.NEXT_PUBLIC_API_URL ||
   (import.meta.env.DEV ? LOCAL_API : PRODUCTION_API);
+
+const USER_GENERIC_ERROR = "Something went wrong. Please try again later.";
+const USER_NETWORK_ERROR = "Connection failed. Please check your internet and try again.";
+const USER_UPLOAD_ERROR = "Unable to upload your document. Please try again.";
+
+function isSafeUserMessage(message: string | undefined | null): message is string {
+  if (!message || !message.trim()) return false;
+  // Never surface URLs, hostnames, stack traces, or raw status dumps to users.
+  if (/https?:\/\//i.test(message)) return false;
+  if (/onrender\.com|localhost|\/api\/v1/i.test(message)) return false;
+  if (/HTTP\s*\d{3}/i.test(message)) return false;
+  if (/Exception|Stacktrace|SQL|jdbc:/i.test(message)) return false;
+  return message.length <= 240;
+}
 
 async function parseJson<T>(response: Response): Promise<T> {
   const text = await response.text();
@@ -31,17 +45,29 @@ async function parseJson<T>(response: Response): Promise<T> {
   try {
     return JSON.parse(text) as T;
   } catch {
-    throw new ApiError(`Invalid JSON response (HTTP ${response.status})`);
+    console.error("API returned non-JSON response", response.status);
+    throw new ApiError(USER_GENERIC_ERROR);
   }
 }
 
 function networkErrorMessage(err: unknown): never {
   if (err instanceof TypeError) {
-    throw new ApiError(
-      "Unable to reach the Afroec Hub API. Please check your connection and try again in a moment.",
-    );
+    console.error("Network error contacting API", err);
+    throw new ApiError(USER_NETWORK_ERROR);
   }
   throw err;
+}
+
+function userFacingApiMessage(
+  body: ApiResponse<unknown>,
+  fallback: string = USER_GENERIC_ERROR,
+): string {
+  if (isSafeUserMessage(body.message)) return body.message;
+  if (body.errors) {
+    const joined = Object.values(body.errors).filter(Boolean).join(", ");
+    if (isSafeUserMessage(joined)) return joined;
+  }
+  return fallback;
 }
 
 async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -64,11 +90,8 @@ async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise
   const body = await parseJson<ApiResponse<T>>(response);
 
   if (!response.ok || body.success === false) {
-    const message =
-      body.message ||
-      (body.errors ? Object.values(body.errors).join(", ") : null) ||
-      `HTTP ${response.status}: ${response.statusText}`;
-    throw new ApiError(message, body.errors);
+    console.error("API request failed", response.status, body.message);
+    throw new ApiError(userFacingApiMessage(body), body.errors);
   }
 
   return body.data as T;
@@ -91,7 +114,8 @@ export async function uploadCvDocument(file: File) {
   const body = await parseJson<ApiResponse<{ url: string }>>(response);
 
   if (!response.ok || body.success === false) {
-    throw new ApiError(body.message || `CV upload failed (HTTP ${response.status})`, body.errors);
+    console.error("CV upload failed", response.status, body.message);
+    throw new ApiError(userFacingApiMessage(body, USER_UPLOAD_ERROR), body.errors);
   }
 
   return body.data;
