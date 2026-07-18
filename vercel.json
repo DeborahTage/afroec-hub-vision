@@ -2,5 +2,5 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "tanstack-start",
   "installCommand": "npm install",
-  "buildCommand": "npm run build:frontend && mkdir -p .vercel && cp -r frontend/.vercel/output .vercel/output"
+  "buildCommand": "npm run build:frontend && mkdir -p .vercel && rm -rf .vercel/output && cp -r frontend/.vercel/output .vercel/output"
 }
