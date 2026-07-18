@@ -16,10 +16,13 @@ import type {
 import { ApiError } from "@/types/api";
 
 /** Vite uses VITE_* ; also accept NEXT_PUBLIC_* for Vercel dashboard compatibility. */
+const LOCAL_API = "http://localhost:8092/api/v1";
+const PRODUCTION_API = "https://afroec-hub-backend.onrender.com/api/v1";
+
 export const API_BASE =
   import.meta.env.VITE_API_URL ||
   import.meta.env.NEXT_PUBLIC_API_URL ||
-  "http://localhost:8092/api/v1";
+  (import.meta.env.DEV ? LOCAL_API : PRODUCTION_API);
 
 async function parseJson<T>(response: Response): Promise<T> {
   const text = await response.text();
@@ -31,17 +34,31 @@ async function parseJson<T>(response: Response): Promise<T> {
   }
 }
 
+function networkErrorMessage(err: unknown): never {
+  if (err instanceof TypeError) {
+    throw new ApiError(
+      "Unable to reach the Afroec Hub API. Please check your connection and try again in a moment.",
+    );
+  }
+  throw err;
+}
+
 async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const url = `${API_BASE.replace(/\/$/, "")}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
 
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      ...options.headers,
-    },
-  });
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        ...options.headers,
+      },
+    });
+  } catch (err) {
+    networkErrorMessage(err);
+  }
 
   const body = await parseJson<ApiResponse<T>>(response);
 
@@ -60,11 +77,16 @@ export async function uploadCvDocument(file: File) {
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await fetch(`${API_BASE.replace(/\/$/, "")}/documents/cv`, {
-    method: "POST",
-    headers: { Accept: "application/json" },
-    body: formData,
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE.replace(/\/$/, "")}/documents/cv`, {
+      method: "POST",
+      headers: { Accept: "application/json" },
+      body: formData,
+    });
+  } catch (err) {
+    networkErrorMessage(err);
+  }
   const body = await parseJson<ApiResponse<{ url: string }>>(response);
 
   if (!response.ok || body.success === false) {

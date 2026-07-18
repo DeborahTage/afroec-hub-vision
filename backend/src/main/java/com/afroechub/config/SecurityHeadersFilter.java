@@ -31,8 +31,14 @@ public class SecurityHeadersFilter extends OncePerRequestFilter {
         response.setHeader("X-XSS-Protection", "0");
         response.setHeader("Permissions-Policy",
                 "camera=(), microphone=(), geolocation=(), payment=(), usb=()");
-        response.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-        response.setHeader("Cross-Origin-Resource-Policy", "same-site");
+        // Public API is called cross-origin from Vercel; CORP must allow that.
+        boolean isPublicApi = request.getRequestURI().startsWith("/api/");
+        if (isPublicApi) {
+            response.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+        } else {
+            response.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+            response.setHeader("Cross-Origin-Resource-Policy", "same-site");
+        }
 
         // HSTS only when the request arrived over TLS (or behind a TLS-terminating proxy)
         if (request.isSecure() || "https".equalsIgnoreCase(request.getHeader("X-Forwarded-Proto"))) {

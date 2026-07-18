@@ -27,7 +27,7 @@ services:
       - key: ADMIN_LOCALHOST_ONLY
         value: "true"
       - key: CORS_ALLOWED_ORIGINS
-        value: "https://afroec.vercel.app,https://www.afroec.vercel.app,http://localhost:3000,http://localhost:3001,http://localhost:5173,http://localhost:8080,http://127.0.0.1:8080"
+        value: "https://afroec.vercel.app,https://www.afroec.vercel.app,https://afroechub.com,https://www.afroechub.com,http://localhost:3000,http://localhost:3001,http://localhost:5173,http://localhost:8080,http://127.0.0.1:8080"
       - key: ADMIN_EMAIL
         value: "support@afroec.com"
       - key: MAIL_FROM
