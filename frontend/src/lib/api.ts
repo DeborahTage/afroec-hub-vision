@@ -17,7 +17,8 @@ import { ApiError } from "@/types/api";
 
 /** Vite uses VITE_* ; also accept NEXT_PUBLIC_* for Vercel dashboard compatibility. */
 const LOCAL_API = "http://localhost:8092/api/v1";
-const PRODUCTION_API = "https://afroec-hub-backend.onrender.com/api/v1";
+/** Same-origin path proxied to Render by Vercel (avoids CORS / wrong-host failures). */
+const PRODUCTION_API = "/api/v1";
 
 export const API_BASE =
   import.meta.env.VITE_API_URL ||
