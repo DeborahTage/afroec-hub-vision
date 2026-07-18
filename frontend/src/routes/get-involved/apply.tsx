@@ -289,7 +289,6 @@ function ApplyPage() {
         estimatedMembers: 20,
         supportNeeded: [],
         cvUrl: "",
-        recommendationLetterUrl: "",
         portfolioUrl: "",
         commitHours: false,
         commitClub: false,
@@ -380,7 +379,6 @@ function ApplyPage() {
                     leadershipExperience: ambassador.leadershipExperience?.trim() || undefined,
                     proposedClubName: ambassador.proposedClubName.trim(),
                     cvUrl,
-                    recommendationLetterUrl: ambassador.recommendationLetterUrl?.trim() || undefined,
                     portfolioUrl: ambassador.portfolioUrl?.trim() || undefined,
                     hoursPerWeek: Number(ambassador.hoursPerWeek),
                     estimatedMembers: Number(ambassador.estimatedMembers),
@@ -926,7 +924,7 @@ function ApplyPage() {
                                             setAmbassador({ ...ambassador, supportNeeded })
                                         }
                                     />
-                                    <div className="grid md:grid-cols-3 gap-6">
+                                    <div className="grid md:grid-cols-2 gap-6">
                                         <div className="flex flex-col">
                                             <label htmlFor="ambCv" className={labelClass}>
                                                 CV Document (Optional)
@@ -939,24 +937,6 @@ function ApplyPage() {
                                                 onChange={(e) => setAmbassadorCv(e.target.files?.[0] || null)}
                                             />
                                             <span className="mt-1 text-[11px] text-text-muted">PDF, DOC, or DOCX · max 5 MB</span>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambRec" className={labelClass}>
-                                                Recommendation Letter URL (Optional)
-                                            </label>
-                                            <input
-                                                id="ambRec"
-                                                type="url"
-                                                className={inputClass}
-                                                placeholder="https://"
-                                                value={ambassador.recommendationLetterUrl || ""}
-                                                onChange={(e) =>
-                                                    setAmbassador({
-                                                        ...ambassador,
-                                                        recommendationLetterUrl: e.target.value,
-                                                    })
-                                                }
-                                            />
                                         </div>
                                         <div className="flex flex-col">
                                             <label htmlFor="ambPortfolio" className={labelClass}>

@@ -176,7 +176,6 @@ export interface AmbassadorApplicationData {
   estimatedMembers: number;
   supportNeeded?: string[];
   cvUrl?: string;
-  recommendationLetterUrl?: string;
   portfolioUrl?: string;
   commitHours: boolean;
   commitClub: boolean;
