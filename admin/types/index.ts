@@ -28,13 +28,16 @@ export interface AnalyticsOverview {
 
 export interface Application {
   id: number
-  type: 'PARTNER' | 'AMBASSADOR' | 'VOLUNTEER' | 'INTERNSHIP'
+  type: 'PARTNER' | 'AMBASSADOR' | 'VOLUNTEER' | 'INTERNSHIP' | 'STUDENT' | string
   fullName: string
   email: string
   phone?: string
+  secondary?: string
   status: 'PENDING' | 'REVIEWING' | 'INTERVIEW' | 'ACCEPTED' | 'REJECTED' | string
   createdAt: string
   details?: Record<string, unknown>
+  /** Extra fields returned by the API (motivation, city, CV URL, etc.) */
+  [key: string]: unknown
 }
 
 export interface Event {

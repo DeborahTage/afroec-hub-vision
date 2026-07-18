@@ -22,8 +22,7 @@ export default function LoginPage() {
     setError('')
     try {
       await authApi.login(username, password)
-      router.push('/')
-      router.refresh()
+      router.replace('/')
     } catch (err) {
       setError(err instanceof Error ? safeLoginError(err.message) : 'Invalid credentials')
     } finally {
@@ -32,6 +31,10 @@ export default function LoginPage() {
   }
 
   function safeLoginError(message: string): string {
+    if (/ADMIN_LOCALHOST_ONLY|locked on the server/i.test(message)) return message
+    if (/Access denied|Forbidden/i.test(message)) {
+      return 'Admin login is locked on the server. In Render, set ADMIN_LOCALHOST_ONLY=false and redeploy.'
+    }
     if (/https?:\/\//i.test(message) || /onrender\.com|\/api\/v1|HTTP\s*\d{3}|\{|\}/i.test(message)) {
       return 'Unable to sign in. Please try again.'
     }

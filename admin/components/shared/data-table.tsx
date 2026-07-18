@@ -18,6 +18,8 @@ interface DataTableProps<T extends { id?: string | number }> {
   emptyTitle: string
   emptyDescription: string
   getRowId?: (row: T, index: number) => string | number
+  onExportSelected?: (ids: Array<string | number>) => void
+  onDeleteSelected?: (ids: Array<string | number>) => void
 }
 
 const pageSize = 10
@@ -27,7 +29,9 @@ export function DataTable<T extends { id?: string | number }>({
   columns,
   emptyTitle,
   emptyDescription,
-  getRowId
+  getRowId,
+  onExportSelected,
+  onDeleteSelected
 }: DataTableProps<T>) {
   const [sortKey, setSortKey] = useState<string>('')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
@@ -52,7 +56,8 @@ export function DataTable<T extends { id?: string | number }>({
   }
 
   function rowId(row: T, index: number) {
-    return getRowId?.(row, index) ?? row.id ?? index
+    if (getRowId) return getRowId(row, index)
+    return `${String(row.id ?? 'row')}-${index}`
   }
 
   if (data.length === 0) {
@@ -63,13 +68,33 @@ export function DataTable<T extends { id?: string | number }>({
     )
   }
 
+  const selectedIds = Array.from(selected)
+
   return (
     <div className="table-wrap">
       {selected.size > 0 && (
         <div className="filter-bar" style={{ borderRadius: 0, borderWidth: '0 0 1px' }}>
           <strong>{selected.size} selected</strong>
-          <Button variant="secondary">Export</Button>
-          <Button variant="danger">Delete</Button>
+          <Button
+            variant="secondary"
+            onClick={() => onExportSelected?.(selectedIds)}
+            disabled={!onExportSelected}
+          >
+            Export
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              if (!onDeleteSelected) return
+              if (window.confirm(`Delete ${selected.size} selected item(s)?`)) {
+                onDeleteSelected(selectedIds)
+                setSelected(new Set())
+              }
+            }}
+            disabled={!onDeleteSelected}
+          >
+            Delete
+          </Button>
         </div>
       )}
       <div className="table-scroll">
@@ -80,11 +105,11 @@ export function DataTable<T extends { id?: string | number }>({
                 <input
                   type="checkbox"
                   aria-label="Select all rows"
-                  checked={rows.length > 0 && rows.every((row, index) => selected.has(rowId(row, index)))}
+                  checked={rows.length > 0 && rows.every((row, index) => selected.has(rowId(row, (page - 1) * pageSize + index)))}
                   onChange={(event) => {
                     const next = new Set(selected)
                     rows.forEach((row, index) => {
-                      const id = rowId(row, index)
+                      const id = rowId(row, (page - 1) * pageSize + index)
                       if (event.target.checked) next.add(id)
                       else next.delete(id)
                     })
@@ -111,9 +136,10 @@ export function DataTable<T extends { id?: string | number }>({
           </thead>
           <tbody>
             {rows.map((row, index) => {
-              const id = rowId(row, index)
+              const absoluteIndex = (page - 1) * pageSize + index
+              const id = rowId(row, absoluteIndex)
               return (
-                <tr key={id}>
+                <tr key={String(id)}>
                   <td>
                     <input
                       type="checkbox"

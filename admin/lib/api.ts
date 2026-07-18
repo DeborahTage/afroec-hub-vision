@@ -28,15 +28,21 @@ function setToken(token: string | null) {
   else sessionStorage.removeItem(TOKEN_KEY)
 }
 
-function safeErrorMessage(raw: unknown, status?: number): string {
+function safeErrorMessage(raw: unknown, status?: number, endpoint?: string): string {
   const message = typeof raw === 'string' ? raw : ''
+  const isLogin = endpoint?.includes('/auth/login')
   if (
     !message ||
     /https?:\/\//i.test(message) ||
-    /onrender\.com|localhost|\/api\/v1|HTTP\s*\d{3}|Exception|Stacktrace|SQL|jdbc:/i.test(message)
+    /onrender\.com|localhost|\/api\/v1|HTTP\s*\d{3}|Exception|Stacktrace|SQL|jdbc:/i.test(message) ||
+    /Forbidden|Access denied/i.test(message)
   ) {
-    if (status === 401) return 'Invalid credentials or session expired.'
-    if (status === 403) return 'Access denied.'
+    if (status === 401) return isLogin ? 'Invalid username or password.' : 'Invalid credentials or session expired.'
+    if (status === 403) {
+      return isLogin
+        ? 'Admin login is locked on the server. In Render, set ADMIN_LOCALHOST_ONLY=false and redeploy.'
+        : 'Access denied.'
+    }
     if (status === 404) return 'Not found.'
     return 'Something went wrong. Please try again.'
   }
@@ -71,7 +77,7 @@ async function fetchWithAuth<T>(endpoint: string, options: RequestInit = {}): Pr
       setToken(null)
       window.location.href = '/login'
     }
-    throw new Error(safeErrorMessage(payload.message, res.status))
+    throw new Error(safeErrorMessage(payload.message, res.status, endpoint))
   }
   return (payload.data ?? payload) as T
 }
@@ -82,7 +88,10 @@ export const authApi = {
       '/admin/auth/login',
       { method: 'POST', body: JSON.stringify({ username, password }) }
     )
-    if (data.token) setToken(data.token)
+    if (!data.token) {
+      throw new Error('Login succeeded but no session token was returned. Please try again.')
+    }
+    setToken(data.token)
     return data
   },
   logout: async () => {
@@ -114,11 +123,22 @@ export const applicationsApi = {
     const qs = search.toString()
     return fetchWithAuth<Application[]>(`/admin/applications${qs ? `?${qs}` : ''}`)
   },
-  updateStatus: (id: number, status: string) =>
-    fetchWithAuth<Application>(`/admin/applications/${id}/status`, {
+  getOne: (type: string, id: number) =>
+    fetchWithAuth<Record<string, unknown>>(`/admin/applications/${encodeURIComponent(type)}/${id}`),
+  updateStatus: (type: string, id: number, status: string) =>
+    fetchWithAuth<Record<string, unknown>>(`/admin/applications/${encodeURIComponent(type)}/${id}/status`, {
       method: 'PUT',
       body: JSON.stringify({ status })
-    })
+    }),
+  remove: (type: string, id: number) =>
+    fetchWithAuth<void>(`/admin/applications/${encodeURIComponent(type)}/${id}`, { method: 'DELETE' }),
+  exportCsvUrl: (params?: { type?: string; status?: string }) => {
+    const search = new URLSearchParams()
+    if (params?.type) search.set('type', params.type)
+    if (params?.status) search.set('status', params.status)
+    const qs = search.toString()
+    return `${API_BASE_URL}/admin/applications/export.csv${qs ? `?${qs}` : ''}`
+  }
 }
 
 export const eventsApi = {

@@ -68,6 +68,7 @@ export default function DashboardPage() {
           data={recent}
           emptyTitle="No recent applications"
           emptyDescription="New submissions will appear here as soon as applicants send them."
+          getRowId={(row) => `${row.type}-${row.id}`}
           columns={[
             { key: 'fullName', header: 'Name', sortable: true },
             { key: 'type', header: 'Type', render: (row) => <Badge variant="info">{row.type}</Badge> },

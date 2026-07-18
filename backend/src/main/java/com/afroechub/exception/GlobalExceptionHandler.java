@@ -22,7 +22,10 @@ import java.util.Map;
  * {@code com.afroechub.controller.api} controllers so the Thymeleaf admin UI
  * keeps its own (HTML) error pages.
  */
-@RestControllerAdvice(basePackages = "com.afroechub.controller.api")
+@RestControllerAdvice(basePackages = {
+        "com.afroechub.controller.api",
+        "com.afroechub.controller.admin"
+})
 public class GlobalExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
