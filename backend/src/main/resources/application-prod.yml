@@ -43,7 +43,7 @@ admin:
 
 app:
   cors:
-    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://afroec.vercel.app,https://www.afroec.vercel.app}
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://afroec.com,https://www.afroec.com,https://afroec.vercel.app,https://www.afroec.vercel.app}
   security:
     cookie-secure: true
     require-json-content-type: true
