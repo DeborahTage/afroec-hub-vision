@@ -111,7 +111,8 @@ export const applicationsApi = {
     if (params?.status) search.set('status', params.status)
     if (params?.page) search.set('page', String(params.page))
     if (params?.limit) search.set('limit', String(params.limit))
-    return fetchWithAuth<Application[]>(`/admin/applications?${search}`)
+    const qs = search.toString()
+    return fetchWithAuth<Application[]>(`/admin/applications${qs ? `?${qs}` : ''}`)
   },
   updateStatus: (id: number, status: string) =>
     fetchWithAuth<Application>(`/admin/applications/${id}/status`, {

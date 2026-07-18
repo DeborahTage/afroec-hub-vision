@@ -15,6 +15,7 @@ export const NAV_ITEMS = [
 ]
 
 export const APPLICATION_TYPES = [
+  { value: 'STUDENT', label: 'Student', color: 'teal' },
   { value: 'PARTNER', label: 'Partnership', color: 'blue' },
   { value: 'AMBASSADOR', label: 'Ambassador', color: 'yellow' },
   { value: 'VOLUNTEER', label: 'Volunteer', color: 'green' },
@@ -23,6 +24,7 @@ export const APPLICATION_TYPES = [
 
 export const APPLICATION_STATUS = [
   { value: 'PENDING', label: 'Pending', color: 'yellow' },
+  { value: 'NEW', label: 'New', color: 'yellow' },
   { value: 'REVIEWING', label: 'Reviewing', color: 'blue' },
   { value: 'INTERVIEW', label: 'Interview', color: 'purple' },
   { value: 'ACCEPTED', label: 'Accepted', color: 'green' },
