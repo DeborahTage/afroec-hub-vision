@@ -17,7 +17,7 @@ export interface SubmissionResponse {
 export type ProgramType = "ACADEMY" | "PRODUCT_HUB" | "COMMUNITY";
 export type AcademyTrack = "SOFTWARE_ENGINEERING" | "CYBERSECURITY" | "HARDWARE_ENGINEERING";
 export type CommunityProgram = "CYBERGUARD" | "SHESEC" | "SCHOOLNET" | "DIGISEC";
-export type Gender = "MALE" | "FEMALE" | "NON_BINARY" | "PREFER_NOT_TO_SAY";
+export type Gender = "MALE" | "FEMALE";
 export type EducationLevel =
   | "PRIMARY"
   | "HIGH_SCHOOL"

@@ -221,8 +221,8 @@ function ContactPage() {
                                         <div>
                                             <h3 className="font-display text-[15px] font-bold text-black">Call Us</h3>
                                             <p className="text-[13px] text-text-secondary mt-1">
-                                                <a href="tel:+251916416887" className="hover:text-black transition-colors">
-                                                    +251 916 416 887
+                                                <a href="tel:+251786252617" className="hover:text-black transition-colors">
+                                                    +251 786 252 617
                                                 </a>
                                             </p>
                                         </div>

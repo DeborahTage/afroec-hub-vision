@@ -11,6 +11,7 @@ import {
     submitInternshipApplication,
     submitPartnerInquiry,
     submitVolunteerApplication,
+    uploadCvDocument,
 } from "@/lib/api";
 import { formatApiError } from "@/lib/form-mappers";
 import type {
@@ -150,9 +151,20 @@ const INTERN_SKILLS = [
 const GENDERS: { value: Gender; label: string }[] = [
     { value: "MALE", label: "Male" },
     { value: "FEMALE", label: "Female" },
-    { value: "NON_BINARY", label: "Non-binary" },
-    { value: "PREFER_NOT_TO_SAY", label: "Prefer not to say" },
 ];
+
+const CV_ACCEPT = ".pdf,.doc,.docx";
+const MAX_CV_SIZE = 5 * 1024 * 1024;
+
+function validateCvFile(file: File) {
+    if (file.size > MAX_CV_SIZE) {
+        throw new Error("CV document must be 5 MB or smaller.");
+    }
+    const extension = file.name.split(".").pop()?.toLowerCase();
+    if (!extension || !["pdf", "doc", "docx"].includes(extension)) {
+        throw new Error("CV document must be a PDF, DOC, or DOCX file.");
+    }
+}
 
 const TAB_META: Record<ApplyType, { label: string; title: string; subtitle: string }> = {
     partner: {
@@ -263,7 +275,7 @@ function ApplyPage() {
         email: "",
         phone: "",
         dateOfBirth: "",
-        gender: "PREFER_NOT_TO_SAY",
+        gender: "FEMALE",
         city: "Addis Ababa",
         institutionName: "",
         institutionType: "UNIVERSITY",
@@ -324,6 +336,8 @@ function ApplyPage() {
         agreeDuration: false,
         agreePolicies: false,
     });
+    const [ambassadorCv, setAmbassadorCv] = useState<File | null>(null);
+    const [internshipCv, setInternshipCv] = useState<File | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -348,6 +362,11 @@ function ApplyPage() {
                 if (!ambassador.commitHours || !ambassador.commitClub || !ambassador.commitBootcamp || !ambassador.agreeConduct) {
                     throw new Error("Please accept all required commitments.");
                 }
+                let cvUrl: string | undefined;
+                if (ambassadorCv) {
+                    validateCvFile(ambassadorCv);
+                    cvUrl = (await uploadCvDocument(ambassadorCv)).url;
+                }
                 result = await submitAmbassadorApplication({
                     ...ambassador,
                     fullName: ambassador.fullName.trim(),
@@ -360,7 +379,7 @@ function ApplyPage() {
                     motivationLetter: ambassador.motivationLetter.trim(),
                     leadershipExperience: ambassador.leadershipExperience?.trim() || undefined,
                     proposedClubName: ambassador.proposedClubName.trim(),
-                    cvUrl: ambassador.cvUrl?.trim() || undefined,
+                    cvUrl,
                     recommendationLetterUrl: ambassador.recommendationLetterUrl?.trim() || undefined,
                     portfolioUrl: ambassador.portfolioUrl?.trim() || undefined,
                     hoursPerWeek: Number(ambassador.hoursPerWeek),
@@ -384,9 +403,11 @@ function ApplyPage() {
                 if (!internship.agreeUnpaid || !internship.agreeDuration || !internship.agreePolicies) {
                     throw new Error("Please accept all internship agreements.");
                 }
-                if (!internship.cvUrl.trim()) {
-                    throw new Error("CV URL is required.");
+                if (!internshipCv) {
+                    throw new Error("Please upload your CV document.");
                 }
+                validateCvFile(internshipCv);
+                const cvUrl = (await uploadCvDocument(internshipCv)).url;
                 result = await submitInternshipApplication({
                     ...internship,
                     fullName: internship.fullName.trim(),
@@ -403,7 +424,7 @@ function ApplyPage() {
                     githubUrl: internship.githubUrl?.trim() || undefined,
                     motivationAfroec: internship.motivationAfroec.trim(),
                     learningGoals: internship.learningGoals.trim(),
-                    cvUrl: internship.cvUrl.trim(),
+                    cvUrl,
                     coverLetterUrl: internship.coverLetterUrl?.trim() || undefined,
                     transcriptUrl: internship.transcriptUrl?.trim() || undefined,
                 });
@@ -908,22 +929,20 @@ function ApplyPage() {
                                     <div className="grid md:grid-cols-3 gap-6">
                                         <div className="flex flex-col">
                                             <label htmlFor="ambCv" className={labelClass}>
-                                                CV URL
+                                                CV Document (Optional)
                                             </label>
                                             <input
                                                 id="ambCv"
-                                                type="url"
+                                                type="file"
+                                                accept={CV_ACCEPT}
                                                 className={inputClass}
-                                                placeholder="https://"
-                                                value={ambassador.cvUrl || ""}
-                                                onChange={(e) =>
-                                                    setAmbassador({ ...ambassador, cvUrl: e.target.value })
-                                                }
+                                                onChange={(e) => setAmbassadorCv(e.target.files?.[0] || null)}
                                             />
+                                            <span className="mt-1 text-[11px] text-text-muted">PDF, DOC, or DOCX · max 5 MB</span>
                                         </div>
                                         <div className="flex flex-col">
                                             <label htmlFor="ambRec" className={labelClass}>
-                                                Recommendation Letter URL
+                                                Recommendation Letter URL (Optional)
                                             </label>
                                             <input
                                                 id="ambRec"
@@ -941,7 +960,7 @@ function ApplyPage() {
                                         </div>
                                         <div className="flex flex-col">
                                             <label htmlFor="ambPortfolio" className={labelClass}>
-                                                Portfolio URL
+                                                Portfolio URL (Optional)
                                             </label>
                                             <input
                                                 id="ambPortfolio"
@@ -1454,19 +1473,17 @@ function ApplyPage() {
                                     <div className="grid md:grid-cols-3 gap-6">
                                         <div className="flex flex-col">
                                             <label htmlFor="intCv" className={labelClass}>
-                                                CV URL *
+                                                Upload CV Document *
                                             </label>
                                             <input
                                                 id="intCv"
-                                                type="url"
+                                                type="file"
+                                                accept={CV_ACCEPT}
                                                 required
                                                 className={inputClass}
-                                                placeholder="https://"
-                                                value={internship.cvUrl}
-                                                onChange={(e) =>
-                                                    setInternship({ ...internship, cvUrl: e.target.value })
-                                                }
+                                                onChange={(e) => setInternshipCv(e.target.files?.[0] || null)}
                                             />
+                                            <span className="mt-1 text-[11px] text-text-muted">PDF, DOC, or DOCX · max 5 MB</span>
                                         </div>
                                         <div className="flex flex-col">
                                             <label htmlFor="intCover" className={labelClass}>

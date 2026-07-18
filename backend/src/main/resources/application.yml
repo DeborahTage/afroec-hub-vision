@@ -42,14 +42,19 @@ spring:
   thymeleaf:
     cache: false
 
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
+
 server:
   port: ${PORT:8080}
   error:
     include-message: never
   max-http-request-header-size: 16KB
   tomcat:
-    max-http-form-post-size: 256KB
-    max-swallow-size: 256KB
+    max-http-form-post-size: 6MB
+    max-swallow-size: 6MB
 
 management:
   endpoints:
