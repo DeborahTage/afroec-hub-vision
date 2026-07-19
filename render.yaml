@@ -38,7 +38,7 @@ services:
       - key: MAIL_ENABLED
         value: "false"
       - key: APP_BUILD_ID
-        value: "20260718-detail-v9"
+        value: "20260719-full-apps-v10"
 
 databases:
   - name: afroec-hub-db
