@@ -30,3 +30,31 @@ export const APPLICATION_STATUS = [
   { value: 'ACCEPTED', label: 'Accepted', color: 'green' },
   { value: 'REJECTED', label: 'Rejected', color: 'red' }
 ]
+
+export const APPLICATION_TYPE_CONFIG: Record<string, { label: string; badgeClass: string }> = {
+  STUDENT: { label: 'Student', badgeClass: 'badge-info' },
+  PARTNER: { label: 'Partnership', badgeClass: 'badge-info' },
+  AMBASSADOR: { label: 'Ambassador', badgeClass: 'badge-warning' },
+  VOLUNTEER: { label: 'Volunteer', badgeClass: 'badge-success' },
+  INTERNSHIP: { label: 'Internship', badgeClass: 'badge-info' }
+}
+
+export const APPLICATION_STATUS_CONFIG: Record<string, { label: string; badgeClass: string }> = {
+  NEW: { label: 'New', badgeClass: 'badge-warning' },
+  PENDING: { label: 'Pending', badgeClass: 'badge-warning' },
+  CONTACTED: { label: 'Contacted', badgeClass: 'badge-info' },
+  IN_DISCUSSION: { label: 'In discussion', badgeClass: 'badge-info' },
+  REVIEWING: { label: 'Reviewing', badgeClass: 'badge-info' },
+  INTERVIEW: { label: 'Interview', badgeClass: 'badge-info' },
+  ACTIVE: { label: 'Active', badgeClass: 'badge-success' },
+  ACCEPTED: { label: 'Accepted', badgeClass: 'badge-success' },
+  DECLINED: { label: 'Declined', badgeClass: 'badge-danger' },
+  REJECTED: { label: 'Rejected', badgeClass: 'badge-danger' }
+}
+
+export const EVENT_STATUS_CONFIG: Record<string, { label: string; badgeClass: string }> = {
+  UPCOMING: { label: 'Upcoming', badgeClass: 'badge-success' },
+  ONGOING: { label: 'Ongoing', badgeClass: 'badge-info' },
+  PAST: { label: 'Past', badgeClass: 'badge-default' },
+  CANCELLED: { label: 'Cancelled', badgeClass: 'badge-danger' }
+}

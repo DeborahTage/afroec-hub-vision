@@ -2,9 +2,10 @@
 
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { analyticsApi } from '@/lib/api'
 import { StatsCards } from '@/components/dashboard/stats-cards'
-import { ChartCard, BarPreview } from '@/components/shared/chart-card'
+import { ChartCard } from '@/components/shared/chart-card'
 import { DataTable } from '@/components/shared/data-table'
 import { Button } from '@/components/ui/button'
 import type { AnalyticsOverview } from '@/types'
@@ -12,10 +13,12 @@ import type { AnalyticsOverview } from '@/types'
 function MetricBars({ data }: { data?: Record<string, number> }) {
   const entries = Object.entries(data || {}) as [string, number][]
   const max = Math.max(...entries.map(([, value]) => value), 1)
-  const fallback: [string, number][] = [['Direct', 45], ['Social', 25], ['Search', 20], ['Referral', 10]]
+  if (entries.length === 0) {
+    return <p style={{ color: 'var(--text-secondary)' }}>No analytics data recorded yet.</p>
+  }
   return (
     <div className="metric-list">
-      {(entries.length ? entries : fallback).map(([key, value]) => (
+      {entries.map(([key, value]) => (
         <div key={key} className="metric-row">
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
@@ -42,7 +45,7 @@ export default function AnalyticsPage() {
     unique: Math.round(views * 0.78),
     time: index % 2 === 0 ? '2:34' : '1:45'
   }))
-  const chartValues = Object.values(data?.popularPages || { programs: 35, apply: 28, ambassadors: 22, events: 18, about: 14, contact: 9 })
+  const pageChart = Object.entries(data?.popularPages || {}).map(([page, views]) => ({ page, views }))
 
   return (
     <div className="section-grid">
@@ -69,8 +72,22 @@ export default function AnalyticsPage() {
         </div>
       )}
       <StatsCards data={data} isLoading={isLoading}/>
-      <ChartCard title="Overview Chart" subtitle="Visits over time" period={period} onPeriodChange={setPeriod}>
-        <BarPreview values={chartValues} />
+      <ChartCard title="Page Views" subtitle="Recorded views by page" period={period} onPeriodChange={setPeriod}>
+        {pageChart.length ? (
+          <div style={{ width: '100%', height: 320 }}>
+            <ResponsiveContainer>
+              <BarChart data={pageChart} margin={{ top: 12, right: 12, left: 0, bottom: 40 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                <XAxis dataKey="page" angle={-25} textAnchor="end" interval={0} height={70} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                <YAxis allowDecimals={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                <Tooltip />
+                <Bar dataKey="views" fill="var(--primary)" radius={[6, 6, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <p style={{ color: 'var(--text-secondary)' }}>No page views have been recorded yet.</p>
+        )}
       </ChartCard>
       <div className="two-column-grid">
         <ChartCard title="Traffic Sources" subtitle="Acquisition breakdown" period={period} onPeriodChange={setPeriod}>

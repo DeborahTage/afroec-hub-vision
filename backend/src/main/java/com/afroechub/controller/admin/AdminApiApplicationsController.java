@@ -218,10 +218,15 @@ public class AdminApiApplicationsController {
     private Map<String, Object> partnerDetail(PartnerInquiry p) {
         Map<String, Object> map = summary(p.getId(), "PARTNER", p.getOrganizationName(), p.getContactPerson(),
                 p.getEmail(), p.getPhone(), p.getStatus() == null ? null : p.getStatus().name(), p.getCreatedAt());
+        map.put("organizationName", p.getOrganizationName());
+        map.put("contactPerson", p.getContactPerson());
         map.put("organizationType", enumName(p.getOrganizationType()));
         map.put("partnershipInterest", p.getPartnershipInterest());
         map.put("message", p.getMessage());
+        map.put("assignedTo", p.getAssignedTo());
+        map.put("followUpDate", p.getFollowUpDate());
         map.put("notes", p.getNotes());
+        map.put("updatedAt", p.getUpdatedAt());
         return map;
     }
 
@@ -250,6 +255,7 @@ public class AdminApiApplicationsController {
         map.put("commitBootcamp", a.getCommitBootcamp());
         map.put("agreeConduct", a.getAgreeConduct());
         map.put("notes", a.getNotes());
+        map.put("updatedAt", a.getUpdatedAt());
         return map;
     }
 
@@ -257,27 +263,54 @@ public class AdminApiApplicationsController {
         Map<String, Object> map = summary(v.getId(), "VOLUNTEER", v.getFullName(),
                 v.getPrimaryRole() == null ? null : v.getPrimaryRole().name(),
                 v.getEmail(), v.getPhone(), v.getStatus() == null ? null : v.getStatus().name(), v.getCreatedAt());
+        map.put("telegram", v.getTelegram());
+        map.put("city", v.getCity());
+        map.put("primaryRole", enumName(v.getPrimaryRole()));
+        map.put("secondaryRole", enumName(v.getSecondaryRole()));
         map.put("availability", enumName(v.getAvailability()));
         map.put("skills", v.getSkills());
+        map.put("languages", v.getLanguages());
         map.put("motivation", v.getMotivation());
         map.put("professionalBackground", v.getProfessionalBackground());
         map.put("hoursPerWeek", v.getHoursPerWeek());
+        map.put("startDate", v.getStartDate());
+        map.put("commitmentDuration", enumName(v.getCommitmentDuration()));
+        map.put("experienceLevel", enumName(v.getExperienceLevel()));
+        map.put("portfolioLink", v.getPortfolioLink());
         map.put("resumeLink", v.getResumeLink());
+        map.put("referencesContact", v.getReferencesContact());
+        map.put("onboarded", v.getOnboarded());
+        map.put("notes", v.getNotes());
+        map.put("updatedAt", v.getUpdatedAt());
         return map;
     }
 
     private Map<String, Object> internshipDetail(InternshipApplication i) {
         Map<String, Object> map = summary(i.getId(), "INTERNSHIP", i.getFullName(), i.getInstitution(),
                 i.getEmail(), i.getPhone(), i.getStatus() == null ? null : i.getStatus().name(), i.getCreatedAt());
+        map.put("linkedinUrl", i.getLinkedinUrl());
+        map.put("institutionName", i.getInstitution());
         map.put("fieldOfStudy", i.getFieldOfStudy());
         map.put("yearOfStudy", i.getYearOfStudy());
+        map.put("graduationDate", i.getGraduationDate());
         map.put("department", enumName(i.getDepartment()));
         map.put("duration", enumName(i.getDuration()));
+        map.put("startDate", i.getStartDate());
+        map.put("fullTime", i.getFullTime());
+        map.put("skills", i.getSkills());
+        map.put("experience", i.getExperience());
+        map.put("projectLinks", i.getProjectLinks());
         map.put("motivationAfroec", i.getMotivationAfroec());
         map.put("learningGoals", i.getLearningGoals());
         map.put("cvUrl", i.getCvUrl());
-        map.put("linkedinUrl", i.getLinkedinUrl());
         map.put("githubUrl", i.getGithubUrl());
+        map.put("coverLetterUrl", i.getCoverLetterUrl());
+        map.put("transcriptUrl", i.getTranscriptUrl());
+        map.put("agreeUnpaid", i.getAgreeUnpaid());
+        map.put("agreeDuration", i.getAgreeDuration());
+        map.put("agreePolicies", i.getAgreePolicies());
+        map.put("notes", i.getNotes());
+        map.put("updatedAt", i.getUpdatedAt());
         return map;
     }
 
@@ -285,11 +318,26 @@ public class AdminApiApplicationsController {
         Map<String, Object> map = summary(s.getId(), "STUDENT", s.getFullName(),
                 s.getProgramType() == null ? null : s.getProgramType().name(),
                 s.getEmail(), s.getPhone(), s.getStatus() == null ? null : s.getStatus().name(), s.getCreatedAt());
+        map.put("telegram", s.getTelegram());
         map.put("city", s.getCity());
+        map.put("dateOfBirth", s.getDateOfBirth());
         map.put("gender", enumName(s.getGender()));
+        map.put("programType", enumName(s.getProgramType()));
         map.put("academyTrack", enumName(s.getAcademyTrack()));
+        map.put("communityProgram", enumName(s.getCommunityProgram()));
         map.put("educationLevel", enumName(s.getEducationLevel()));
+        map.put("employmentStatus", enumName(s.getEmploymentStatus()));
+        map.put("priorExperience", s.getPriorExperience());
         map.put("motivation", s.getMotivation());
+        map.put("careerGoals", s.getCareerGoals());
+        map.put("githubPortfolio", s.getGithubPortfolio());
+        map.put("incomeShareAgreement", s.getIncomeShareAgreement());
+        map.put("howDidYouHear", s.getHowDidYouHear());
+        map.put("availability", enumName(s.getAvailability()));
+        map.put("preferredStartDate", s.getPreferredStartDate());
+        map.put("canCommitFulltime", s.getCanCommitFulltime());
+        map.put("notes", s.getNotes());
+        map.put("updatedAt", s.getUpdatedAt());
         return map;
     }
 

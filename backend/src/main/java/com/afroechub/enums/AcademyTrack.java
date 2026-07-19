@@ -2,6 +2,6 @@ package com.afroechub.enums;
 
 public enum AcademyTrack {
     SOFTWARE_ENGINEERING,
-    CYBERSECURITY,
+    CYBER_AWARNESS,
     HARDWARE_ENGINEERING
 }

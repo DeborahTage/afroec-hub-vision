@@ -55,18 +55,22 @@ function isUrl(value: string) {
 }
 
 function downloadCsv(filename: string, rows: Application[]) {
-  const header = ['id', 'type', 'fullName', 'email', 'phone', 'status', 'secondary', 'createdAt']
+  const preferred = ['id', 'type', 'fullName', 'email', 'phone', 'status', 'institutionName', 'city', 'createdAt']
+  const discovered = Array.from(new Set(rows.flatMap((row) => Object.keys(row))))
+    .filter((key) => !preferred.includes(key) && key !== 'details')
+    .sort()
+  const header = [...preferred, ...discovered]
   const escape = (value: unknown) => {
-    const text = value == null ? '' : String(value)
+    const text = value == null
+      ? ''
+      : typeof value === 'object'
+        ? JSON.stringify(value)
+        : String(value)
     return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text
   }
   const lines = [
     header.join(','),
-    ...rows.map((row) =>
-      [row.id, row.type, row.fullName, row.email, row.phone, row.status, row.secondary, row.createdAt]
-        .map(escape)
-        .join(',')
-    )
+    ...rows.map((row) => header.map((key) => escape(row[key])).join(','))
   ]
   const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' })
   const url = URL.createObjectURL(blob)

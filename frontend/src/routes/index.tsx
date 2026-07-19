@@ -337,7 +337,7 @@ const initiativesList = [
   {
     icon: GraduationCap,
     title: "Afroec Academy",
-    desc: "Intensive 2-4 month programs in Software Engineering, Cybersecurity, and Hardware Engineering. From fundamentals to job-ready skills.",
+    desc: "Intensive 2-4 month programs in Software Engineering, Basic Cybersecurity, and Hardware Engineering.",
     stats: [
       { label: "Tracks", value: "3" },
       { label: "Months", value: "2-4" },
@@ -359,7 +359,7 @@ const initiativesList = [
   {
     icon: Users,
     title: "Community Programs",
-    desc: "Reaching underserved communities through CyberGuard Youth, SheSec Ethiopia, SchoolNet Tech, and DigiSec mobile labs.",
+    desc: "Reaching underserved communities through CyberGuard Youth, SheSec Ethiopia and Afroec Tech Clubs",
     stats: [
       { label: "Programs", value: "4" },
       { label: "Reached", value: "5,000+" },

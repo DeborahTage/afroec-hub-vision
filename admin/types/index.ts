@@ -26,17 +26,66 @@ export interface AnalyticsOverview {
   devices?: Record<string, number>
 }
 
+export type ApplicationType = 'PARTNER' | 'AMBASSADOR' | 'VOLUNTEER' | 'INTERNSHIP' | 'STUDENT'
+export type ApplicationStatus =
+  | 'NEW'
+  | 'PENDING'
+  | 'CONTACTED'
+  | 'IN_DISCUSSION'
+  | 'REVIEWING'
+  | 'INTERVIEW'
+  | 'ACTIVE'
+  | 'ACCEPTED'
+  | 'DECLINED'
+  | 'REJECTED'
+
 export interface Application {
   id: number
-  type: 'PARTNER' | 'AMBASSADOR' | 'VOLUNTEER' | 'INTERNSHIP' | 'STUDENT' | string
+  type: ApplicationType
   fullName: string
   email: string
   phone?: string
   secondary?: string
-  status: 'PENDING' | 'REVIEWING' | 'INTERVIEW' | 'ACCEPTED' | 'REJECTED' | string
+  status: ApplicationStatus
   createdAt: string
+  updatedAt?: string
+  dateOfBirth?: string
+  gender?: string
+  city?: string
+  institutionName?: string
+  institutionType?: string
+  gradeLevel?: string
+  fieldOfStudy?: string
+  motivationLetter?: string
+  leadershipExperience?: string
+  techSkills?: string | string[]
+  hoursPerWeek?: number
+  proposedClubName?: string
+  estimatedMembers?: number
+  supportNeeded?: string | string[]
+  department?: string
+  duration?: string
+  startDate?: string
+  fullTime?: boolean
+  skills?: string | string[]
+  experience?: string
+  githubUrl?: string
+  motivationAfroec?: string
+  learningGoals?: string
+  primaryRole?: string
+  availability?: string
+  motivation?: string
+  organizationName?: string
+  organizationType?: string
+  contactPerson?: string
+  partnershipInterest?: string[]
+  message?: string
+  cvUrl?: string
+  recommendationLetterUrl?: string
+  portfolioUrl?: string
+  coverLetterUrl?: string
+  transcriptUrl?: string
   details?: Record<string, unknown>
-  /** Extra fields returned by the API (motivation, city, CV URL, etc.) */
   [key: string]: unknown
 }
 
@@ -69,7 +118,9 @@ export interface BlogPost {
   featuredImage?: string
   author?: string
   category?: string
-  tags?: string[]
+  tags?: string | string[]
+  metaTitle?: string
+  metaDescription?: string
   status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
   publishedAt?: string
   createdAt?: string
@@ -102,4 +153,5 @@ export interface NewsletterSubscriber {
   active?: boolean
   isActive?: boolean
   subscribedAt: string
+  unsubscribedAt?: string
 }

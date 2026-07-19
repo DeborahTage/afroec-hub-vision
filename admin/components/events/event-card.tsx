@@ -5,10 +5,11 @@ import type { Event } from '@/types'
 
 interface EventCardProps {
   event: Event
+  onEdit?: (event: Event) => void
   onDelete?: (id: number) => void
 }
 
-export function EventCard({ event, onDelete }: EventCardProps) {
+export function EventCard({ event, onEdit, onDelete }: EventCardProps) {
   const statusVariant = event.status === 'PAST' ? 'default' : event.status === 'CANCELLED' ? 'danger' : 'success'
 
   return (
@@ -27,8 +28,13 @@ export function EventCard({ event, onDelete }: EventCardProps) {
           <span style={{ display: 'flex', gap: 8 }}><Users size={16} /> {event.registrationsCount ?? 0}{event.maxAttendees ? `/${event.maxAttendees}` : ''}</span>
         </div>
         <div style={{ display: 'flex', gap: 8, marginTop: 18 }}>
-          <Button variant="secondary"><Pencil size={15} />Edit</Button>
-          <Button variant="danger" onClick={() => onDelete?.(event.id)}><Trash2 size={15} />Delete</Button>
+          <Button variant="secondary" onClick={() => onEdit?.(event)}><Pencil size={15} />Edit</Button>
+          <Button
+            variant="danger"
+            onClick={() => window.confirm(`Delete "${event.title}"?`) && onDelete?.(event.id)}
+          >
+            <Trash2 size={15} />Delete
+          </Button>
         </div>
       </div>
     </article>

@@ -13,7 +13,8 @@ import type { Event } from '@/types'
 export default function EventsPage() {
   const qc = useQueryClient()
   const [status, setStatus] = useState('ALL')
-  const { data = [] } = useQuery<Event[]>({ queryKey:['events'], queryFn: eventsApi.getAll })
+  const [editing, setEditing] = useState<Event | null>(null)
+  const { data = [], isError, error, refetch } = useQuery<Event[]>({ queryKey:['events'], queryFn: eventsApi.getAll })
   const del = useMutation({ mutationFn: eventsApi.delete, onSuccess:()=>qc.invalidateQueries({ queryKey:['events'] }) })
   const filtered = status === 'ALL' ? data : data.filter((event) => event.status === status)
 
@@ -24,8 +25,14 @@ export default function EventsPage() {
           <h1 className="page-title">Events</h1>
           <p className="page-subtitle">Create, publish, and manage public Afroec events.</p>
         </div>
-        <Button><Plus size={16}/>Create</Button>
+        <Button onClick={() => setEditing(null)}><Plus size={16}/>Create</Button>
       </div>
+      {isError && (
+        <div role="alert" className="card" style={{ padding: 16, color: 'var(--danger)' }}>
+          {error instanceof Error ? error.message : 'Unable to load events.'}
+          <div style={{ marginTop: 8 }}><Button variant="secondary" onClick={() => refetch()}>Retry</Button></div>
+        </div>
+      )}
       <div className="filter-bar">
         {['ALL', 'UPCOMING', 'PAST', 'CANCELLED'].map((item) => (
           <button key={item} className={status === item ? 'page-pill page-pill-active' : 'page-pill'} onClick={() => setStatus(item)}>
@@ -40,12 +47,26 @@ export default function EventsPage() {
               <EmptyState icon={Plus} title="No events found" description="Create your first event or change the selected filter." />
             </div>
           ) : (
-            filtered.map((event) => <EventCard key={event.id} event={event} onDelete={(id) => del.mutate(id)} />)
+            filtered.map((event) => (
+              <EventCard
+                key={event.id}
+                event={event}
+                onEdit={setEditing}
+                onDelete={(id) => del.mutate(id)}
+              />
+            ))
           )}
         </div>
         <div className="card">
-          <div className="card-header"><h2 className="card-title">Create Event</h2></div>
-          <div className="card-content"><EventForm /></div>
+          <div className="card-header"><h2 className="card-title">{editing ? 'Edit Event' : 'Create Event'}</h2></div>
+          <div className="card-content">
+            <EventForm
+              key={editing?.id || 'new'}
+              event={editing}
+              onSuccess={() => setEditing(null)}
+              onCancel={() => setEditing(null)}
+            />
+          </div>
         </div>
       </div>
     </div>

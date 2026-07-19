@@ -66,6 +66,12 @@ public class CmsServiceImpl implements CmsService {
     @Override @Transactional(readOnly = true)
     public List<CmsBlogPost> listAllPosts() { return blogRepository.findAllByOrderByUpdatedAtDesc(); }
 
+    @Override @Transactional(readOnly = true)
+    public CmsBlogPost getPost(Long id) {
+        return blogRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Blog post", id));
+    }
+
     @Override @Transactional
     public CmsBlogPost createPost(CmsBlogPost post) {
         if (post.getSlug() == null || post.getSlug().isBlank()) {

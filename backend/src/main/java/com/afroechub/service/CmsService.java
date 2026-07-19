@@ -14,6 +14,7 @@ public interface CmsService {
     List<CmsBlogPost> listPublishedPosts();
     CmsBlogPost getPublishedPost(String slug);
     List<CmsBlogPost> listAllPosts();
+    CmsBlogPost getPost(Long id);
     CmsBlogPost createPost(CmsBlogPost post);
     CmsBlogPost updatePost(Long id, CmsBlogPost post);
     void deletePost(Long id);

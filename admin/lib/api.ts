@@ -124,9 +124,9 @@ export const applicationsApi = {
     return fetchWithAuth<Application[]>(`/admin/applications${qs ? `?${qs}` : ''}`)
   },
   getOne: (type: string, id: number) =>
-    fetchWithAuth<Record<string, unknown>>(`/admin/applications/${encodeURIComponent(type)}/${id}`),
+    fetchWithAuth<Application>(`/admin/applications/${encodeURIComponent(type)}/${id}`),
   updateStatus: (type: string, id: number, status: string) =>
-    fetchWithAuth<Record<string, unknown>>(`/admin/applications/${encodeURIComponent(type)}/${id}/status`, {
+    fetchWithAuth<Application>(`/admin/applications/${encodeURIComponent(type)}/${id}/status`, {
       method: 'PUT',
       body: JSON.stringify({ status })
     }),
@@ -154,8 +154,11 @@ export const cmsApi = {
   updatePage: (key: string, data: unknown) =>
     fetchWithAuth<CmsPage>(`/admin/cms/pages/${key}`, { method: 'PUT', body: JSON.stringify(data) }),
   getBlogPosts: () => fetchWithAuth<BlogPost[]>('/admin/cms/blog'),
+  getBlogPost: (id: number) => fetchWithAuth<BlogPost>(`/admin/cms/blog/${id}`),
   createBlogPost: (data: unknown) =>
     fetchWithAuth<BlogPost>('/admin/cms/blog', { method: 'POST', body: JSON.stringify(data) }),
+  updateBlogPost: (id: number, data: unknown) =>
+    fetchWithAuth<BlogPost>(`/admin/cms/blog/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteBlogPost: (id: number) => fetchWithAuth<void>(`/admin/cms/blog/${id}`, { method: 'DELETE' })
 }
 

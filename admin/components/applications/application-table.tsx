@@ -36,6 +36,7 @@ export function ApplicationTable({
       emptyTitle="No applications found"
       emptyDescription="Try changing the filters, or wait for new applications to arrive."
       getRowId={(row) => `${row.type}-${row.id}`}
+      onRowClick={onView}
       onExportSelected={(ids) => {
         const rows = ids.map((id) => byKey.get(String(id))).filter(Boolean) as Application[]
         onExportSelected?.(rows)
@@ -48,7 +49,19 @@ export function ApplicationTable({
         { key: 'id', header: 'ID', sortable: true, render: (row) => `#${row.id}` },
         { key: 'type', header: 'Type', sortable: true, render: (row) => <Badge variant="info">{row.type}</Badge> },
         { key: 'fullName', header: 'Name', sortable: true },
-        { key: 'email', header: 'Email' },
+        {
+          key: 'email',
+          header: 'Email',
+          render: (row) => <a href={`mailto:${row.email}`}>{row.email}</a>
+        },
+        { key: 'phone', header: 'Phone' },
+        {
+          key: 'institutionName',
+          header: 'Institution',
+          sortable: true,
+          render: (row) => String(row.institutionName || row.organizationName || row.secondary || '—')
+        },
+        { key: 'city', header: 'City', sortable: true, render: (row) => String(row.city || '—') },
         {
           key: 'status',
           header: 'Status',

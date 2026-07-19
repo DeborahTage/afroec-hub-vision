@@ -18,6 +18,7 @@ interface DataTableProps<T extends { id?: string | number }> {
   emptyTitle: string
   emptyDescription: string
   getRowId?: (row: T, index: number) => string | number
+  onRowClick?: (row: T) => void
   onExportSelected?: (ids: Array<string | number>) => void
   onDeleteSelected?: (ids: Array<string | number>) => void
 }
@@ -30,6 +31,7 @@ export function DataTable<T extends { id?: string | number }>({
   emptyTitle,
   emptyDescription,
   getRowId,
+  onRowClick,
   onExportSelected,
   onDeleteSelected
 }: DataTableProps<T>) {
@@ -139,7 +141,21 @@ export function DataTable<T extends { id?: string | number }>({
               const absoluteIndex = (page - 1) * pageSize + index
               const id = rowId(row, absoluteIndex)
               return (
-                <tr key={String(id)}>
+                <tr
+                  key={String(id)}
+                  tabIndex={onRowClick ? 0 : undefined}
+                  style={onRowClick ? { cursor: 'pointer' } : undefined}
+                  onClick={(event) => {
+                    if ((event.target as HTMLElement).closest('button, a, input, select, textarea')) return
+                    onRowClick?.(row)
+                  }}
+                  onKeyDown={(event) => {
+                    if (onRowClick && (event.key === 'Enter' || event.key === ' ')) {
+                      event.preventDefault()
+                      onRowClick(row)
+                    }
+                  }}
+                >
                   <td>
                     <input
                       type="checkbox"
