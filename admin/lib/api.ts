@@ -113,6 +113,22 @@ export const analyticsApi = {
   getDevices: () => fetchWithAuth<Record<string, number>>('/admin/analytics/devices')
 }
 
+async function fetchHtmlDetailFallback(type: string, id: number): Promise<Application> {
+  const token = getToken()
+  const res = await fetch(`/api/html-detail/${encodeURIComponent(type)}/${id}`, {
+    headers: {
+      Accept: 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    },
+    cache: 'no-store'
+  })
+  const payload = await res.json().catch(() => ({} as { success?: boolean; message?: string; data?: Application }))
+  if (!res.ok || payload.success === false || !payload.data) {
+    throw new Error(safeErrorMessage(payload.message, res.status))
+  }
+  return payload.data
+}
+
 export const applicationsApi = {
   getAll: (params?: { type?: string; status?: string; page?: number; limit?: number }) => {
     const search = new URLSearchParams()
@@ -123,8 +139,14 @@ export const applicationsApi = {
     const qs = search.toString()
     return fetchWithAuth<Application[]>(`/admin/applications${qs ? `?${qs}` : ''}`)
   },
-  getOne: (type: string, id: number) =>
-    fetchWithAuth<Application>(`/admin/applications/${encodeURIComponent(type)}/${id}`),
+  getOne: async (type: string, id: number) => {
+    try {
+      return await fetchWithAuth<Application>(`/admin/applications/${encodeURIComponent(type)}/${id}`)
+    } catch {
+      // Live Render may still be on an older API without typed detail routes.
+      return fetchHtmlDetailFallback(type, id)
+    }
+  },
   updateStatus: (type: string, id: number, status: string) =>
     fetchWithAuth<Application>(`/admin/applications/${encodeURIComponent(type)}/${id}/status`, {
       method: 'PUT',

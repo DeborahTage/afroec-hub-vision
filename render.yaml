@@ -1,12 +1,12 @@
-# Root Render Blueprint — deploys Spring Boot from /backend
-# Prefer explicit dockerContext so this works even if dashboard Root Directory is blank.
+# Root Render Blueprint — deploys Spring Boot from /backend via repo-root Dockerfile.
+# IMPORTANT: In the Render dashboard, set Root Directory to BLANK (repo root).
+# Dockerfile Path should be ./Dockerfile
 services:
   - type: web
     name: afroec-backend
     runtime: docker
     plan: starter
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
+    dockerfilePath: ./Dockerfile
     healthCheckPath: /api/v1/health
     envVars:
       - key: SPRING_PROFILES_ACTIVE
@@ -38,7 +38,7 @@ services:
       - key: MAIL_ENABLED
         value: "false"
       - key: APP_BUILD_ID
-        value: "20260719-full-apps-v10"
+        value: "20260721-full-apps-v11"
 
 databases:
   - name: afroec-hub-db

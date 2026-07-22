@@ -1,6 +1,6 @@
 # CACHE BUST — bump APP_BUILD_ID whenever you need a guaranteed fresh image
-ARG CACHE_BUST=10
-ARG APP_BUILD_ID=20260719-full-apps-v10
+ARG CACHE_BUST=11
+ARG APP_BUILD_ID=20260721-full-apps-v11
 
 # ---- Build stage ----
 FROM maven:3.9-eclipse-temurin-21 AS build

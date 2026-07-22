@@ -119,7 +119,12 @@ export default function ApplicationsPage() {
     applicationsApi
       .getOne(selected.type, selected.id)
       .then((payload) => {
-        if (!cancelled) setDetail(payload as Record<string, unknown>)
+        if (!cancelled) {
+          setDetail({
+            ...(selected as unknown as Record<string, unknown>),
+            ...(payload as Record<string, unknown>)
+          })
+        }
       })
       .catch(() => {
         // Keep list fields if detail route is not on the live server yet.

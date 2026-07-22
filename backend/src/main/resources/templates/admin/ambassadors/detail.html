@@ -10,18 +10,33 @@
 
             <div class="row g-3">
               <div class="col-lg-8"><div class="card p-3">
+                <h4 class="mb-3" th:text="${item.fullName}">Name</h4>
                 <dl class="row mb-0">
+                  <dt class="col-sm-4">Full Name</dt><dd class="col-sm-8" th:text="${item.fullName}"></dd>
                   <dt class="col-sm-4">Email</dt><dd class="col-sm-8" th:text="${item.email}"></dd>
                   <dt class="col-sm-4">Phone</dt><dd class="col-sm-8" th:text="${item.phone}"></dd>
+                  <dt class="col-sm-4">Date of Birth</dt><dd class="col-sm-8" th:text="${item.dateOfBirth}"></dd>
+                  <dt class="col-sm-4">Gender</dt><dd class="col-sm-8" th:text="${item.gender}"></dd>
                   <dt class="col-sm-4">City</dt><dd class="col-sm-8" th:text="${item.city}"></dd>
                   <dt class="col-sm-4">Institution</dt><dd class="col-sm-8" th:text="${item.institutionName}"></dd>
-                  <dt class="col-sm-4">Type</dt><dd class="col-sm-8" th:text="${item.institutionType}"></dd>
+                  <dt class="col-sm-4">Institution Type</dt><dd class="col-sm-8" th:text="${item.institutionType}"></dd>
                   <dt class="col-sm-4">Grade</dt><dd class="col-sm-8" th:text="${item.gradeLevel}"></dd>
+                  <dt class="col-sm-4">Field of Study</dt><dd class="col-sm-8" th:text="${item.fieldOfStudy}"></dd>
                   <dt class="col-sm-4">Proposed Club</dt><dd class="col-sm-8" th:text="${item.proposedClubName}"></dd>
+                  <dt class="col-sm-4">Estimated Members</dt><dd class="col-sm-8" th:text="${item.estimatedMembers}"></dd>
                   <dt class="col-sm-4">Hours/week</dt><dd class="col-sm-8" th:text="${item.hoursPerWeek}"></dd>
                   <dt class="col-sm-4">Skills</dt><dd class="col-sm-8" th:text="${item.techSkills}"></dd>
+                  <dt class="col-sm-4">Support Needed</dt><dd class="col-sm-8" th:text="${item.supportNeeded}"></dd>
                   <dt class="col-sm-4">Motivation</dt><dd class="col-sm-8" th:text="${item.motivationLetter}"></dd>
                   <dt class="col-sm-4">Leadership</dt><dd class="col-sm-8" th:text="${item.leadershipExperience}"></dd>
+                  <dt class="col-sm-4">CV</dt><dd class="col-sm-8"><a th:if="${item.cvUrl}" th:href="${item.cvUrl}" th:text="${item.cvUrl}" target="_blank" rel="noreferrer"></a></dd>
+                  <dt class="col-sm-4">Portfolio</dt><dd class="col-sm-8"><a th:if="${item.portfolioUrl}" th:href="${item.portfolioUrl}" th:text="${item.portfolioUrl}" target="_blank" rel="noreferrer"></a></dd>
+                  <dt class="col-sm-4">Recommendation Letter</dt><dd class="col-sm-8"><a th:if="${item.recommendationLetterUrl}" th:href="${item.recommendationLetterUrl}" th:text="${item.recommendationLetterUrl}" target="_blank" rel="noreferrer"></a></dd>
+                  <dt class="col-sm-4">Commit Hours</dt><dd class="col-sm-8" th:text="${item.commitHours}"></dd>
+                  <dt class="col-sm-4">Commit Club</dt><dd class="col-sm-8" th:text="${item.commitClub}"></dd>
+                  <dt class="col-sm-4">Commit Bootcamp</dt><dd class="col-sm-8" th:text="${item.commitBootcamp}"></dd>
+                  <dt class="col-sm-4">Agree Conduct</dt><dd class="col-sm-8" th:text="${item.agreeConduct}"></dd>
+                  <dt class="col-sm-4">Submitted</dt><dd class="col-sm-8" th:text="${item.createdAt}"></dd>
                 </dl>
               </div></div>
               <div class="col-lg-4"><div class="card p-3">
