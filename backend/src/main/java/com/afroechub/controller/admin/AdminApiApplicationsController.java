@@ -23,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,6 +64,7 @@ public class AdminApiApplicationsController {
     }
 
     @GetMapping
+    @Transactional(readOnly = true)
     public ResponseEntity<ApiResponse<List<Map<String, Object>>>> list(
             @RequestParam(required = false) String type,
             @RequestParam(required = false) String status,
@@ -72,6 +74,7 @@ public class AdminApiApplicationsController {
     }
 
     @GetMapping("/{type}/{id}")
+    @Transactional(readOnly = true)
     public ResponseEntity<ApiResponse<Map<String, Object>>> detail(@PathVariable String type,
                                                                    @PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.ok("OK", detailOf(normalizeType(type), id)));
@@ -110,6 +113,7 @@ public class AdminApiApplicationsController {
     }
 
     @GetMapping(value = "/export.csv", produces = "text/csv")
+    @Transactional(readOnly = true)
     public ResponseEntity<byte[]> exportCsv(@RequestParam(required = false) String type,
                                             @RequestParam(required = false) String status) {
         List<Map<String, Object>> rows = collect(type, status, 500);
@@ -221,7 +225,7 @@ public class AdminApiApplicationsController {
         map.put("organizationName", p.getOrganizationName());
         map.put("contactPerson", p.getContactPerson());
         map.put("organizationType", enumName(p.getOrganizationType()));
-        map.put("partnershipInterest", p.getPartnershipInterest());
+        map.put("partnershipInterest", copyList(p.getPartnershipInterest()));
         map.put("message", p.getMessage());
         map.put("assignedTo", p.getAssignedTo());
         map.put("followUpDate", p.getFollowUpDate());
@@ -268,8 +272,8 @@ public class AdminApiApplicationsController {
         map.put("primaryRole", enumName(v.getPrimaryRole()));
         map.put("secondaryRole", enumName(v.getSecondaryRole()));
         map.put("availability", enumName(v.getAvailability()));
-        map.put("skills", v.getSkills());
-        map.put("languages", v.getLanguages());
+        map.put("skills", copyList(v.getSkills()));
+        map.put("languages", copyList(v.getLanguages()));
         map.put("motivation", v.getMotivation());
         map.put("professionalBackground", v.getProfessionalBackground());
         map.put("hoursPerWeek", v.getHoursPerWeek());
@@ -368,6 +372,13 @@ public class AdminApiApplicationsController {
 
     private static String enumName(Enum<?> value) {
         return value == null ? "" : value.name();
+    }
+
+    private static List<String> copyList(List<String> values) {
+        if (values == null || values.isEmpty()) {
+            return List.of();
+        }
+        return List.copyOf(values);
     }
 
     private static <E extends Enum<E>> E parseEnum(Class<E> type, String value) {
