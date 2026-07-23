@@ -106,11 +106,28 @@ export const authApi = {
 }
 
 export const analyticsApi = {
-  getOverview: () => fetchWithAuth<AnalyticsOverview>('/admin/analytics/overview'),
-  getPages: () => fetchWithAuth<Record<string, number>>('/admin/analytics/pages'),
-  getSources: () => fetchWithAuth<Record<string, number>>('/admin/analytics/sources'),
-  getGeo: () => fetchWithAuth<Record<string, number>>('/admin/analytics/geo'),
-  getDevices: () => fetchWithAuth<Record<string, number>>('/admin/analytics/devices')
+  getOverview: async (days = 30) => {
+    const data = await fetchWithAuth<AnalyticsOverview>(`/admin/analytics/overview?days=${days}`)
+    if (data?.daily?.length) return data
+    try {
+      const daily = await fetchWithAuth<Array<{ date: string; visits: number }>>(
+        `/admin/analytics/daily?days=${days}`
+      )
+      return { ...data, daily: daily || [] }
+    } catch {
+      return { ...data, daily: data?.daily || [] }
+    }
+  },
+  getDaily: (days = 30) =>
+    fetchWithAuth<Array<{ date: string; visits: number }>>(`/admin/analytics/daily?days=${days}`),
+  getPages: (days = 30) =>
+    fetchWithAuth<Record<string, number>>(`/admin/analytics/pages?days=${days}`),
+  getSources: (days = 30) =>
+    fetchWithAuth<Record<string, number>>(`/admin/analytics/sources?days=${days}`),
+  getGeo: (days = 30) =>
+    fetchWithAuth<Record<string, number>>(`/admin/analytics/geo?days=${days}`),
+  getDevices: (days = 30) =>
+    fetchWithAuth<Record<string, number>>(`/admin/analytics/devices?days=${days}`)
 }
 
 async function fetchHtmlDetailFallback(type: string, id: number): Promise<Application> {

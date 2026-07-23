@@ -1,7 +1,7 @@
 # Repo-root Dockerfile for Render when Root Directory is blank.
 # Builds the Spring Boot API from backend/.
 ARG CACHE_BUST=11
-ARG APP_BUILD_ID=20260721-full-apps-v11
+ARG APP_BUILD_ID=20260723-analytics-daily-v1
 
 FROM maven:3.9-eclipse-temurin-21 AS build
 ARG CACHE_BUST

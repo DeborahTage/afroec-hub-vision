@@ -14,10 +14,40 @@ function getSessionId() {
   return id;
 }
 
+/** Drop noise query params; keep meaningful ones like apply ?type=. */
+function normalizeTrackedUrl(raw: string) {
+  try {
+    const base = typeof window !== "undefined" ? window.location.origin : "https://local.invalid";
+    const u = new URL(raw, base);
+    const drop = new Set([
+      "hl",
+      "fbclid",
+      "gclid",
+      "ref",
+      "_ga",
+      "mc_cid",
+      "mc_eid",
+    ]);
+    [...u.searchParams.keys()].forEach((key) => {
+      const lower = key.toLowerCase();
+      if (drop.has(lower) || lower.startsWith("utm_")) {
+        u.searchParams.delete(key);
+      }
+    });
+    const path = u.pathname.length > 1 && u.pathname.endsWith("/")
+      ? u.pathname.slice(0, -1)
+      : u.pathname || "/";
+    const qs = u.searchParams.toString();
+    return qs ? `${path}?${qs}` : path;
+  } catch {
+    return raw.split("#")[0] || "/";
+  }
+}
+
 /** Fire-and-forget page view beacon for admin analytics. */
 export function trackVisit(pageUrl?: string) {
   if (typeof window === "undefined") return;
-  const url = pageUrl || window.location.pathname + window.location.search;
+  const url = normalizeTrackedUrl(pageUrl || window.location.pathname + window.location.search);
   const payload = {
     pageUrl: url,
     referrer: document.referrer || "",

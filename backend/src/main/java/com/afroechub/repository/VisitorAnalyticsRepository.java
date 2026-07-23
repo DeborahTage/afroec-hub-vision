@@ -40,4 +40,14 @@ public interface VisitorAnalyticsRepository extends JpaRepository<VisitorAnalyti
 
     @Query("select coalesce(v.deviceType, 'Unknown'), count(v) from VisitorAnalytics v where v.createdAt >= :after group by coalesce(v.deviceType, 'Unknown') order by count(v) desc")
     List<Object[]> deviceBreakdownSince(@Param("after") LocalDateTime after);
+
+    @Query(value = """
+            select cast(v.created_at as date) as day, count(*) as visits
+            from visitor_analytics v
+            where v.created_at >= :after
+            group by cast(v.created_at as date)
+            order by day asc
+            """, nativeQuery = true)
+    List<Object[]> dailyVisitsSince(@Param("after") LocalDateTime after);
+
 }

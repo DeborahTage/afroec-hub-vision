@@ -18,7 +18,7 @@ public class AdminAnalyticsController {
 
     @GetMapping
     public String overview(Model model) {
-        model.addAttribute("stats", analyticsService.overview());
+        model.addAttribute("stats", analyticsService.overview(30));
         model.addAttribute("active", "analytics");
         return "admin/analytics/overview";
     }

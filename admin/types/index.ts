@@ -8,10 +8,16 @@ export interface User {
   createdAt: string
 }
 
+export interface AnalyticsDailyPoint {
+  date: string
+  visits: number
+}
+
 export interface AnalyticsOverview {
   totalVisits: number
   uniqueVisitors: number
   pageViews: number
+  periodDays?: number
   visitsLast7Days?: number
   uniqueLast7Days?: number
   visitsChangePct?: number
@@ -24,6 +30,7 @@ export interface AnalyticsOverview {
   trafficSources?: Record<string, number>
   geo?: Record<string, number>
   devices?: Record<string, number>
+  daily?: AnalyticsDailyPoint[]
 }
 
 export type ApplicationType = 'PARTNER' | 'AMBASSADOR' | 'VOLUNTEER' | 'INTERNSHIP' | 'STUDENT'
