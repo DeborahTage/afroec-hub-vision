@@ -5,8 +5,10 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Reveal } from "@/components/Reveal";
 import { OrganicShape } from "@/components/OrganicShape";
-import heroImg from "@/assets/hero.jpg";
 import missionImg from "@/assets/mission.jpg";
+import agricultureErpImg from "@/assets/agriculture_erp.png";
+import schoolManagementImg from "@/assets/school_management.png";
+import companyPortfolioImg from "@/assets/company_portfolio.png";
 import {
     Monitor,
     Smartphone,
@@ -74,25 +76,28 @@ const techStack = [
 
 const caseStudies = [
     {
-        client: "Ethiopian Bank (Anonymous)",
-        project: "Digital Banking Platform",
-        desc: "Built a mobile-first banking platform serving 2M+ customers.",
-        results: "40% increase in digital transactions, 60% reduction in branch visits.",
-        tags: ["Fintech", "Mobile", "Security"],
+        client: "Trust Agro",
+        project: "Trust Agro ERP",
+        desc: "A comprehensive Enterprise Resource Planning system built for Trust Agro, covering inventory management, veterinary care, pharmacy, finance, and role-based access control across all farm operations.",
+        results: "Streamlined multi-department operations, automated financial ledger entries, and real-time stock tracking across the entire agro-enterprise.",
+        tags: ["Agriculture", "ERP", "Enterprise", "React", "Spring Boot"],
+        image: agricultureErpImg,
     },
     {
-        client: "Agricultural Cooperative",
-        project: "Supply Chain Management System",
-        desc: "End-to-end platform connecting farmers, cooperatives, and buyers.",
-        results: "30% reduction in waste, 25% increase in farmer income.",
-        tags: ["Agriculture", "Logistics", "Web"],
+        client: "Multiple Schools",
+        project: "School Management System",
+        desc: "A unified school management platform deployed across many schools, enabling student enrollment, attendance tracking, grade management, timetabling, and parent communication from a single dashboard.",
+        results: "Centralized administration for multiple campuses, reduced manual paperwork, and improved communication between teachers, students, and parents.",
+        tags: ["Education", "Multi-tenant", "Web", "Mobile"],
+        image: schoolManagementImg,
     },
     {
-        client: "Healthcare NGO",
-        project: "Patient Management System",
-        desc: "Cloud-based system for clinics in rural Ethiopia.",
-        results: "50% faster patient processing, 90% data accuracy.",
-        tags: ["Healthcare", "Cloud", "Impact"],
+        client: "Various Companies",
+        project: "Company Portfolio Websites",
+        desc: "We design and develop premium portfolio and corporate websites for businesses across various industries — from startups to established enterprises — that make a lasting first impression.",
+        results: "Dozens of companies launched with modern, fast, and visually stunning websites that drive leads and build brand credibility.",
+        tags: ["Portfolio", "Branding", "Web Design", "Next.js"],
+        image: companyPortfolioImg,
     },
 ];
 
@@ -245,26 +250,26 @@ function ProductDevelopmentPage() {
                                 >
                                     <div className="aspect-[16/10] overflow-hidden border-b border-border">
                                         <img
-                                            src={idx % 2 === 0 ? heroImg : missionImg}
+                                            src={cs.image}
                                             alt={cs.project}
                                             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                                         />
                                     </div>
                                     <div className="p-8 flex flex-col flex-1">
-                                    <span className="text-[11px] font-bold uppercase tracking-wider text-text-muted">{cs.client}</span>
-                                    <h3 className="font-display text-[22px] font-bold text-black mt-2 mb-3">{cs.project}</h3>
-                                    <p className="text-[14px] text-text-secondary leading-relaxed mb-5">{cs.desc}</p>
-                                    <div className="bg-bg-cream border border-border rounded-[12px] p-4 mb-6">
-                                        <span className="text-[11px] font-bold uppercase tracking-wider text-accent-hover block mb-1">Results</span>
-                                        <p className="text-[13px] font-semibold text-black leading-snug">{cs.results}</p>
-                                    </div>
-                                    <div className="flex flex-wrap gap-2 mt-auto">
-                                        {cs.tags.map((tag) => (
-                                            <span key={tag} className="text-[12px] font-semibold bg-accent-light text-black px-3 py-1 rounded-full">
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
+                                        <span className="text-[11px] font-bold uppercase tracking-wider text-text-muted">{cs.client}</span>
+                                        <h3 className="font-display text-[22px] font-bold text-black mt-2 mb-3">{cs.project}</h3>
+                                        <p className="text-[14px] text-text-secondary leading-relaxed mb-5">{cs.desc}</p>
+                                        <div className="bg-bg-cream border border-border rounded-[12px] p-4 mb-6">
+                                            <span className="text-[11px] font-bold uppercase tracking-wider text-accent-hover block mb-1">Results</span>
+                                            <p className="text-[13px] font-semibold text-black leading-snug">{cs.results}</p>
+                                        </div>
+                                        <div className="flex flex-wrap gap-2 mt-auto">
+                                            {cs.tags.map((tag) => (
+                                                <span key={tag} className="text-[12px] font-semibold bg-accent-light text-black px-3 py-1 rounded-full">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
                                     </div>
                                 </Reveal>
                             ))}
