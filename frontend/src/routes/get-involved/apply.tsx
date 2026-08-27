@@ -5,7 +5,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { useEffect, useState } from "react";
-import { ArrowLeft, CheckCircle2, Loader2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Clock, Loader2 } from "lucide-react";
 import {
     submitAmbassadorApplication,
     submitInternshipApplication,
@@ -28,6 +28,9 @@ import type {
 type ApplyType = "partner" | "ambassador" | "volunteer" | "internship";
 
 const APPLY_TYPES: ApplyType[] = ["partner", "ambassador", "volunteer", "internship"];
+
+/** Tabs where Round 1 is closed — show a waiting banner instead of the form */
+const CLOSED_TABS: ApplyType[] = ["ambassador", "internship"];
 
 function parseApplyType(raw: unknown): ApplyType {
     if (typeof raw === "string" && APPLY_TYPES.includes(raw as ApplyType)) {
@@ -517,11 +520,10 @@ function ApplyPage() {
                                 key={type}
                                 type="button"
                                 onClick={() => switchTab(type)}
-                                className={`btn-pill text-[13px] font-semibold border transition-colors ${
-                                    activeTab === type
-                                        ? "bg-accent text-black border-accent"
-                                        : "bg-white text-text-secondary border-border hover:border-black/40 hover:text-black"
-                                }`}
+                                className={`btn-pill text-[13px] font-semibold border transition-colors ${activeTab === type
+                                    ? "bg-accent text-black border-accent"
+                                    : "bg-white text-text-secondary border-border hover:border-black/40 hover:text-black"
+                                    }`}
                             >
                                 {TAB_META[type].label}
                             </button>
@@ -534,1015 +536,1041 @@ function ApplyPage() {
                         </h1>
                         <p className="text-[14px] text-text-secondary mb-8">{meta.subtitle}</p>
 
-                        {errorMsg && (
-                            <div
-                                className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-[14px] font-medium"
-                                role="alert"
-                            >
-                                {errorMsg}
+                        {CLOSED_TABS.includes(activeTab) ? (
+                            <div className="flex flex-col items-center justify-center py-12 text-center space-y-6">
+                                <div className="h-20 w-20 rounded-full bg-amber-50 border-2 border-amber-300 flex items-center justify-center text-amber-500">
+                                    <Clock size={36} />
+                                </div>
+                                <div className="space-y-2">
+                                    <h2 className="font-display font-bold text-[22px] md:text-[26px] text-black">
+                                        Round 1 Applications Are Closed
+                                    </h2>
+                                    <p className="text-[15px] text-text-secondary max-w-sm mx-auto leading-relaxed">
+                                        Thank you for your interest! The first round of{" "}
+                                        <strong className="text-black">{meta.label}</strong> applications has closed.
+                                        Please check back soon for Round 2 — we'll announce the opening date on our
+                                        social channels.
+                                    </p>
+                                </div>
+                                <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 text-[13px] font-semibold px-5 py-2.5 rounded-full">
+                                    <Clock size={14} />
+                                    Stay tuned — Round 2 coming soon
+                                </div>
                             </div>
-                        )}
+                        ) : (
+                            <>
 
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            {activeTab === "partner" && (
-                                <>
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="organizationName" className={labelClass}>
-                                                Organization Name *
-                                            </label>
-                                            <input
-                                                id="organizationName"
-                                                required
-                                                className={inputClass}
-                                                value={partner.organizationName}
-                                                onChange={(e) =>
-                                                    setPartner({ ...partner, organizationName: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="contactPerson" className={labelClass}>
-                                                Contact Person *
-                                            </label>
-                                            <input
-                                                id="contactPerson"
-                                                required
-                                                className={inputClass}
-                                                value={partner.contactPerson}
-                                                onChange={(e) =>
-                                                    setPartner({ ...partner, contactPerson: e.target.value })
-                                                }
-                                            />
-                                        </div>
+                                {errorMsg && (
+                                    <div
+                                        className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-[14px] font-medium"
+                                        role="alert"
+                                    >
+                                        {errorMsg}
                                     </div>
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="partnerEmail" className={labelClass}>
-                                                Email *
-                                            </label>
-                                            <input
-                                                id="partnerEmail"
-                                                type="email"
-                                                required
-                                                className={inputClass}
-                                                value={partner.email}
-                                                onChange={(e) => setPartner({ ...partner, email: e.target.value })}
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="partnerPhone" className={labelClass}>
-                                                Phone
-                                            </label>
-                                            <input
-                                                id="partnerPhone"
-                                                type="tel"
-                                                className={inputClass}
-                                                value={partner.phone || ""}
-                                                onChange={(e) => setPartner({ ...partner, phone: e.target.value })}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label htmlFor="organizationType" className={labelClass}>
-                                            Organization Type *
-                                        </label>
-                                        <select
-                                            id="organizationType"
-                                            className={inputClass}
-                                            value={partner.organizationType}
-                                            onChange={(e) =>
-                                                setPartner({
-                                                    ...partner,
-                                                    organizationType: e.target.value as PartnerType,
-                                                })
-                                            }
-                                        >
-                                            {ORG_TYPES.map((o) => (
-                                                <option key={o.value} value={o.value}>
-                                                    {o.label}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <CheckboxGroup
-                                        label="Partnership Interest"
-                                        options={PARTNERSHIP_INTERESTS}
-                                        selected={partner.partnershipInterest}
-                                        onChange={(partnershipInterest) =>
-                                            setPartner({ ...partner, partnershipInterest })
-                                        }
-                                        required
-                                    />
-                                    <div className="flex flex-col">
-                                        <label htmlFor="partnerMessage" className={labelClass}>
-                                            Message *
-                                        </label>
-                                        <textarea
-                                            id="partnerMessage"
-                                            required
-                                            rows={4}
-                                            className={`${inputClass} resize-y`}
-                                            value={partner.message}
-                                            onChange={(e) => setPartner({ ...partner, message: e.target.value })}
-                                        />
-                                    </div>
-                                </>
-                            )}
+                                )}
 
-                            {activeTab === "ambassador" && (
-                                <>
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambFullName" className={labelClass}>
-                                                Full Name *
-                                            </label>
-                                            <input
-                                                id="ambFullName"
-                                                required
-                                                className={inputClass}
-                                                value={ambassador.fullName}
-                                                onChange={(e) =>
-                                                    setAmbassador({ ...ambassador, fullName: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambEmail" className={labelClass}>
-                                                Email *
-                                            </label>
-                                            <input
-                                                id="ambEmail"
-                                                type="email"
-                                                required
-                                                className={inputClass}
-                                                value={ambassador.email}
-                                                onChange={(e) =>
-                                                    setAmbassador({ ...ambassador, email: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="grid md:grid-cols-3 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambPhone" className={labelClass}>
-                                                Phone *
-                                            </label>
-                                            <input
-                                                id="ambPhone"
-                                                type="tel"
-                                                required
-                                                className={inputClass}
-                                                value={ambassador.phone}
-                                                onChange={(e) =>
-                                                    setAmbassador({ ...ambassador, phone: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambDob" className={labelClass}>
-                                                Date of Birth *
-                                            </label>
-                                            <input
-                                                id="ambDob"
-                                                type="date"
-                                                required
-                                                className={inputClass}
-                                                value={ambassador.dateOfBirth}
-                                                onChange={(e) =>
-                                                    setAmbassador({ ...ambassador, dateOfBirth: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambGender" className={labelClass}>
-                                                Gender *
-                                            </label>
-                                            <select
-                                                id="ambGender"
-                                                className={inputClass}
-                                                value={ambassador.gender}
-                                                onChange={(e) =>
-                                                    setAmbassador({
-                                                        ...ambassador,
-                                                        gender: e.target.value as Gender,
-                                                    })
-                                                }
-                                            >
-                                                {GENDERS.map((g) => (
-                                                    <option key={g.value} value={g.value}>
-                                                        {g.label}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambCity" className={labelClass}>
-                                                City *
-                                            </label>
-                                            <input
-                                                id="ambCity"
-                                                required
-                                                className={inputClass}
-                                                value={ambassador.city}
-                                                onChange={(e) =>
-                                                    setAmbassador({ ...ambassador, city: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambInstitution" className={labelClass}>
-                                                Institution Name *
-                                            </label>
-                                            <input
-                                                id="ambInstitution"
-                                                required
-                                                className={inputClass}
-                                                value={ambassador.institutionName}
-                                                onChange={(e) =>
-                                                    setAmbassador({
-                                                        ...ambassador,
-                                                        institutionName: e.target.value,
-                                                    })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="grid md:grid-cols-3 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambInstType" className={labelClass}>
-                                                Institution Type *
-                                            </label>
-                                            <select
-                                                id="ambInstType"
-                                                className={inputClass}
-                                                value={ambassador.institutionType}
-                                                onChange={(e) =>
-                                                    setAmbassador({
-                                                        ...ambassador,
-                                                        institutionType: e.target
-                                                            .value as AmbassadorApplicationData["institutionType"],
-                                                    })
-                                                }
-                                            >
-                                                <option value="HIGH_SCHOOL">High School</option>
-                                                <option value="UNIVERSITY">University</option>
-                                                <option value="OTHER">Other</option>
-                                            </select>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambGrade" className={labelClass}>
-                                                Grade / Year *
-                                            </label>
-                                            <input
-                                                id="ambGrade"
-                                                required
-                                                className={inputClass}
-                                                value={ambassador.gradeLevel}
-                                                onChange={(e) =>
-                                                    setAmbassador({ ...ambassador, gradeLevel: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambField" className={labelClass}>
-                                                Field of Study
-                                            </label>
-                                            <input
-                                                id="ambField"
-                                                className={inputClass}
-                                                value={ambassador.fieldOfStudy || ""}
-                                                onChange={(e) =>
-                                                    setAmbassador({ ...ambassador, fieldOfStudy: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label htmlFor="ambMotivation" className={labelClass}>
-                                            Motivation Letter *
-                                        </label>
-                                        <textarea
-                                            id="ambMotivation"
-                                            required
-                                            rows={4}
-                                            className={`${inputClass} resize-y`}
-                                            value={ambassador.motivationLetter}
-                                            onChange={(e) =>
-                                                setAmbassador({ ...ambassador, motivationLetter: e.target.value })
-                                            }
-                                        />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label htmlFor="ambLeadership" className={labelClass}>
-                                            Leadership Experience
-                                        </label>
-                                        <textarea
-                                            id="ambLeadership"
-                                            rows={3}
-                                            className={`${inputClass} resize-y`}
-                                            value={ambassador.leadershipExperience || ""}
-                                            onChange={(e) =>
-                                                setAmbassador({
-                                                    ...ambassador,
-                                                    leadershipExperience: e.target.value,
-                                                })
-                                            }
-                                        />
-                                    </div>
-                                    <CheckboxGroup
-                                        label="Tech / Leadership Skills"
-                                        options={TECH_SKILLS}
-                                        selected={ambassador.techSkills || []}
-                                        onChange={(techSkills) => setAmbassador({ ...ambassador, techSkills })}
-                                    />
-                                    <div className="grid md:grid-cols-3 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambHours" className={labelClass}>
-                                                Hours / Week *
-                                            </label>
-                                            <input
-                                                id="ambHours"
-                                                type="number"
-                                                min={1}
-                                                max={40}
-                                                required
-                                                className={inputClass}
-                                                value={ambassador.hoursPerWeek}
-                                                onChange={(e) =>
-                                                    setAmbassador({
-                                                        ...ambassador,
-                                                        hoursPerWeek: Number(e.target.value),
-                                                    })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambClub" className={labelClass}>
-                                                Proposed Club Name *
-                                            </label>
-                                            <input
-                                                id="ambClub"
-                                                required
-                                                className={inputClass}
-                                                value={ambassador.proposedClubName}
-                                                onChange={(e) =>
-                                                    setAmbassador({
-                                                        ...ambassador,
-                                                        proposedClubName: e.target.value,
-                                                    })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambMembers" className={labelClass}>
-                                                Estimated Members *
-                                            </label>
-                                            <input
-                                                id="ambMembers"
-                                                type="number"
-                                                min={1}
-                                                required
-                                                className={inputClass}
-                                                value={ambassador.estimatedMembers}
-                                                onChange={(e) =>
-                                                    setAmbassador({
-                                                        ...ambassador,
-                                                        estimatedMembers: Number(e.target.value),
-                                                    })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <CheckboxGroup
-                                        label="Support Needed"
-                                        options={SUPPORT_NEEDED}
-                                        selected={ambassador.supportNeeded || []}
-                                        onChange={(supportNeeded) =>
-                                            setAmbassador({ ...ambassador, supportNeeded })
-                                        }
-                                    />
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambCv" className={labelClass}>
-                                                CV Document (Optional)
-                                            </label>
-                                            <input
-                                                id="ambCv"
-                                                type="file"
-                                                accept={CV_ACCEPT}
-                                                className={inputClass}
-                                                onChange={(e) => setAmbassadorCv(e.target.files?.[0] || null)}
-                                            />
-                                            <span className="mt-1 text-[11px] text-text-muted">PDF, DOC, or DOCX · max 5 MB</span>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="ambPortfolio" className={labelClass}>
-                                                Portfolio URL (Optional)
-                                            </label>
-                                            <input
-                                                id="ambPortfolio"
-                                                type="url"
-                                                className={inputClass}
-                                                placeholder="https://"
-                                                value={ambassador.portfolioUrl || ""}
-                                                onChange={(e) =>
-                                                    setAmbassador({ ...ambassador, portfolioUrl: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="space-y-3 border border-border rounded-xl p-4 bg-bg-cream">
-                                        {(
-                                            [
-                                                ["commitHours", "I can commit the stated hours per week"],
-                                                ["commitClub", "I will launch or lead a campus tech club"],
-                                                ["commitBootcamp", "I will attend ambassador onboarding / bootcamp"],
-                                                ["agreeConduct", "I agree to the code of conduct"],
-                                            ] as const
-                                        ).map(([key, text]) => (
-                                            <label key={key} className="flex items-start gap-2 text-[13px] text-black cursor-pointer">
-                                                <input
-                                                    type="checkbox"
-                                                    required
-                                                    className="mt-0.5 accent-accent"
-                                                    checked={ambassador[key]}
-                                                    onChange={(e) =>
-                                                        setAmbassador({ ...ambassador, [key]: e.target.checked })
-                                                    }
-                                                />
-                                                {text} *
-                                            </label>
-                                        ))}
-                                    </div>
-                                </>
-                            )}
-
-                            {activeTab === "volunteer" && (
-                                <>
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="volName" className={labelClass}>
-                                                Full Name *
-                                            </label>
-                                            <input
-                                                id="volName"
-                                                required
-                                                className={inputClass}
-                                                value={volunteer.fullName}
-                                                onChange={(e) =>
-                                                    setVolunteer({ ...volunteer, fullName: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="volEmail" className={labelClass}>
-                                                Email *
-                                            </label>
-                                            <input
-                                                id="volEmail"
-                                                type="email"
-                                                required
-                                                className={inputClass}
-                                                value={volunteer.email}
-                                                onChange={(e) =>
-                                                    setVolunteer({ ...volunteer, email: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="volPhone" className={labelClass}>
-                                                Phone *
-                                            </label>
-                                            <input
-                                                id="volPhone"
-                                                type="tel"
-                                                required
-                                                className={inputClass}
-                                                value={volunteer.phone}
-                                                onChange={(e) =>
-                                                    setVolunteer({ ...volunteer, phone: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="volCity" className={labelClass}>
-                                                City *
-                                            </label>
-                                            <input
-                                                id="volCity"
-                                                required
-                                                className={inputClass}
-                                                value={volunteer.city}
-                                                onChange={(e) =>
-                                                    setVolunteer({ ...volunteer, city: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="grid md:grid-cols-3 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="volRole" className={labelClass}>
-                                                Primary Role *
-                                            </label>
-                                            <select
-                                                id="volRole"
-                                                className={inputClass}
-                                                value={volunteer.primaryRole}
-                                                onChange={(e) =>
-                                                    setVolunteer({
-                                                        ...volunteer,
-                                                        primaryRole: e.target.value as VolunteerRole,
-                                                    })
-                                                }
-                                            >
-                                                {VOLUNTEER_ROLES.map((r) => (
-                                                    <option key={r.value} value={r.value}>
-                                                        {r.label}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="volAvail" className={labelClass}>
-                                                Availability *
-                                            </label>
-                                            <select
-                                                id="volAvail"
-                                                className={inputClass}
-                                                value={volunteer.availability}
-                                                onChange={(e) =>
-                                                    setVolunteer({
-                                                        ...volunteer,
-                                                        availability: e.target.value as Availability,
-                                                    })
-                                                }
-                                            >
-                                                {AVAILABILITY_OPTS.map((a) => (
-                                                    <option key={a.value} value={a.value}>
-                                                        {a.label}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="volHours" className={labelClass}>
-                                                Hours / Week
-                                            </label>
-                                            <input
-                                                id="volHours"
-                                                type="number"
-                                                min={1}
-                                                max={40}
-                                                className={inputClass}
-                                                value={volunteer.hoursPerWeek ?? ""}
-                                                onChange={(e) =>
-                                                    setVolunteer({
-                                                        ...volunteer,
-                                                        hoursPerWeek: e.target.value
-                                                            ? Number(e.target.value)
-                                                            : undefined,
-                                                    })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label htmlFor="volPortfolio" className={labelClass}>
-                                            Portfolio / LinkedIn URL
-                                        </label>
-                                        <input
-                                            id="volPortfolio"
-                                            type="url"
-                                            className={inputClass}
-                                            placeholder="https://"
-                                            value={volunteer.portfolioLink || ""}
-                                            onChange={(e) =>
-                                                setVolunteer({ ...volunteer, portfolioLink: e.target.value })
-                                            }
-                                        />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label htmlFor="volBg" className={labelClass}>
-                                            Professional Background *
-                                        </label>
-                                        <textarea
-                                            id="volBg"
-                                            required
-                                            rows={3}
-                                            className={`${inputClass} resize-y`}
-                                            value={volunteer.professionalBackground}
-                                            onChange={(e) =>
-                                                setVolunteer({
-                                                    ...volunteer,
-                                                    professionalBackground: e.target.value,
-                                                })
-                                            }
-                                        />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label htmlFor="volMotivation" className={labelClass}>
-                                            Motivation *
-                                        </label>
-                                        <textarea
-                                            id="volMotivation"
-                                            required
-                                            rows={3}
-                                            className={`${inputClass} resize-y`}
-                                            value={volunteer.motivation}
-                                            onChange={(e) =>
-                                                setVolunteer({ ...volunteer, motivation: e.target.value })
-                                            }
-                                        />
-                                    </div>
-                                </>
-                            )}
-
-                            {activeTab === "internship" && (
-                                <>
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intName" className={labelClass}>
-                                                Full Name *
-                                            </label>
-                                            <input
-                                                id="intName"
-                                                required
-                                                className={inputClass}
-                                                value={internship.fullName}
-                                                onChange={(e) =>
-                                                    setInternship({ ...internship, fullName: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intEmail" className={labelClass}>
-                                                Email *
-                                            </label>
-                                            <input
-                                                id="intEmail"
-                                                type="email"
-                                                required
-                                                className={inputClass}
-                                                value={internship.email}
-                                                onChange={(e) =>
-                                                    setInternship({ ...internship, email: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intPhone" className={labelClass}>
-                                                Phone *
-                                            </label>
-                                            <input
-                                                id="intPhone"
-                                                type="tel"
-                                                required
-                                                className={inputClass}
-                                                value={internship.phone}
-                                                onChange={(e) =>
-                                                    setInternship({ ...internship, phone: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intLinkedin" className={labelClass}>
-                                                LinkedIn URL
-                                            </label>
-                                            <input
-                                                id="intLinkedin"
-                                                type="url"
-                                                className={inputClass}
-                                                placeholder="https://"
-                                                value={internship.linkedinUrl || ""}
-                                                onChange={(e) =>
-                                                    setInternship({ ...internship, linkedinUrl: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intInstitution" className={labelClass}>
-                                                Institution *
-                                            </label>
-                                            <input
-                                                id="intInstitution"
-                                                required
-                                                className={inputClass}
-                                                value={internship.institution}
-                                                onChange={(e) =>
-                                                    setInternship({ ...internship, institution: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intField" className={labelClass}>
-                                                Field of Study *
-                                            </label>
-                                            <input
-                                                id="intField"
-                                                required
-                                                className={inputClass}
-                                                value={internship.fieldOfStudy}
-                                                onChange={(e) =>
-                                                    setInternship({ ...internship, fieldOfStudy: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intYear" className={labelClass}>
-                                                Year of Study *
-                                            </label>
-                                            <input
-                                                id="intYear"
-                                                required
-                                                className={inputClass}
-                                                placeholder="e.g. 3rd Year"
-                                                value={internship.yearOfStudy}
-                                                onChange={(e) =>
-                                                    setInternship({ ...internship, yearOfStudy: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intGrad" className={labelClass}>
-                                                Graduation Date *
-                                            </label>
-                                            <input
-                                                id="intGrad"
-                                                type="date"
-                                                required
-                                                className={inputClass}
-                                                value={internship.graduationDate}
-                                                onChange={(e) =>
-                                                    setInternship({
-                                                        ...internship,
-                                                        graduationDate: e.target.value,
-                                                    })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="grid md:grid-cols-3 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intDept" className={labelClass}>
-                                                Department *
-                                            </label>
-                                            <select
-                                                id="intDept"
-                                                className={inputClass}
-                                                value={internship.department}
-                                                onChange={(e) =>
-                                                    setInternship({
-                                                        ...internship,
-                                                        department: e.target
-                                                            .value as InternshipApplicationData["department"],
-                                                    })
-                                                }
-                                            >
-                                                {INTERN_DEPARTMENTS.map((d) => (
-                                                    <option key={d.value} value={d.value}>
-                                                        {d.label}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intDuration" className={labelClass}>
-                                                Duration *
-                                            </label>
-                                            <select
-                                                id="intDuration"
-                                                className={inputClass}
-                                                value={internship.duration}
-                                                onChange={(e) =>
-                                                    setInternship({
-                                                        ...internship,
-                                                        duration: e.target
-                                                            .value as InternshipApplicationData["duration"],
-                                                    })
-                                                }
-                                            >
-                                                {INTERN_DURATIONS.map((d) => (
-                                                    <option key={d.value} value={d.value}>
-                                                        {d.label}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intStart" className={labelClass}>
-                                                Start Date *
-                                            </label>
-                                            <input
-                                                id="intStart"
-                                                type="date"
-                                                required
-                                                className={inputClass}
-                                                value={internship.startDate}
-                                                onChange={(e) =>
-                                                    setInternship({ ...internship, startDate: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <label className="flex items-center gap-2 text-[13px] text-black cursor-pointer">
-                                        <input
-                                            type="checkbox"
-                                            className="accent-accent"
-                                            checked={internship.fullTime}
-                                            onChange={(e) =>
-                                                setInternship({ ...internship, fullTime: e.target.checked })
-                                            }
-                                        />
-                                        I can commit full-time during the internship
-                                    </label>
-                                    <CheckboxGroup
-                                        label="Skills"
-                                        options={INTERN_SKILLS}
-                                        selected={internship.skills || []}
-                                        onChange={(skills) => setInternship({ ...internship, skills })}
-                                    />
-                                    <div className="flex flex-col">
-                                        <label htmlFor="intExperience" className={labelClass}>
-                                            Relevant Experience
-                                        </label>
-                                        <textarea
-                                            id="intExperience"
-                                            rows={3}
-                                            className={`${inputClass} resize-y`}
-                                            value={internship.experience || ""}
-                                            onChange={(e) =>
-                                                setInternship({ ...internship, experience: e.target.value })
-                                            }
-                                        />
-                                    </div>
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intProjects" className={labelClass}>
-                                                Project Links
-                                            </label>
-                                            <input
-                                                id="intProjects"
-                                                className={inputClass}
-                                                placeholder="Portfolio, Behance, etc."
-                                                value={internship.projectLinks || ""}
-                                                onChange={(e) =>
-                                                    setInternship({ ...internship, projectLinks: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intGithub" className={labelClass}>
-                                                GitHub URL
-                                            </label>
-                                            <input
-                                                id="intGithub"
-                                                type="url"
-                                                className={inputClass}
-                                                placeholder="https://github.com/..."
-                                                value={internship.githubUrl || ""}
-                                                onChange={(e) =>
-                                                    setInternship({ ...internship, githubUrl: e.target.value })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label htmlFor="intMotivation" className={labelClass}>
-                                            Why Afroec Hub? *
-                                        </label>
-                                        <textarea
-                                            id="intMotivation"
-                                            required
-                                            rows={3}
-                                            className={`${inputClass} resize-y`}
-                                            value={internship.motivationAfroec}
-                                            onChange={(e) =>
-                                                setInternship({
-                                                    ...internship,
-                                                    motivationAfroec: e.target.value,
-                                                })
-                                            }
-                                        />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label htmlFor="intGoals" className={labelClass}>
-                                            Learning Goals *
-                                        </label>
-                                        <textarea
-                                            id="intGoals"
-                                            required
-                                            rows={3}
-                                            className={`${inputClass} resize-y`}
-                                            value={internship.learningGoals}
-                                            onChange={(e) =>
-                                                setInternship({ ...internship, learningGoals: e.target.value })
-                                            }
-                                        />
-                                    </div>
-                                    <div className="grid md:grid-cols-3 gap-6">
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intCv" className={labelClass}>
-                                                Upload CV Document *
-                                            </label>
-                                            <input
-                                                id="intCv"
-                                                type="file"
-                                                accept={CV_ACCEPT}
-                                                required
-                                                className={inputClass}
-                                                onChange={(e) => setInternshipCv(e.target.files?.[0] || null)}
-                                            />
-                                            <span className="mt-1 text-[11px] text-text-muted">PDF, DOC, or DOCX · max 5 MB</span>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intCover" className={labelClass}>
-                                                Cover Letter URL
-                                            </label>
-                                            <input
-                                                id="intCover"
-                                                type="url"
-                                                className={inputClass}
-                                                placeholder="https://"
-                                                value={internship.coverLetterUrl || ""}
-                                                onChange={(e) =>
-                                                    setInternship({
-                                                        ...internship,
-                                                        coverLetterUrl: e.target.value,
-                                                    })
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <label htmlFor="intTranscript" className={labelClass}>
-                                                Transcript URL
-                                            </label>
-                                            <input
-                                                id="intTranscript"
-                                                type="url"
-                                                className={inputClass}
-                                                placeholder="https://"
-                                                value={internship.transcriptUrl || ""}
-                                                onChange={(e) =>
-                                                    setInternship({
-                                                        ...internship,
-                                                        transcriptUrl: e.target.value,
-                                                    })
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="space-y-3 border border-border rounded-xl p-4 bg-bg-cream">
-                                        {(
-                                            [
-                                                ["agreeUnpaid", "I understand this internship may be unpaid"],
-                                                ["agreeDuration", "I can commit to the selected duration"],
-                                                ["agreePolicies", "I agree to Afroec Hub policies and code of conduct"],
-                                            ] as const
-                                        ).map(([key, text]) => (
-                                            <label key={key} className="flex items-start gap-2 text-[13px] text-black cursor-pointer">
-                                                <input
-                                                    type="checkbox"
-                                                    required
-                                                    className="mt-0.5 accent-accent"
-                                                    checked={internship[key]}
-                                                    onChange={(e) =>
-                                                        setInternship({ ...internship, [key]: e.target.checked })
-                                                    }
-                                                />
-                                                {text} *
-                                            </label>
-                                        ))}
-                                    </div>
-                                </>
-                            )}
-
-                            <div className="pt-4">
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="w-full btn-pill bg-accent text-black hover:bg-accent-hover text-center font-bold flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-                                >
-                                    {loading ? (
+                                <form onSubmit={handleSubmit} className="space-y-6">
+                                    {activeTab === "partner" && (
                                         <>
-                                            <Loader2 size={16} className="animate-spin" /> Submitting...
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="organizationName" className={labelClass}>
+                                                        Organization Name *
+                                                    </label>
+                                                    <input
+                                                        id="organizationName"
+                                                        required
+                                                        className={inputClass}
+                                                        value={partner.organizationName}
+                                                        onChange={(e) =>
+                                                            setPartner({ ...partner, organizationName: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="contactPerson" className={labelClass}>
+                                                        Contact Person *
+                                                    </label>
+                                                    <input
+                                                        id="contactPerson"
+                                                        required
+                                                        className={inputClass}
+                                                        value={partner.contactPerson}
+                                                        onChange={(e) =>
+                                                            setPartner({ ...partner, contactPerson: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="partnerEmail" className={labelClass}>
+                                                        Email *
+                                                    </label>
+                                                    <input
+                                                        id="partnerEmail"
+                                                        type="email"
+                                                        required
+                                                        className={inputClass}
+                                                        value={partner.email}
+                                                        onChange={(e) => setPartner({ ...partner, email: e.target.value })}
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="partnerPhone" className={labelClass}>
+                                                        Phone
+                                                    </label>
+                                                    <input
+                                                        id="partnerPhone"
+                                                        type="tel"
+                                                        className={inputClass}
+                                                        value={partner.phone || ""}
+                                                        onChange={(e) => setPartner({ ...partner, phone: e.target.value })}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <label htmlFor="organizationType" className={labelClass}>
+                                                    Organization Type *
+                                                </label>
+                                                <select
+                                                    id="organizationType"
+                                                    className={inputClass}
+                                                    value={partner.organizationType}
+                                                    onChange={(e) =>
+                                                        setPartner({
+                                                            ...partner,
+                                                            organizationType: e.target.value as PartnerType,
+                                                        })
+                                                    }
+                                                >
+                                                    {ORG_TYPES.map((o) => (
+                                                        <option key={o.value} value={o.value}>
+                                                            {o.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            <CheckboxGroup
+                                                label="Partnership Interest"
+                                                options={PARTNERSHIP_INTERESTS}
+                                                selected={partner.partnershipInterest}
+                                                onChange={(partnershipInterest) =>
+                                                    setPartner({ ...partner, partnershipInterest })
+                                                }
+                                                required
+                                            />
+                                            <div className="flex flex-col">
+                                                <label htmlFor="partnerMessage" className={labelClass}>
+                                                    Message *
+                                                </label>
+                                                <textarea
+                                                    id="partnerMessage"
+                                                    required
+                                                    rows={4}
+                                                    className={`${inputClass} resize-y`}
+                                                    value={partner.message}
+                                                    onChange={(e) => setPartner({ ...partner, message: e.target.value })}
+                                                />
+                                            </div>
                                         </>
-                                    ) : (
-                                        `Submit ${meta.label} Application`
                                     )}
-                                </button>
-                            </div>
-                        </form>
+
+                                    {activeTab === "ambassador" && (
+                                        <>
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambFullName" className={labelClass}>
+                                                        Full Name *
+                                                    </label>
+                                                    <input
+                                                        id="ambFullName"
+                                                        required
+                                                        className={inputClass}
+                                                        value={ambassador.fullName}
+                                                        onChange={(e) =>
+                                                            setAmbassador({ ...ambassador, fullName: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambEmail" className={labelClass}>
+                                                        Email *
+                                                    </label>
+                                                    <input
+                                                        id="ambEmail"
+                                                        type="email"
+                                                        required
+                                                        className={inputClass}
+                                                        value={ambassador.email}
+                                                        onChange={(e) =>
+                                                            setAmbassador({ ...ambassador, email: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid md:grid-cols-3 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambPhone" className={labelClass}>
+                                                        Phone *
+                                                    </label>
+                                                    <input
+                                                        id="ambPhone"
+                                                        type="tel"
+                                                        required
+                                                        className={inputClass}
+                                                        value={ambassador.phone}
+                                                        onChange={(e) =>
+                                                            setAmbassador({ ...ambassador, phone: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambDob" className={labelClass}>
+                                                        Date of Birth *
+                                                    </label>
+                                                    <input
+                                                        id="ambDob"
+                                                        type="date"
+                                                        required
+                                                        className={inputClass}
+                                                        value={ambassador.dateOfBirth}
+                                                        onChange={(e) =>
+                                                            setAmbassador({ ...ambassador, dateOfBirth: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambGender" className={labelClass}>
+                                                        Gender *
+                                                    </label>
+                                                    <select
+                                                        id="ambGender"
+                                                        className={inputClass}
+                                                        value={ambassador.gender}
+                                                        onChange={(e) =>
+                                                            setAmbassador({
+                                                                ...ambassador,
+                                                                gender: e.target.value as Gender,
+                                                            })
+                                                        }
+                                                    >
+                                                        {GENDERS.map((g) => (
+                                                            <option key={g.value} value={g.value}>
+                                                                {g.label}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambCity" className={labelClass}>
+                                                        City *
+                                                    </label>
+                                                    <input
+                                                        id="ambCity"
+                                                        required
+                                                        className={inputClass}
+                                                        value={ambassador.city}
+                                                        onChange={(e) =>
+                                                            setAmbassador({ ...ambassador, city: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambInstitution" className={labelClass}>
+                                                        Institution Name *
+                                                    </label>
+                                                    <input
+                                                        id="ambInstitution"
+                                                        required
+                                                        className={inputClass}
+                                                        value={ambassador.institutionName}
+                                                        onChange={(e) =>
+                                                            setAmbassador({
+                                                                ...ambassador,
+                                                                institutionName: e.target.value,
+                                                            })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid md:grid-cols-3 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambInstType" className={labelClass}>
+                                                        Institution Type *
+                                                    </label>
+                                                    <select
+                                                        id="ambInstType"
+                                                        className={inputClass}
+                                                        value={ambassador.institutionType}
+                                                        onChange={(e) =>
+                                                            setAmbassador({
+                                                                ...ambassador,
+                                                                institutionType: e.target
+                                                                    .value as AmbassadorApplicationData["institutionType"],
+                                                            })
+                                                        }
+                                                    >
+                                                        <option value="HIGH_SCHOOL">High School</option>
+                                                        <option value="UNIVERSITY">University</option>
+                                                        <option value="OTHER">Other</option>
+                                                    </select>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambGrade" className={labelClass}>
+                                                        Grade / Year *
+                                                    </label>
+                                                    <input
+                                                        id="ambGrade"
+                                                        required
+                                                        className={inputClass}
+                                                        value={ambassador.gradeLevel}
+                                                        onChange={(e) =>
+                                                            setAmbassador({ ...ambassador, gradeLevel: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambField" className={labelClass}>
+                                                        Field of Study
+                                                    </label>
+                                                    <input
+                                                        id="ambField"
+                                                        className={inputClass}
+                                                        value={ambassador.fieldOfStudy || ""}
+                                                        onChange={(e) =>
+                                                            setAmbassador({ ...ambassador, fieldOfStudy: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <label htmlFor="ambMotivation" className={labelClass}>
+                                                    Motivation Letter *
+                                                </label>
+                                                <textarea
+                                                    id="ambMotivation"
+                                                    required
+                                                    rows={4}
+                                                    className={`${inputClass} resize-y`}
+                                                    value={ambassador.motivationLetter}
+                                                    onChange={(e) =>
+                                                        setAmbassador({ ...ambassador, motivationLetter: e.target.value })
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <label htmlFor="ambLeadership" className={labelClass}>
+                                                    Leadership Experience
+                                                </label>
+                                                <textarea
+                                                    id="ambLeadership"
+                                                    rows={3}
+                                                    className={`${inputClass} resize-y`}
+                                                    value={ambassador.leadershipExperience || ""}
+                                                    onChange={(e) =>
+                                                        setAmbassador({
+                                                            ...ambassador,
+                                                            leadershipExperience: e.target.value,
+                                                        })
+                                                    }
+                                                />
+                                            </div>
+                                            <CheckboxGroup
+                                                label="Tech / Leadership Skills"
+                                                options={TECH_SKILLS}
+                                                selected={ambassador.techSkills || []}
+                                                onChange={(techSkills) => setAmbassador({ ...ambassador, techSkills })}
+                                            />
+                                            <div className="grid md:grid-cols-3 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambHours" className={labelClass}>
+                                                        Hours / Week *
+                                                    </label>
+                                                    <input
+                                                        id="ambHours"
+                                                        type="number"
+                                                        min={1}
+                                                        max={40}
+                                                        required
+                                                        className={inputClass}
+                                                        value={ambassador.hoursPerWeek}
+                                                        onChange={(e) =>
+                                                            setAmbassador({
+                                                                ...ambassador,
+                                                                hoursPerWeek: Number(e.target.value),
+                                                            })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambClub" className={labelClass}>
+                                                        Proposed Club Name *
+                                                    </label>
+                                                    <input
+                                                        id="ambClub"
+                                                        required
+                                                        className={inputClass}
+                                                        value={ambassador.proposedClubName}
+                                                        onChange={(e) =>
+                                                            setAmbassador({
+                                                                ...ambassador,
+                                                                proposedClubName: e.target.value,
+                                                            })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambMembers" className={labelClass}>
+                                                        Estimated Members *
+                                                    </label>
+                                                    <input
+                                                        id="ambMembers"
+                                                        type="number"
+                                                        min={1}
+                                                        required
+                                                        className={inputClass}
+                                                        value={ambassador.estimatedMembers}
+                                                        onChange={(e) =>
+                                                            setAmbassador({
+                                                                ...ambassador,
+                                                                estimatedMembers: Number(e.target.value),
+                                                            })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <CheckboxGroup
+                                                label="Support Needed"
+                                                options={SUPPORT_NEEDED}
+                                                selected={ambassador.supportNeeded || []}
+                                                onChange={(supportNeeded) =>
+                                                    setAmbassador({ ...ambassador, supportNeeded })
+                                                }
+                                            />
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambCv" className={labelClass}>
+                                                        CV Document (Optional)
+                                                    </label>
+                                                    <input
+                                                        id="ambCv"
+                                                        type="file"
+                                                        accept={CV_ACCEPT}
+                                                        className={inputClass}
+                                                        onChange={(e) => setAmbassadorCv(e.target.files?.[0] || null)}
+                                                    />
+                                                    <span className="mt-1 text-[11px] text-text-muted">PDF, DOC, or DOCX · max 5 MB</span>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="ambPortfolio" className={labelClass}>
+                                                        Portfolio URL (Optional)
+                                                    </label>
+                                                    <input
+                                                        id="ambPortfolio"
+                                                        type="url"
+                                                        className={inputClass}
+                                                        placeholder="https://"
+                                                        value={ambassador.portfolioUrl || ""}
+                                                        onChange={(e) =>
+                                                            setAmbassador({ ...ambassador, portfolioUrl: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="space-y-3 border border-border rounded-xl p-4 bg-bg-cream">
+                                                {(
+                                                    [
+                                                        ["commitHours", "I can commit the stated hours per week"],
+                                                        ["commitClub", "I will launch or lead a campus tech club"],
+                                                        ["commitBootcamp", "I will attend ambassador onboarding / bootcamp"],
+                                                        ["agreeConduct", "I agree to the code of conduct"],
+                                                    ] as const
+                                                ).map(([key, text]) => (
+                                                    <label key={key} className="flex items-start gap-2 text-[13px] text-black cursor-pointer">
+                                                        <input
+                                                            type="checkbox"
+                                                            required
+                                                            className="mt-0.5 accent-accent"
+                                                            checked={ambassador[key]}
+                                                            onChange={(e) =>
+                                                                setAmbassador({ ...ambassador, [key]: e.target.checked })
+                                                            }
+                                                        />
+                                                        {text} *
+                                                    </label>
+                                                ))}
+                                            </div>
+                                        </>
+                                    )}
+
+                                    {activeTab === "volunteer" && (
+                                        <>
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="volName" className={labelClass}>
+                                                        Full Name *
+                                                    </label>
+                                                    <input
+                                                        id="volName"
+                                                        required
+                                                        className={inputClass}
+                                                        value={volunteer.fullName}
+                                                        onChange={(e) =>
+                                                            setVolunteer({ ...volunteer, fullName: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="volEmail" className={labelClass}>
+                                                        Email *
+                                                    </label>
+                                                    <input
+                                                        id="volEmail"
+                                                        type="email"
+                                                        required
+                                                        className={inputClass}
+                                                        value={volunteer.email}
+                                                        onChange={(e) =>
+                                                            setVolunteer({ ...volunteer, email: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="volPhone" className={labelClass}>
+                                                        Phone *
+                                                    </label>
+                                                    <input
+                                                        id="volPhone"
+                                                        type="tel"
+                                                        required
+                                                        className={inputClass}
+                                                        value={volunteer.phone}
+                                                        onChange={(e) =>
+                                                            setVolunteer({ ...volunteer, phone: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="volCity" className={labelClass}>
+                                                        City *
+                                                    </label>
+                                                    <input
+                                                        id="volCity"
+                                                        required
+                                                        className={inputClass}
+                                                        value={volunteer.city}
+                                                        onChange={(e) =>
+                                                            setVolunteer({ ...volunteer, city: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid md:grid-cols-3 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="volRole" className={labelClass}>
+                                                        Primary Role *
+                                                    </label>
+                                                    <select
+                                                        id="volRole"
+                                                        className={inputClass}
+                                                        value={volunteer.primaryRole}
+                                                        onChange={(e) =>
+                                                            setVolunteer({
+                                                                ...volunteer,
+                                                                primaryRole: e.target.value as VolunteerRole,
+                                                            })
+                                                        }
+                                                    >
+                                                        {VOLUNTEER_ROLES.map((r) => (
+                                                            <option key={r.value} value={r.value}>
+                                                                {r.label}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="volAvail" className={labelClass}>
+                                                        Availability *
+                                                    </label>
+                                                    <select
+                                                        id="volAvail"
+                                                        className={inputClass}
+                                                        value={volunteer.availability}
+                                                        onChange={(e) =>
+                                                            setVolunteer({
+                                                                ...volunteer,
+                                                                availability: e.target.value as Availability,
+                                                            })
+                                                        }
+                                                    >
+                                                        {AVAILABILITY_OPTS.map((a) => (
+                                                            <option key={a.value} value={a.value}>
+                                                                {a.label}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="volHours" className={labelClass}>
+                                                        Hours / Week
+                                                    </label>
+                                                    <input
+                                                        id="volHours"
+                                                        type="number"
+                                                        min={1}
+                                                        max={40}
+                                                        className={inputClass}
+                                                        value={volunteer.hoursPerWeek ?? ""}
+                                                        onChange={(e) =>
+                                                            setVolunteer({
+                                                                ...volunteer,
+                                                                hoursPerWeek: e.target.value
+                                                                    ? Number(e.target.value)
+                                                                    : undefined,
+                                                            })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <label htmlFor="volPortfolio" className={labelClass}>
+                                                    Portfolio / LinkedIn URL
+                                                </label>
+                                                <input
+                                                    id="volPortfolio"
+                                                    type="url"
+                                                    className={inputClass}
+                                                    placeholder="https://"
+                                                    value={volunteer.portfolioLink || ""}
+                                                    onChange={(e) =>
+                                                        setVolunteer({ ...volunteer, portfolioLink: e.target.value })
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <label htmlFor="volBg" className={labelClass}>
+                                                    Professional Background *
+                                                </label>
+                                                <textarea
+                                                    id="volBg"
+                                                    required
+                                                    rows={3}
+                                                    className={`${inputClass} resize-y`}
+                                                    value={volunteer.professionalBackground}
+                                                    onChange={(e) =>
+                                                        setVolunteer({
+                                                            ...volunteer,
+                                                            professionalBackground: e.target.value,
+                                                        })
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <label htmlFor="volMotivation" className={labelClass}>
+                                                    Motivation *
+                                                </label>
+                                                <textarea
+                                                    id="volMotivation"
+                                                    required
+                                                    rows={3}
+                                                    className={`${inputClass} resize-y`}
+                                                    value={volunteer.motivation}
+                                                    onChange={(e) =>
+                                                        setVolunteer({ ...volunteer, motivation: e.target.value })
+                                                    }
+                                                />
+                                            </div>
+                                        </>
+                                    )}
+
+                                    {activeTab === "internship" && (
+                                        <>
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intName" className={labelClass}>
+                                                        Full Name *
+                                                    </label>
+                                                    <input
+                                                        id="intName"
+                                                        required
+                                                        className={inputClass}
+                                                        value={internship.fullName}
+                                                        onChange={(e) =>
+                                                            setInternship({ ...internship, fullName: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intEmail" className={labelClass}>
+                                                        Email *
+                                                    </label>
+                                                    <input
+                                                        id="intEmail"
+                                                        type="email"
+                                                        required
+                                                        className={inputClass}
+                                                        value={internship.email}
+                                                        onChange={(e) =>
+                                                            setInternship({ ...internship, email: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intPhone" className={labelClass}>
+                                                        Phone *
+                                                    </label>
+                                                    <input
+                                                        id="intPhone"
+                                                        type="tel"
+                                                        required
+                                                        className={inputClass}
+                                                        value={internship.phone}
+                                                        onChange={(e) =>
+                                                            setInternship({ ...internship, phone: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intLinkedin" className={labelClass}>
+                                                        LinkedIn URL
+                                                    </label>
+                                                    <input
+                                                        id="intLinkedin"
+                                                        type="url"
+                                                        className={inputClass}
+                                                        placeholder="https://"
+                                                        value={internship.linkedinUrl || ""}
+                                                        onChange={(e) =>
+                                                            setInternship({ ...internship, linkedinUrl: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intInstitution" className={labelClass}>
+                                                        Institution *
+                                                    </label>
+                                                    <input
+                                                        id="intInstitution"
+                                                        required
+                                                        className={inputClass}
+                                                        value={internship.institution}
+                                                        onChange={(e) =>
+                                                            setInternship({ ...internship, institution: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intField" className={labelClass}>
+                                                        Field of Study *
+                                                    </label>
+                                                    <input
+                                                        id="intField"
+                                                        required
+                                                        className={inputClass}
+                                                        value={internship.fieldOfStudy}
+                                                        onChange={(e) =>
+                                                            setInternship({ ...internship, fieldOfStudy: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intYear" className={labelClass}>
+                                                        Year of Study *
+                                                    </label>
+                                                    <input
+                                                        id="intYear"
+                                                        required
+                                                        className={inputClass}
+                                                        placeholder="e.g. 3rd Year"
+                                                        value={internship.yearOfStudy}
+                                                        onChange={(e) =>
+                                                            setInternship({ ...internship, yearOfStudy: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intGrad" className={labelClass}>
+                                                        Graduation Date *
+                                                    </label>
+                                                    <input
+                                                        id="intGrad"
+                                                        type="date"
+                                                        required
+                                                        className={inputClass}
+                                                        value={internship.graduationDate}
+                                                        onChange={(e) =>
+                                                            setInternship({
+                                                                ...internship,
+                                                                graduationDate: e.target.value,
+                                                            })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid md:grid-cols-3 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intDept" className={labelClass}>
+                                                        Department *
+                                                    </label>
+                                                    <select
+                                                        id="intDept"
+                                                        className={inputClass}
+                                                        value={internship.department}
+                                                        onChange={(e) =>
+                                                            setInternship({
+                                                                ...internship,
+                                                                department: e.target
+                                                                    .value as InternshipApplicationData["department"],
+                                                            })
+                                                        }
+                                                    >
+                                                        {INTERN_DEPARTMENTS.map((d) => (
+                                                            <option key={d.value} value={d.value}>
+                                                                {d.label}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intDuration" className={labelClass}>
+                                                        Duration *
+                                                    </label>
+                                                    <select
+                                                        id="intDuration"
+                                                        className={inputClass}
+                                                        value={internship.duration}
+                                                        onChange={(e) =>
+                                                            setInternship({
+                                                                ...internship,
+                                                                duration: e.target
+                                                                    .value as InternshipApplicationData["duration"],
+                                                            })
+                                                        }
+                                                    >
+                                                        {INTERN_DURATIONS.map((d) => (
+                                                            <option key={d.value} value={d.value}>
+                                                                {d.label}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intStart" className={labelClass}>
+                                                        Start Date *
+                                                    </label>
+                                                    <input
+                                                        id="intStart"
+                                                        type="date"
+                                                        required
+                                                        className={inputClass}
+                                                        value={internship.startDate}
+                                                        onChange={(e) =>
+                                                            setInternship({ ...internship, startDate: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <label className="flex items-center gap-2 text-[13px] text-black cursor-pointer">
+                                                <input
+                                                    type="checkbox"
+                                                    className="accent-accent"
+                                                    checked={internship.fullTime}
+                                                    onChange={(e) =>
+                                                        setInternship({ ...internship, fullTime: e.target.checked })
+                                                    }
+                                                />
+                                                I can commit full-time during the internship
+                                            </label>
+                                            <CheckboxGroup
+                                                label="Skills"
+                                                options={INTERN_SKILLS}
+                                                selected={internship.skills || []}
+                                                onChange={(skills) => setInternship({ ...internship, skills })}
+                                            />
+                                            <div className="flex flex-col">
+                                                <label htmlFor="intExperience" className={labelClass}>
+                                                    Relevant Experience
+                                                </label>
+                                                <textarea
+                                                    id="intExperience"
+                                                    rows={3}
+                                                    className={`${inputClass} resize-y`}
+                                                    value={internship.experience || ""}
+                                                    onChange={(e) =>
+                                                        setInternship({ ...internship, experience: e.target.value })
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intProjects" className={labelClass}>
+                                                        Project Links
+                                                    </label>
+                                                    <input
+                                                        id="intProjects"
+                                                        className={inputClass}
+                                                        placeholder="Portfolio, Behance, etc."
+                                                        value={internship.projectLinks || ""}
+                                                        onChange={(e) =>
+                                                            setInternship({ ...internship, projectLinks: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intGithub" className={labelClass}>
+                                                        GitHub URL
+                                                    </label>
+                                                    <input
+                                                        id="intGithub"
+                                                        type="url"
+                                                        className={inputClass}
+                                                        placeholder="https://github.com/..."
+                                                        value={internship.githubUrl || ""}
+                                                        onChange={(e) =>
+                                                            setInternship({ ...internship, githubUrl: e.target.value })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <label htmlFor="intMotivation" className={labelClass}>
+                                                    Why Afroec Hub? *
+                                                </label>
+                                                <textarea
+                                                    id="intMotivation"
+                                                    required
+                                                    rows={3}
+                                                    className={`${inputClass} resize-y`}
+                                                    value={internship.motivationAfroec}
+                                                    onChange={(e) =>
+                                                        setInternship({
+                                                            ...internship,
+                                                            motivationAfroec: e.target.value,
+                                                        })
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <label htmlFor="intGoals" className={labelClass}>
+                                                    Learning Goals *
+                                                </label>
+                                                <textarea
+                                                    id="intGoals"
+                                                    required
+                                                    rows={3}
+                                                    className={`${inputClass} resize-y`}
+                                                    value={internship.learningGoals}
+                                                    onChange={(e) =>
+                                                        setInternship({ ...internship, learningGoals: e.target.value })
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="grid md:grid-cols-3 gap-6">
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intCv" className={labelClass}>
+                                                        Upload CV Document *
+                                                    </label>
+                                                    <input
+                                                        id="intCv"
+                                                        type="file"
+                                                        accept={CV_ACCEPT}
+                                                        required
+                                                        className={inputClass}
+                                                        onChange={(e) => setInternshipCv(e.target.files?.[0] || null)}
+                                                    />
+                                                    <span className="mt-1 text-[11px] text-text-muted">PDF, DOC, or DOCX · max 5 MB</span>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intCover" className={labelClass}>
+                                                        Cover Letter URL
+                                                    </label>
+                                                    <input
+                                                        id="intCover"
+                                                        type="url"
+                                                        className={inputClass}
+                                                        placeholder="https://"
+                                                        value={internship.coverLetterUrl || ""}
+                                                        onChange={(e) =>
+                                                            setInternship({
+                                                                ...internship,
+                                                                coverLetterUrl: e.target.value,
+                                                            })
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <label htmlFor="intTranscript" className={labelClass}>
+                                                        Transcript URL
+                                                    </label>
+                                                    <input
+                                                        id="intTranscript"
+                                                        type="url"
+                                                        className={inputClass}
+                                                        placeholder="https://"
+                                                        value={internship.transcriptUrl || ""}
+                                                        onChange={(e) =>
+                                                            setInternship({
+                                                                ...internship,
+                                                                transcriptUrl: e.target.value,
+                                                            })
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="space-y-3 border border-border rounded-xl p-4 bg-bg-cream">
+                                                {(
+                                                    [
+                                                        ["agreeUnpaid", "I understand this internship may be unpaid"],
+                                                        ["agreeDuration", "I can commit to the selected duration"],
+                                                        ["agreePolicies", "I agree to Afroec Hub policies and code of conduct"],
+                                                    ] as const
+                                                ).map(([key, text]) => (
+                                                    <label key={key} className="flex items-start gap-2 text-[13px] text-black cursor-pointer">
+                                                        <input
+                                                            type="checkbox"
+                                                            required
+                                                            className="mt-0.5 accent-accent"
+                                                            checked={internship[key]}
+                                                            onChange={(e) =>
+                                                                setInternship({ ...internship, [key]: e.target.checked })
+                                                            }
+                                                        />
+                                                        {text} *
+                                                    </label>
+                                                ))}
+                                            </div>
+                                        </>
+                                    )}
+
+                                    <div className="pt-4">
+                                        <button
+                                            type="submit"
+                                            disabled={loading}
+                                            className="w-full btn-pill bg-accent text-black hover:bg-accent-hover text-center font-bold flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                                        >
+                                            {loading ? (
+                                                <>
+                                                    <Loader2 size={16} className="animate-spin" /> Submitting...
+                                                </>
+                                            ) : (
+                                                `Submit ${meta.label} Application`
+                                            )}
+                                        </button>
+                                    </div>
+                                </form>
+                            </>
+                        )}
                     </Reveal>
                 </div>
             </main>

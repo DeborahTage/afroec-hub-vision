@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -7,8 +7,8 @@ import { Reveal } from "@/components/Reveal";
 import { OrganicShape } from "@/components/OrganicShape";
 import heroImg from "@/assets/hero.jpg";
 import {
-    ArrowRight,
     CheckCircle,
+    Clock,
     Megaphone,
     Network,
     School,
@@ -121,13 +121,10 @@ function FoundingAmbassadorsPage() {
                                 Building the next generation of tech leaders across Ethiopian high schools and universities
                             </p>
                             <div className="mt-8 flex flex-wrap gap-4">
-                                <Link
-                                    to="/get-involved/apply"
-                                    search={{ type: "ambassador" } as never}
-                                    className="btn-pill bg-accent text-black hover:bg-accent-hover font-bold shadow-sm"
-                                >
-                                    Become an Ambassador <ArrowRight size={16} className="inline ml-1" />
-                                </Link>
+                                <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-300 text-amber-700 text-[14px] font-semibold px-5 py-3 rounded-full">
+                                    <Clock size={16} />
+                                    Round 1 Closed — Round 2 Coming Soon
+                                </div>
                                 <a
                                     href="#what-ambassadors-do"
                                     className="btn-pill bg-transparent border-2 border-black text-black hover:bg-black hover:text-white"
@@ -289,27 +286,28 @@ function FoundingAmbassadorsPage() {
                     </div>
                 </section>
 
-                {/* APPLY CTA */}
+                {/* APPLY CTA — CLOSED */}
                 <section className="py-24 bg-bg-cream border-t border-border/40">
                     <div className="container-page">
                         <Reveal className="bg-bg-dark text-white rounded-[24px] p-8 md:p-16 text-center shadow-lg relative overflow-hidden">
                             <span className="text-[12px] font-semibold text-text-muted uppercase tracking-[0.2em] mb-4 block">
-                                Applications open
+                                Applications Status
                             </span>
+                            <div className="inline-flex items-center gap-2 bg-amber-400/20 border border-amber-300/40 text-amber-300 text-[13px] font-semibold px-5 py-2 rounded-full mb-6">
+                                <Clock size={14} />
+                                Round 1 is Closed
+                            </div>
                             <h2 className="font-display font-bold text-[32px] md:text-[44px] leading-tight text-white mb-4">
-                                Ready to lead on your campus?
+                                Thank you for your interest!
                             </h2>
-                            <p className="text-[16px] text-white/70 max-w-xl mx-auto mb-10 leading-relaxed">
-                                Join the founding cohort. We’ll equip you with training, a starter kit, and a network
-                                that grows with every club you help launch.
+                            <p className="text-[16px] text-white/70 max-w-xl mx-auto mb-8 leading-relaxed">
+                                The first round of Founding Ambassador applications has closed. We'll announce
+                                Round 2 on our social media channels — follow us to be the first to know.
                             </p>
-                            <Link
-                                to="/get-involved/apply"
-                                search={{ type: "ambassador" } as never}
-                                className="btn-pill bg-accent text-black hover:bg-accent-hover font-bold inline-flex items-center gap-2"
-                            >
-                                Become an Ambassador <ArrowRight size={16} />
-                            </Link>
+                            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white/80 text-[14px] font-medium px-6 py-3 rounded-full">
+                                <Clock size={15} className="text-amber-300" />
+                                Stay tuned — Round 2 coming soon
+                            </div>
                         </Reveal>
                     </div>
                 </section>
