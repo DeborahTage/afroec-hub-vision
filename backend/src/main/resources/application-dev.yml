@@ -1,9 +1,9 @@
 # application-dev.yml — local development
 spring:
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5434/afroec_hub}
-    username: ${DATABASE_USERNAME:afroec_admin}
-    password: ${DATABASE_PASSWORD:afroec_admin}
+    url: ${DATABASE_URL:jdbc:postgresql://dpg-d97vu1ho3t8c738e51mg-a.oregon-postgres.render.com:5432/afroec?sslmode=require}
+    username: ${DATABASE_USERNAME:afroec_user}
+    password: ${DATABASE_PASSWORD:PJcbauK4Jl95Hlw1EmBDTHu6kAJxA1Lm}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 5
@@ -31,7 +31,7 @@ jwt:
 
 admin:
   default-password: ${ADMIN_PASSWORD:Admin@12345}
-  default-email: ${ADMIN_EMAIL:support@afroec.com}
+  default-email: ${ADMIN_EMAIL:admin@afroechub.com}
 
 logging:
   level:
