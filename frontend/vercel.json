@@ -5,7 +5,7 @@
   "buildCommand": "npm run build && node ../scripts/inject-api-proxy.mjs",
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/:path((?!google70e938de8d130665\\.html|robots\\.txt|sitemap\\.xml).*)",
       "has": [{ "type": "host", "value": "www.afroec.com" }],
       "destination": "https://afroec.com/:path*",
       "permanent": true
