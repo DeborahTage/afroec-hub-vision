@@ -1,17 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { JsonLd } from "@/components/JsonLd";
+import { pageSeo, webPageSchema } from "@/lib/seo";
+
+const title = "Afroec Labs | AI, Robotics & Emerging Technology";
+const description =
+  "Afroec Labs explores AI, robotics, hardware, automation, and research so emerging technology can become practical products.";
 
 export const Route = createFileRoute("/labs")({
-  head: () => ({
-    meta: [
-      { title: "Labs | Afroec" },
-      {
-        name: "description",
-        content: "Afroec Labs explores AI, robotics, hardware, and research that can become practical technology.",
-      },
-    ],
-  }),
+  head: () => pageSeo({ title, description, path: "/labs" }),
   component: LabsPage,
 });
 
@@ -27,6 +25,7 @@ function LabsPage() {
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <main>
+        <JsonLd data={webPageSchema({ title, description, path: "/labs" })} />
         <section className="bg-bg-dark text-white pt-32 md:pt-40 pb-20">
           <div className="container-page max-w-3xl">
             <span className="eyebrow text-accent">Afroec Labs</span>
@@ -34,7 +33,7 @@ function LabsPage() {
               Explore what is next
             </h1>
             <p className="mt-6 text-[18px] text-white/70 leading-relaxed">
-              Labs is the innovation arm of Afroec. It is where we study, prototype, and test ideas in AI, robotics, hardware, and automation before they become products.
+              Afroec Labs is the innovation arm of Afroec. It is where we study, prototype, and test ideas in AI, robotics, hardware, and automation before they become products.
             </p>
           </div>
         </section>

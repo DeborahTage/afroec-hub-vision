@@ -1,17 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { JsonLd } from "@/components/JsonLd";
+import { pageSeo, webPageSchema } from "@/lib/seo";
+
+const title = "Afroec Hub | Developing Africa's Technology Talent";
+const description =
+  "Afroec Hub develops programming, cybersecurity, AI, digital skills, and mentorship for the next generation of African technology talent.";
 
 export const Route = createFileRoute("/hub")({
-  head: () => ({
-    meta: [
-      { title: "Hub | Afroec" },
-      {
-        name: "description",
-        content: "Afroec Hub develops programming, cybersecurity, AI, and digital skills for Africa's next technology talent.",
-      },
-    ],
-  }),
+  head: () => pageSeo({ title, description, path: "/hub" }),
   component: HubPage,
 });
 
@@ -29,13 +27,14 @@ function HubPage() {
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <main className="pt-28 md:pt-36 pb-20">
+        <JsonLd data={webPageSchema({ title, description, path: "/hub" })} />
         <section className="container-page max-w-3xl">
           <span className="eyebrow">Afroec Hub</span>
           <h1 className="mt-4 font-display font-bold text-[42px] md:text-[56px] leading-[1.1] text-black">
             Technology is only as powerful as the people who build it.
           </h1>
           <p className="mt-6 text-[18px] text-text-secondary leading-relaxed">
-            Hub is the talent arm of Afroec. It develops skills and creates opportunities so more people can build technology — alongside Solutions and Labs, not instead of them.
+            Afroec Hub is the talent arm of Afroec. It develops skills and creates opportunities so more people can build technology — alongside Afroec Solutions and Afroec Labs, not instead of them.
           </p>
         </section>
         <section className="container-page mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-4">

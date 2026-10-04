@@ -4,36 +4,33 @@ import { Navbar } from "@/components/Navbar";
 import { Reveal } from "@/components/Reveal";
 import { Footer } from "@/components/Footer";
 import { SectionHeader } from "@/components/SectionHeader";
+import { JsonLd } from "@/components/JsonLd";
 import { workProjects } from "@/lib/work";
+import { SITE_DESCRIPTION, SITE_TITLE, organizationSchema, pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Afroec | Building Africa's Next Generation of Technology" },
-      {
-        name: "description",
-        content:
-          "Afroec builds practical technology, explores emerging ideas, and develops the people who will shape Africa's digital future.",
-      },
-    ],
+  head: () => pageSeo({
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    path: "/",
   }),
   component: HomePage,
 });
 
 const areas = [
   {
-    name: "Solutions",
-    text: "Technology built around real organizational problems.",
+    name: "Afroec Solutions",
+    text: "Commercial technology and software solutions.",
     href: "/solutions" as const,
   },
   {
-    name: "Labs",
-    text: "Research, experimentation, and development in emerging technology.",
+    name: "Afroec Labs",
+    text: "AI, robotics, hardware, automation, research, and experimentation.",
     href: "/labs" as const,
   },
   {
-    name: "Hub",
-    text: "Programs and opportunities that help people build practical technology skills.",
+    name: "Afroec Hub",
+    text: "Technology education, mentorship, digital skills, and talent development.",
     href: "/hub" as const,
   },
 ];
@@ -83,6 +80,7 @@ function HomePage() {
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <main>
+        <JsonLd data={organizationSchema()} />
         <Hero />
         <WhatWeDo />
         <Solutions />
@@ -116,7 +114,7 @@ function Hero() {
         </Reveal>
         <Reveal delay={2}>
           <p className="mt-7 text-[18px] md:text-[20px] leading-relaxed text-text-secondary max-w-[640px]">
-            We build practical technology, explore emerging ideas, and develop the people who will shape Africa's digital future.
+            Afroec is an African technology company. We build practical digital solutions, explore emerging technologies, and develop the next generation of African tech talent.
           </p>
         </Reveal>
         <Reveal delay={3}>
@@ -142,7 +140,7 @@ function WhatWeDo() {
           align="left"
           eyebrow="What we do"
           title="Three parts of one company"
-          subtitle="Solutions builds technology for organizations. Labs explores what is next. Hub develops the people who will build it."
+          subtitle="Afroec builds technology, explores emerging technology, and develops technology talent."
         />
         <div className="grid md:grid-cols-3 gap-5">
           {areas.map((area, i) => (
@@ -174,9 +172,9 @@ function Solutions() {
           <SectionHeader
             align="left"
             className="mb-0"
-            eyebrow="Solutions"
+            eyebrow="Afroec Solutions"
             title="Technology for real organizational problems"
-            subtitle="Afroec Solutions is the commercial arm. We design and build software organizations can use."
+            subtitle="Afroec Solutions is the commercial arm of this African technology company. We design and build custom software, digital platforms, and AI and automation organizations can use."
           />
           <Link to="/solutions" className="link-arrow shrink-0 mb-2">
             See Solutions <ArrowRight size={16} />
@@ -200,12 +198,12 @@ function Labs() {
     <section className="py-20 md:py-28 bg-bg-dark text-white">
       <div className="container-page">
         <div className="max-w-2xl">
-          <span className="eyebrow text-accent">Labs</span>
+          <span className="eyebrow text-accent">Afroec Labs</span>
           <h2 className="mt-3 font-display font-bold text-[32px] md:text-[42px] leading-tight">
             Where Afroec explores what comes next
           </h2>
           <p className="mt-4 text-[16px] md:text-[18px] text-white/70 leading-relaxed">
-            Afroec Labs is the place for research, prototypes, and emerging technology — still grounded in work that can become real.
+            Afroec Labs is the innovation arm for AI, robotics, hardware, automation, and research — still grounded in work that can become real.
           </p>
         </div>
         <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -229,12 +227,12 @@ function Hub() {
     <section className="py-20 md:py-28 bg-bg-cream">
       <div className="container-page grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-start">
         <div>
-          <span className="eyebrow">Hub</span>
+          <span className="eyebrow">Afroec Hub</span>
           <h2 className="mt-3 font-display font-bold text-[32px] md:text-[42px] leading-tight text-black">
             Technology is only as powerful as the people who build it.
           </h2>
           <p className="mt-5 text-[16px] md:text-[18px] text-text-secondary leading-relaxed max-w-xl">
-            Afroec Hub develops practical skills and creates opportunities for the next generation of African technology talent. It is part of the company, not the whole company.
+            Afroec Hub develops technology education, mentorship, and digital skills for African tech talent. It is part of Afroec, not the whole company.
           </p>
           <Link to="/hub" className="link-arrow mt-8">
             Explore the Hub <ArrowRight size={16} />

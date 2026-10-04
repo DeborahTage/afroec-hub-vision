@@ -16,18 +16,16 @@ import {
 } from "lucide-react";
 import { submitContactForm } from "@/lib/api";
 import { formatApiError, mapContactForm } from "@/lib/form-mappers";
+import { JsonLd } from "@/components/JsonLd";
+import { pageSeo, webPageSchema } from "@/lib/seo";
+
+const title = "Contact Afroec | Work With Us";
+const description =
+    "Contact Afroec to start a conversation about custom software, digital solutions, or working with our team in Africa.";
 
 export const Route = createFileRoute("/contact")({
     component: ContactPage,
-    head: () => ({
-        meta: [
-            { title: "Contact | Afroec" },
-            {
-                name: "description",
-                content: "Start a conversation with Afroec about a product, a system, or a collaboration.",
-            },
-        ],
-    }),
+    head: () => pageSeo({ title, description, path: "/contact" }),
 });
 
 function ContactPage() {
@@ -68,6 +66,7 @@ function ContactPage() {
             <Navbar />
             <Breadcrumbs />
             <main className="flex-1 bg-bg-cream py-16">
+                <JsonLd data={webPageSchema({ title, description, path: "/contact", type: "ContactPage" })} />
                 <div className="container-page">
                     <Reveal className="text-center max-w-2xl mx-auto mb-16">
                         <span className="eyebrow">CONTACT</span>

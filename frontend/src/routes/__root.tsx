@@ -80,15 +80,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Afroec | Building Africa's Next Generation of Technology" },
-      {
-        name: "description",
-        content:
-          "Afroec builds practical technology, explores emerging ideas, and develops the people who will shape Africa's digital future.",
-      },
+      { name: "robots", content: "index, follow" },
       { name: "author", content: "Afroec" },
+      { name: "application-name", content: "Afroec" },
       { property: "og:site_name", content: "Afroec" },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "en" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [

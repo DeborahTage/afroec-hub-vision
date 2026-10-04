@@ -10,10 +10,10 @@ export const Route = createFileRoute("/blog/")({
     component: BlogIndexPage,
     head: () => ({
         meta: [
-            { title: "News & Stories | Afroec Hub" },
+            { title: "News & Stories | Afroec" },
             {
                 name: "description",
-                content: "Stay updated on Afroec Hub cohorts, student milestones, events, and tech community insights.",
+                content: "News and stories from Afroec, an African technology company building solutions, exploring Labs, and developing talent through the Hub.",
             },
         ],
     }),

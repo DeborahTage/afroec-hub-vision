@@ -18,7 +18,7 @@ interface LogoProps {
 export function Logo({
   variant = "navbar",
   className,
-  alt = "Afroec Hub",
+  alt = "Afroec",
 }: LogoProps) {
   return (
     <img

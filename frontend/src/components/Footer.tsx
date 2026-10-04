@@ -32,7 +32,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div>
+        <nav aria-label="Company">
           <div className="font-display text-[16px] font-bold mb-4">Company</div>
           <ul className="space-y-3 text-[14px] text-text-muted">
             <li><Link to="/solutions" className="hover:text-accent">Solutions</Link></li>
@@ -40,16 +40,16 @@ export function Footer() {
             <li><Link to="/hub" className="hover:text-accent">Hub</Link></li>
             <li><Link to="/work" className="hover:text-accent">Work</Link></li>
           </ul>
-        </div>
+        </nav>
 
-        <div>
+        <nav aria-label="About">
           <div className="font-display text-[16px] font-bold mb-4">About</div>
           <ul className="space-y-3 text-[14px] text-text-muted">
             <li><Link to="/about" className="hover:text-accent">About Afroec</Link></li>
             <li><Link to="/contact" className="hover:text-accent">Contact</Link></li>
             <li><Link to="/blog" className="hover:text-accent">Blog</Link></li>
           </ul>
-        </div>
+        </nav>
 
         <div>
           <div className="font-display text-[16px] font-bold mb-4">Contact</div>

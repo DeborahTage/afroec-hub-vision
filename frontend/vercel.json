@@ -2,5 +2,13 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "tanstack-start",
   "installCommand": "npm install",
-  "buildCommand": "npm run build && node ../scripts/inject-api-proxy.mjs"
+  "buildCommand": "npm run build && node ../scripts/inject-api-proxy.mjs",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.afroec.com" }],
+      "destination": "https://afroec.com/:path*",
+      "permanent": true
+    }
+  ]
 }

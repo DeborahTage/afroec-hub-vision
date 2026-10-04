@@ -1,18 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { JsonLd } from "@/components/JsonLd";
+import { pageSeo, webPageSchema } from "@/lib/seo";
+
+const title = "About Afroec | African Technology Company";
+const description =
+  "Afroec is an African technology company that builds digital solutions, explores emerging technology, and develops African tech talent through Solutions, Labs, and Hub.";
 
 export const Route = createFileRoute("/about/")({
   component: AboutPage,
-  head: () => ({
-    meta: [
-      { title: "About | Afroec" },
-      {
-        name: "description",
-        content: "Afroec builds technology, explores emerging ideas, and develops the people who will shape Africa's digital future.",
-      },
-    ],
-  }),
+  head: () => pageSeo({ title, description, path: "/about" }),
 });
 
 const pillars = [
@@ -44,13 +42,14 @@ function AboutPage() {
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Navbar />
       <main className="flex-1 pt-28 md:pt-36 pb-20">
+        <JsonLd data={webPageSchema({ title, description, path: "/about", type: "AboutPage" })} />
         <section className="container-page max-w-3xl">
           <span className="eyebrow">About</span>
           <h1 className="mt-4 font-display font-bold text-[42px] md:text-[60px] leading-[1.08] text-black">
             A technology company with a long view
           </h1>
           <p className="mt-6 text-[18px] text-text-secondary leading-relaxed">
-            Afroec builds practical technology for organizations, explores emerging ideas, and develops the people who will shape Africa's digital future.
+            Afroec is an African technology company. We build practical technology for organizations, explore emerging ideas, and develop the people who will shape Africa's digital future.
           </p>
         </section>
 

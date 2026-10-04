@@ -9,7 +9,7 @@ export const workProjects = [
     description:
       "An agriculture ERP for Trust Agro, covering farm operations such as inventory, veterinary care, pharmacy, finance, and role-based access.",
     image: agricultureErpImg,
-    imageAlt: "Agriculture field representing the Trust Agro ERP system",
+    imageAlt: "Afroec Trust Agro ERP for agriculture operations",
   },
   {
     name: "School of Diamond",
@@ -17,7 +17,7 @@ export const workProjects = [
     description:
       "A school management system for School of Diamond, for enrollment, attendance, grades, timetables, and communication between the school and families.",
     image: schoolManagementImg,
-    imageAlt: "School campus representing the School of Diamond management system",
+    imageAlt: "Afroec school management system for School of Diamond",
   },
   {
     name: "Company profile websites",
@@ -25,6 +25,6 @@ export const workProjects = [
     description:
       "Company profile websites for organizations that need a clear public presence — who they are, what they do, and how to reach them.",
     image: companyPortfolioImg,
-    imageAlt: "A company website shown on a laptop",
+    imageAlt: "Company profile website built by Afroec",
   },
 ] as const;

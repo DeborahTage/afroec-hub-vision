@@ -1,15 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { JsonLd } from "@/components/JsonLd";
 import { workProjects } from "@/lib/work";
+import { pageSeo, webPageSchema } from "@/lib/seo";
+
+const title = "Afroec Work | Technology Projects in Africa";
+const description =
+  "Selected Afroec work, including Trust Agro ERP, the School of Diamond management system, and company profile websites.";
 
 export const Route = createFileRoute("/work")({
-  head: () => ({
-    meta: [
-      { title: "Work | Afroec" },
-      { name: "description", content: "Selected Afroec work, including Trust Agro ERP, School of Diamond, and company profile websites." },
-    ],
-  }),
+  head: () => pageSeo({ title, description, path: "/work" }),
   component: WorkPage,
 });
 
@@ -18,6 +19,7 @@ function WorkPage() {
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <main className="pt-28 md:pt-36 pb-20">
+        <JsonLd data={webPageSchema({ title, description, path: "/work" })} />
         <section className="container-page max-w-3xl">
           <span className="eyebrow">Work</span>
           <h1 className="mt-4 font-display font-bold text-[42px] md:text-[60px] leading-[1.08] text-black">
