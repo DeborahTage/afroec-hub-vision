@@ -21,10 +21,10 @@ export const Route = createFileRoute("/contact")({
     component: ContactPage,
     head: () => ({
         meta: [
-            { title: "Contact Us | Afroec Hub" },
+            { title: "Contact | Afroec" },
             {
                 name: "description",
-                content: "Have a question about admissions, partnerships, or volunteering? Get in touch with our team in Addis Ababa.",
+                content: "Start a conversation with Afroec about a product, a system, or a collaboration.",
             },
         ],
     }),
@@ -70,12 +70,12 @@ function ContactPage() {
             <main className="flex-1 bg-bg-cream py-16">
                 <div className="container-page">
                     <Reveal className="text-center max-w-2xl mx-auto mb-16">
-                        <span className="eyebrow">GET IN TOUCH</span>
+                        <span className="eyebrow">CONTACT</span>
                         <h1 className="mt-4 font-display font-bold text-[44px] md:text-[56px] leading-[1.1] text-black">
-                            Contact Us
+                            Start a conversation
                         </h1>
                         <p className="mt-6 text-[16px] md:text-[18px] text-text-secondary leading-relaxed">
-                            Have a question about admissions, partnerships, or volunteering? Reach out and we will write you back.
+                            Tell us about the problem you want to solve. We will reply from Addis Ababa.
                         </p>
                     </Reveal>
 
@@ -151,11 +151,11 @@ function ContactPage() {
                                             onChange={handleChange}
                                             className="rounded-xl border border-border px-4 py-3 text-[14px] text-black focus:outline-none focus:border-accent hover:border-black/35 bg-white transition-colors"
                                         >
-                                            <option value="General Inquiry">General Inquiry</option>
-                                            <option value="Admissions">Academy Admissions & Cohorts</option>
-                                            <option value="Corporate Partnership">Enterprise Sponsorships</option>
-                                            <option value="Volunteer Programs">Volunteer Opportunities</option>
-                                            <option value="Media Request">Media & Press</option>
+                                            <option value="General Inquiry">General inquiry</option>
+                                            <option value="Solutions">Work with Solutions</option>
+                                            <option value="Labs">Labs and prototypes</option>
+                                            <option value="Hub">Hub and talent</option>
+                                            <option value="Media Request">Media</option>
                                         </select>
                                     </div>
 

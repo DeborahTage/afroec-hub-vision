@@ -12,6 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as ImpactRouteImport } from './routes/impact'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as WorkRouteImport } from './routes/work'
+import { Route as HubRouteImport } from './routes/hub'
+import { Route as LabsRouteImport } from './routes/labs'
+import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as InitiativesIndexRouteImport } from './routes/initiatives/index'
@@ -46,6 +50,26 @@ const ImpactRoute = ImpactRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkRoute = WorkRouteImport.update({
+  id: '/work',
+  path: '/work',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HubRoute = HubRouteImport.update({
+  id: '/hub',
+  path: '/hub',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LabsRoute = LabsRouteImport.update({
+  id: '/labs',
+  path: '/labs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsRoute = SolutionsRouteImport.update({
+  id: '/solutions',
+  path: '/solutions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -154,6 +178,10 @@ const AboutMissionRoute = AboutMissionRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/work': typeof WorkRoute
+  '/hub': typeof HubRoute
+  '/labs': typeof LabsRoute
+  '/solutions': typeof SolutionsRoute
   '/impact': typeof ImpactRoute
   '/programs': typeof ProgramsRoute
   '/about/mission': typeof AboutMissionRoute
@@ -179,6 +207,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/work': typeof WorkRoute
+  '/hub': typeof HubRoute
+  '/labs': typeof LabsRoute
+  '/solutions': typeof SolutionsRoute
   '/impact': typeof ImpactRoute
   '/programs': typeof ProgramsRoute
   '/about/mission': typeof AboutMissionRoute
@@ -205,6 +237,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/work': typeof WorkRoute
+  '/hub': typeof HubRoute
+  '/labs': typeof LabsRoute
+  '/solutions': typeof SolutionsRoute
   '/impact': typeof ImpactRoute
   '/programs': typeof ProgramsRoute
   '/about/mission': typeof AboutMissionRoute
@@ -232,6 +268,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/contact'
+    | '/work'
+    | '/hub'
+    | '/labs'
+    | '/solutions'
     | '/impact'
     | '/programs'
     | '/about/mission'
@@ -257,6 +297,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contact'
+    | '/work'
+    | '/hub'
+    | '/labs'
+    | '/solutions'
     | '/impact'
     | '/programs'
     | '/about/mission'
@@ -282,6 +326,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/contact'
+    | '/work'
+    | '/hub'
+    | '/labs'
+    | '/solutions'
     | '/impact'
     | '/programs'
     | '/about/mission'
@@ -308,6 +356,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
+  WorkRoute: typeof WorkRoute
+  HubRoute: typeof HubRoute
+  LabsRoute: typeof LabsRoute
+  SolutionsRoute: typeof SolutionsRoute
   ImpactRoute: typeof ImpactRoute
   ProgramsRoute: typeof ProgramsRoute
   AboutMissionRoute: typeof AboutMissionRoute
@@ -352,6 +404,34 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/work': {
+      id: '/work'
+      path: '/work'
+      fullPath: '/work'
+      preLoaderRoute: typeof WorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hub': {
+      id: '/hub'
+      path: '/hub'
+      fullPath: '/hub'
+      preLoaderRoute: typeof HubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/labs': {
+      id: '/labs'
+      path: '/labs'
+      fullPath: '/labs'
+      preLoaderRoute: typeof LabsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions': {
+      id: '/solutions'
+      path: '/solutions'
+      fullPath: '/solutions'
+      preLoaderRoute: typeof SolutionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -500,6 +580,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
+  WorkRoute: WorkRoute,
+  HubRoute: HubRoute,
+  LabsRoute: LabsRoute,
+  SolutionsRoute: SolutionsRoute,
   ImpactRoute: ImpactRoute,
   ProgramsRoute: ProgramsRoute,
   AboutMissionRoute: AboutMissionRoute,

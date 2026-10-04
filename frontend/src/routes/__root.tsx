@@ -80,14 +80,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Afroec Hub | Building Africa's Tech Talent Factory" },
+      { title: "Afroec | Building Africa's Next Generation of Technology" },
       {
         name: "description",
         content:
-          "Afroec Hub transforms Ethiopian youth, women, and students into world-class tech professionals through digital literacy, programming, and cybersecurity education.",
+          "Afroec builds practical technology, explores emerging ideas, and develops the people who will shape Africa's digital future.",
       },
-      { name: "author", content: "Afroec Hub" },
-      { property: "og:site_name", content: "Afroec Hub" },
+      { name: "author", content: "Afroec" },
+      { property: "og:site_name", content: "Afroec" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
