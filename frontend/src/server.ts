@@ -59,7 +59,6 @@ const PUBLIC_TEXT_FILES: Record<string, { body: string; type: string }> = {
   <url><loc>https://afroec.com/solutions</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://afroec.com/labs</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://afroec.com/hub</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://afroec.com/work</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://afroec.com/about</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://afroec.com/contact</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

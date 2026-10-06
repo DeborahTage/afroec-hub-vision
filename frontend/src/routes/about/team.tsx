@@ -22,8 +22,8 @@ export const Route = createFileRoute("/about/team")({
 const teamMembers = [
     {
         name: "Yonas Gebre",
-        role: "Managing Director",
-        bio: "Ex-INSA Lead Engineer. Passionate about deploying computer networking and scalable curriculum to remote schools.",
+        role: "Full Stack Developer",
+        bio: "Builds web and application software across frontend and backend, with a focus on practical systems people can use.",
         initials: "YG",
     },
     {
@@ -34,14 +34,14 @@ const teamMembers = [
     },
     {
         name: "Fitsum Kidane",
-        role: "Lead Support Specialist & IT Trainer",
-        bio: "Certified Network Specialist. Manages hardware infrastructure, routers, and IoT laboratories.",
+        role: "Embedded Engineer",
+        bio: "Works on embedded systems, hardware, and connected devices, including laboratory and infrastructure setups.",
         initials: "FK",
     },
     {
         name: "Tewodros Solomon",
-        role: "Senior Full-Stack Mentor",
-        bio: "Ex-software engineer in Fintech. Supports Product Hub trainees in building functional MVPs.",
+        role: "Backend and DevOps Developer",
+        bio: "Builds backend services and deployment infrastructure. Supports Product Hub trainees in building functional MVPs.",
         initials: "TS",
     },
     {
@@ -52,7 +52,7 @@ const teamMembers = [
     },
     {
         name: "Michael Yohannes",
-        role: "Cybersecurity Analyst & Trainer",
+        role: "Cybersecurity Analyst",
         bio: "Security pentester. Instructs SOC defense, risk assessment, and prep for Security+ certificates.",
         initials: "MY",
     },

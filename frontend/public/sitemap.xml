@@ -22,11 +22,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://afroec.com/work</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://afroec.com/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

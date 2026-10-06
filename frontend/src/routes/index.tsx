@@ -5,7 +5,6 @@ import { Reveal } from "@/components/Reveal";
 import { Footer } from "@/components/Footer";
 import { SectionHeader } from "@/components/SectionHeader";
 import { JsonLd } from "@/components/JsonLd";
-import { workProjects } from "@/lib/work";
 import { SITE_DESCRIPTION, SITE_TITLE, organizationSchema, pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
@@ -88,7 +87,6 @@ function HomePage() {
         <Hub />
         <HowWeWork />
         <Why />
-        <Work />
         <Cta />
       </main>
       <Footer />
@@ -287,35 +285,6 @@ function Why() {
   );
 }
 
-function Work() {
-  return (
-    <section className="py-20 md:py-28 bg-white">
-      <div className="container-page">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-          <SectionHeader align="left" className="mb-0" eyebrow="Work" title="Selected work" subtitle="Systems and websites Afroec has built." />
-          <Link to="/work" className="link-arrow shrink-0 mb-2">
-            All work <ArrowRight size={16} />
-          </Link>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {workProjects.map((project) => (
-            <article key={project.name} className="border border-border rounded-[18px] overflow-hidden bg-white">
-              <div className="aspect-[16/10] bg-bg-alt">
-                <img src={project.image} alt={project.imageAlt} className="h-full w-full object-cover" />
-              </div>
-              <div className="p-6">
-                <div className="text-[12px] font-semibold uppercase tracking-wider text-text-muted">{project.category}</div>
-                <h3 className="mt-2 font-display text-[22px] font-bold text-black">{project.name}</h3>
-                <p className="mt-3 text-[14px] leading-relaxed text-text-secondary">{project.description}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Cta() {
   return (
     <section className="py-20 md:py-28 bg-black text-white">
@@ -328,8 +297,8 @@ function Cta() {
           <Link to="/contact" className="btn-pill bg-accent text-black hover:bg-accent-hover">
             Start a Conversation
           </Link>
-          <Link to="/work" className="btn-pill border border-white/30 text-white hover:border-accent hover:text-accent">
-            Explore Our Work
+          <Link to="/solutions" className="btn-pill border border-white/30 text-white hover:border-accent hover:text-accent">
+            Explore Solutions
           </Link>
         </div>
       </div>

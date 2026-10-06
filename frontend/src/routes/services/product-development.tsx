@@ -6,9 +6,6 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { Reveal } from "@/components/Reveal";
 import { OrganicShape } from "@/components/OrganicShape";
 import missionImg from "@/assets/mission.jpg";
-import agricultureErpImg from "@/assets/agriculture_erp.png";
-import schoolManagementImg from "@/assets/school_management.png";
-import companyPortfolioImg from "@/assets/company_portfolio.png";
 import {
     Monitor,
     Smartphone,
@@ -74,33 +71,6 @@ const techStack = [
     { group: "DevOps", items: ["GitHub Actions", "CI/CD", "Monitoring", "Logging"] },
 ];
 
-const caseStudies = [
-    {
-        client: "Trust Agro",
-        project: "Trust Agro ERP",
-        desc: "A comprehensive Enterprise Resource Planning system built for Trust Agro, covering inventory management, veterinary care, pharmacy, finance, and role-based access control across all farm operations.",
-        results: "Streamlined multi-department operations, automated financial ledger entries, and real-time stock tracking across the entire agro-enterprise.",
-        tags: ["Agriculture", "ERP", "Enterprise", "React", "Spring Boot"],
-        image: agricultureErpImg,
-    },
-    {
-        client: "School of Diamond",
-        project: "School Management System",
-        desc: "A school management system for School of Diamond, covering enrollment, attendance, grades, timetables, and communication between the school and families.",
-        results: "One place for school records, attendance, grades, and family communication.",
-        tags: ["Education", "Multi-tenant", "Web", "Mobile"],
-        image: schoolManagementImg,
-    },
-    {
-        client: "Organizations",
-        project: "Company Profile Websites",
-        desc: "Company profile websites for organizations that need a clear public presence — who they are, what they do, and how to reach them.",
-        results: "A public site that explains the organization and how to get in touch.",
-        tags: ["Portfolio", "Branding", "Web Design", "Next.js"],
-        image: companyPortfolioImg,
-    },
-];
-
 const engagementModels = [
     { title: "Fixed Price", desc: "Defined scope, defined budget, defined timeline. Best for well-specified projects." },
     { title: "Time & Materials", desc: "Flexible scope, transparent billing, adaptive timeline. Best for evolving products." },
@@ -128,9 +98,9 @@ function ProductDevelopmentPage() {
                                 <Link to="/contact" className="btn-pill bg-accent text-black hover:bg-accent-hover font-bold shadow-sm">
                                     Start a Project
                                 </Link>
-                                <a href="#work" className="btn-pill bg-transparent border-2 border-black text-black hover:bg-black hover:text-white">
-                                    View Our Work
-                                </a>
+                                <Link to="/contact" className="btn-pill bg-transparent border-2 border-black text-black hover:bg-black hover:text-white">
+                                    Work With Us
+                                </Link>
                             </div>
                         </Reveal>
 
@@ -231,46 +201,6 @@ function ProductDevelopmentPage() {
                                             </li>
                                         ))}
                                     </ul>
-                                </Reveal>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* CASE STUDIES */}
-                <section id="work" className="py-24 bg-white scroll-mt-24">
-                    <div className="container-page">
-                        <SectionHeader eyebrow="OUR WORK" title="Case Studies" align="center" />
-                        <div className="grid md:grid-cols-3 gap-8">
-                            {caseStudies.map((cs, idx) => (
-                                <Reveal
-                                    key={cs.project}
-                                    delay={((idx % 3) + 1) as 1 | 2 | 3}
-                                    className="flex flex-col bg-white border border-border rounded-[16px] overflow-hidden hover:border-black hover:shadow-lg transition-all duration-300"
-                                >
-                                    <div className="aspect-[16/10] overflow-hidden border-b border-border">
-                                        <img
-                                            src={cs.image}
-                                            alt={cs.project}
-                                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                                        />
-                                    </div>
-                                    <div className="p-8 flex flex-col flex-1">
-                                        <span className="text-[11px] font-bold uppercase tracking-wider text-text-muted">{cs.client}</span>
-                                        <h3 className="font-display text-[22px] font-bold text-black mt-2 mb-3">{cs.project}</h3>
-                                        <p className="text-[14px] text-text-secondary leading-relaxed mb-5">{cs.desc}</p>
-                                        <div className="bg-bg-cream border border-border rounded-[12px] p-4 mb-6">
-                                            <span className="text-[11px] font-bold uppercase tracking-wider text-accent-hover block mb-1">Results</span>
-                                            <p className="text-[13px] font-semibold text-black leading-snug">{cs.results}</p>
-                                        </div>
-                                        <div className="flex flex-wrap gap-2 mt-auto">
-                                            {cs.tags.map((tag) => (
-                                                <span key={tag} className="text-[12px] font-semibold bg-accent-light text-black px-3 py-1 rounded-full">
-                                                    {tag}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
                                 </Reveal>
                             ))}
                         </div>
