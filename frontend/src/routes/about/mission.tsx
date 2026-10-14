@@ -111,18 +111,23 @@ function MissionPage() {
                             align="center"
                         />
 
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
+                        <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto text-center">
                             {[
-                                { label: "Students Trained", desc: "Averaging 5,000+ reached annually" },
-                                { label: "Jobs Placed", desc: "Target 85% employment in 6 months" },
-                                { label: "Women in Tech", desc: "50% gender representation target" },
-                                { label: "Rural Reach", desc: "DigiSec mobile labs across villages" },
-                                { label: "Startups Launched", desc: "Idea incubation in Product Hub" },
-                                { label: "Income Increase", desc: "$400 average starting developer salary" },
+                                {
+                                    value: "490+",
+                                    label: "Students Trained",
+                                    desc: "Reached through practical technology training delivered with Arba Minch University and STEM Power.",
+                                },
+                                {
+                                    value: "20",
+                                    label: "Afroec Ambassadors",
+                                    desc: "Selected ambassadors supporting technology awareness, community engagement, and youth participation.",
+                                },
                             ].map((value, idx) => (
-                                <Reveal key={value.label} delay={((idx % 6) + 1) as 1 | 2 | 3 | 4 | 5 | 6} className="bg-white border border-border/60 p-6 rounded-[16px]">
-                                    <div className="font-display text-[15px] font-bold text-black mb-2">{value.label}</div>
-                                    <p className="text-[12px] text-text-secondary">{value.desc}</p>
+                                <Reveal key={value.label} delay={(idx + 1) as 1 | 2} className="bg-white border border-border/60 p-8 rounded-[16px]">
+                                    <div className="font-display text-[40px] font-bold text-black leading-none">{value.value}</div>
+                                    <div className="font-display text-[15px] font-bold text-black mt-4 mb-2">{value.label}</div>
+                                    <p className="text-[13px] text-text-secondary leading-relaxed">{value.desc}</p>
                                 </Reveal>
                             ))}
                         </div>

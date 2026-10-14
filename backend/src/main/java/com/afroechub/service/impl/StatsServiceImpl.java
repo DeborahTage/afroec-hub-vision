@@ -48,16 +48,16 @@ public class StatsServiceImpl implements StatsService {
     public StatsResponse publicStats() {
         long activePartners = partnerRepository.countByStatus(PartnerStatus.ACTIVE);
         long activeVolunteers = volunteerRepository.countByStatus(VolunteerStatus.ACCEPTED);
-        // Headline metrics are curated (marketing) values; live counts are appended.
+        // Only documented figures are published. Blank or zero fields are not reported outcomes.
         return new StatsResponse(
-                5000,
-                400,
-                "50%",
-                "85%",
-                200,
-                4,
-                Math.max(activePartners, 15),
-                Math.max(activeVolunteers, 32)
+                490,
+                0,
+                "",
+                "",
+                0,
+                0,
+                activePartners,
+                activeVolunteers
         );
     }
 
